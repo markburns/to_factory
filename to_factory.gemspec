@@ -8,8 +8,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Mark Burns"]
   s.email       = ["markthedeveloper@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Turn ActiveRecord instances into factories}
+  s.add_dependency('factory_girl_rails')
+
+  s.description = %q{This gem gives the object.to_factory method to give a formatted string version of an ActiveRecord object that can be used by factory_girl}
 
   s.rubyforge_project = "to_factory"
 
