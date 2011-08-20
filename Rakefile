@@ -1,5 +1,5 @@
 require 'bundler/gem_tasks'
-
+require 'logger'
 require 'active_record'
 require 'yaml'
 
@@ -11,8 +11,8 @@ namespace :test do
     end
 
     task :environment do
-      ActiveRecord::Base.establish_connection(YAML::load(File.read('database.yml')))
-      ActiveRecord::Base.logger = Logger.new(File.open('database.log', 'a'))
+      ActiveRecord::Base.establish_connection(YAML::load(File.read('spec/config/database.yml')))
+      ActiveRecord::Base.logger = Logger.new(File.open('tmp/database.log', 'a'))
     end
   end
 end
