@@ -1,0 +1,4 @@
+D, [2011-08-20T11:36:11.906448 #23624] DEBUG -- :   [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
