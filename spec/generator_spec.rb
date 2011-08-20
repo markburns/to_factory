@@ -33,10 +33,11 @@ describe ToFactory::Generator do
   it "generates the first line of the factory" do
     @generator = ToFactory::Generator.new
     f = @generator.factory User
-    f.should == <<-eof
-Factory User do |f|
+    output = <<-eof
+Factory User do |u|
 end
-    eof
+eof
+    f.should ==  output[0..-2]
   end
 
 end
