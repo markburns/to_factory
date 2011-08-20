@@ -5,6 +5,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec'
   gem 'sqlite3'
+  gem 'ruby-debug'
   gem 'activerecord'
 end
 

@@ -30,6 +30,22 @@ describe ToFactory::Generator do
     end
   end
 
+  it "initializes with an activerecord class" do
+    @generator = ToFactory::Generator.new User
+    @generator.model_class.should == "User"
+  end
+
+  it "initializes with an activerecord instance" do
+    user = User.create :name => "Jeff"
+    @generator = ToFactory::Generator.new user
+    @generator.model_class.should == "User"
+  end
+
+  it "initializes without an object" do
+    @generator = ToFactory::Generator.new
+    @generator.model_class.should be_nil
+  end
+
   it "generates the first line of the factory" do
     @generator = ToFactory::Generator.new
     f = @generator.factory User
@@ -38,6 +54,18 @@ Factory User do |u|
 end
 eof
     f.should ==  output[0..-2]
+  end
+
+  it "raises an exception without an AR object, when requesting attributes" do
+    @generator = ToFactory::Generator.new User
+    lambda{@generator.attribute :foo}.should raise_error ToFactory::MissingActiveRecordInstance
+  end
+
+  it "generates the lines for attributes" do
+    User.create :name => "Jeff"
+    @generator = ToFactory::Generator.new User.first
+    @generator.attribute(:name).should == '  u.name "Jeff"'
+
   end
 
 end
