@@ -2,3 +2,4 @@
 .bundle
 pkg/*
 *.swp
+tmp/database.log
