@@ -1,8 +1,10 @@
 require 'rubygems'
 require 'spork'
+require 'spork/ext/ruby-debug'
 
 Spork.prefork do
   require 'active_record'
+  require 'rspec'
   require 'yaml'
   require 'fileutils'
   require 'ruby-debug'
