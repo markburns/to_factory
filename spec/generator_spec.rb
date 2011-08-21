@@ -153,6 +153,7 @@ end
 
     it "adds the to_factory method to an active record object" do
       ActiveRecord::Base.send :include, ToFactory
+      debugger
       user.to_factory.should == expected
     end
 
