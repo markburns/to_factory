@@ -12,7 +12,6 @@ module ToFactory
 
     base.instance_eval do
       define_method :to_factory do
-        debugger
         Generator.new(self).factory_with_attributes
       end
     end
