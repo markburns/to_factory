@@ -32,7 +32,7 @@ module ToFactory
     end
 
     def factory
-      out = "Factory :#{name} do |#{abbreviation}|\n"
+      out = "Factory.define :#{name} do |#{abbreviation}|\n"
       out << yield if block_given?
       out << "end"
     end

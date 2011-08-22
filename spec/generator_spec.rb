@@ -47,7 +47,7 @@ describe ToFactory::Generator do
 
     let(:user_factory_1) do
       user_factory_1 = <<-eof
-Factory :user do |u|
+Factory.define :user do |u|
   u.email "blah@example.com"
   u.name "Tom"
   u.some_id 7
@@ -57,7 +57,7 @@ end
     end
     let(:user_factory_2) do
       user_factory_2 = <<-eof
-Factory :user do |u|
+Factory.define :user do |u|
   u.email "james@example.com"
   u.name "James"
   u.some_id 8
@@ -111,7 +111,7 @@ end
     @generator = ToFactory::Generator.new User
     f = @generator.factory
     output = <<-eof
-Factory :user do |u|
+Factory.define :user do |u|
 end
     eof
     f.should ==  output.chop
@@ -138,7 +138,7 @@ end
 
     let(:expected) do
       expected = <<-eof
-Factory :user do |u|
+Factory.define :user do |u|
   u.email "test@example.com"
   u.name "Jeff"
   u.some_id 8
