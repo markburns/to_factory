@@ -1,10 +1,10 @@
 ToFactory
 =========
-This is a little convenience gem for the scenario where
-you find yourself writing factories for a pre-existing project.
 
-E.g. they didn't have tests or they were using Test:Unit with fixtures but you prefer
-RSpec and FactoryGirl.
+Easily add factories with valid data for an existing project.
+
+If you find yourself working on a project without tests/factories or only using fixtures,
+then use this gem to quickly generate a factory from an existing object.
 
 Installation
 ___________
@@ -17,11 +17,6 @@ group [:test, :development] do
 end
 ```
 
-
-```bash
-bundle install
-```
-
 Usage
 _____
 
@@ -32,10 +27,21 @@ _____
 
 #=>
 FactoryGirl.define
-  factory :user do |u|
+  factory(:user) do |u|
     email "test@example.com"
     name "Mike"
   end
 end
 
 ```
+
+#Other useful projects
+
+If you are adding specs to an existing project you may want to look at:
+
+* rspec-kickstarter github.com/seratch/rspec-kickstarter (auto generate specs)
+* rspec-kickstarter-vintage github.com/ifad/rspec-kickstarter-vintage (for Ruby 1.8/Rspec 1.x)
+* hash_syntax github.com/michaeledgar/hash_syntax (convert 1.8 syntax to 1.9 and vice-versa)
+* hash_syntax github.com/michaeledgar/hash_syntax (convert 1.8 syntax to 1.9 and vice-versa)
+* transpec https://github.com/yujinakayama/transpec (convert old rspec syntax to new expect syntax)
+
