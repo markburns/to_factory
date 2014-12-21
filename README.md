@@ -9,8 +9,6 @@ RSpec and FactoryGirl.
 Installation
 ___________
 
-I've only tried this out with a Rails 3, Ruby 1.8.7 project.
-
 ```ruby
 
 #Gemfile
@@ -33,9 +31,11 @@ _____
 > puts User.first.to_factory
 
 #=>
-Factory.define :user do |u|
-  u.email "test@example.com"
-  u.name "Mike"
+FactoryGirl.define
+  factory :user do |u|
+    email "test@example.com"
+    name "Mike"
+  end
 end
 
 ```
