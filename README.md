@@ -7,6 +7,8 @@ ToFactory
 
 Easily add factories with valid data for an existing project.
 
+Tested against Ruby 1.8.7, 1.9.3, 2.1.5
+
 If you find yourself working on a project without tests/factories or only using fixtures,
 then use this gem to quickly generate a factory from an existing object.
 
