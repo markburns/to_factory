@@ -20,18 +20,23 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency  'activerecord'
 
-  spec.add_development_dependency "factory_girl", "~> 4.5"
 
   case RUBY_VERSION
   when /JRUBY/i
     nil
   when /^1.8.7/
+    spec.add_dependency  'activerecord', ">2.0", "< 4.0"
+    spec.add_dependency  'i18n', "< 0.7"
+    spec.add_development_dependency "factory_girl", "<3.0"
     spec.add_development_dependency "ruby-debug"
   when /^1.9.\d/
+    spec.add_development_dependency "factory_girl", "~> 4.5"
     spec.add_development_dependency "debugger"
   when /^2.\d/
+    spec.add_development_dependency "factory_girl", "~> 4.5"
     spec.add_development_dependency "pry-byebug"
   end
+
   spec.add_development_dependency "sqlite3" , "~> 1.3.6"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "bundler", "~> 1.7"

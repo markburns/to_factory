@@ -25,8 +25,8 @@ require "./spec/support/user"
 RSpec.configure do |config|
   config.before :suite do
     ActiveRecord::Base.tap do |base|
-      config = {adapter: "sqlite3", database: "spec/db/test.sqlite3"}
-      base.configurations = {test: config}.with_indifferent_access
+      config = {:adapter => "sqlite3", :database => "spec/db/test.sqlite3"}
+      base.configurations = {:test => config}.with_indifferent_access
       base.establish_connection :test
     end
   end

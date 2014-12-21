@@ -65,7 +65,7 @@ end
 
       context "with invalid attributes" do
         it "raises an exception" do
-          expect(->{@generator.factory_for :id => 1000}).to raise_error ActiveRecord::RecordNotFound
+          expect(lambda{@generator.factory_for :id => 1000}).to raise_error ActiveRecord::RecordNotFound
         end
       end
     end
@@ -98,7 +98,7 @@ end
 
   it "raises an exception without an AR object, when requesting attributes" do
     @generator = ToFactory::Generator.new User
-    expect(->{@generator.factory_attribute :foo}).to raise_error ToFactory::MissingActiveRecordInstanceException
+    expect(lambda{@generator.factory_attribute :foo}).to raise_error ToFactory::MissingActiveRecordInstanceException
   end
 
     context "with a user in the database" do
@@ -139,7 +139,7 @@ end
     it "raises an error if you try to inlude in a non ActiveRecord object" do
       class Egg;end
 
-      expect(->{Egg.send :include, ToFactory}).to raise_error ToFactory::MustBeActiveRecordSubClassException
+      expect(lambda{Egg.send :include, ToFactory}).to raise_error ToFactory::MustBeActiveRecordSubClassException
     end
   end
 

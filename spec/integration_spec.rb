@@ -9,7 +9,9 @@ context "full integration, linting the output" do
 
     eval factory
 
-    FactoryGirl.lint
+    if FactoryGirl::VERSION =~ /^4\./
+      FactoryGirl.lint
+    end
   end
 
 end
