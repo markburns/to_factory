@@ -13,14 +13,7 @@ require "to_factory"
 require "sqlite3"
 
 begin
-  case RUBY_VERSION
-  when /^1.8.7/
-    require "ruby-debug"
-  when /^1.9.\d/
-    require "debugger"
-  when /^2.\d/
-    require "pry-byebug"
-  end
+  require "pry-byebug"
 rescue LoadError
   $stderr.puts "No debugger available for #{RUBY_VERSION}"
 end
