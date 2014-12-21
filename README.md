@@ -54,11 +54,10 @@ ToFactory.generate!(single_file: "spec/factories.rb")
 
 
 ##Adhoc
-```ruby
+```bash
 #rails console
 
 > puts User.first.to_factory
-
 #=>
 FactoryGirl.define
   factory(:user) do |u|
