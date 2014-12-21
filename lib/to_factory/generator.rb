@@ -55,7 +55,22 @@ module ToFactory
       factory_with_attributes
     end
 
+    def factory_attribute attr, value=nil
+      raise MissingActiveRecordInstanceException unless object_instance
+
+      value = object_instance.send attr unless value
+
+      value = "nil" if value.nil?
+      value = "\"#{value}\"" if value.is_a? String
+      "    #{attr} #{value}"
+    end
+
+    def name
+      model_class.to_s.underscore
+    end
+
     private
+
     def find_from options
       return model_class.find options if options.is_a? Integer
       unless options.is_a? Hash
@@ -72,24 +87,6 @@ module ToFactory
 
       model_class.send finder, *params
     end
-
-    public
-
-    def factory_attribute attr, value=nil
-      raise MissingActiveRecordInstanceException unless object_instance
-
-      value = object_instance.send attr unless value
-
-      value = "nil" if value.nil?
-      value = "\"#{value}\"" if value.is_a? String
-      "    #{attr} #{value}"
-    end
-
-    def name
-      model_class.to_s.underscore
-    end
-
-    private
 
     def finder_and_params_from_options options
       params =[]
