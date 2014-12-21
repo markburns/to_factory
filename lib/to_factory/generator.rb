@@ -32,8 +32,10 @@ module ToFactory
     end
 
     def factory
-      out = "Factory.define :#{name} do |#{abbreviation}|\n"
+      out = "FactoryGirl.define do\n"
+      out << "  factory :#{name} do\n"
       out << yield if block_given?
+      out << "  end\n"
       out << "end"
     end
 
@@ -81,7 +83,7 @@ module ToFactory
 
       value = "nil" if value.nil?
       value = "\"#{value}\"" if value.is_a? String
-      "  #{abbreviation}.#{attr} #{value}"
+      "    #{attr} #{value}"
     end
 
     def name

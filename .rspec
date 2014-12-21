@@ -1,1 +1,2 @@
---drb
+--color
+--require spec_helper

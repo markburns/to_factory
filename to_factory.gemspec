@@ -1,23 +1,28 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "to_factory/version"
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'to_factory/version'
 
-Gem::Specification.new do |s|
-  s.name        = "to_factory"
-  s.version     = ToFactory::VERSION
-  s.authors     = ["Mark Burns"]
-  s.email       = ["markthedeveloper@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{Turn ActiveRecord instances into factories}
-  s.add_dependency('activerecord')
+Gem::Specification.new do |spec|
+  spec.name          = "to_factory"
+  spec.version       = ToFactory::VERSION
+  spec.authors       = ["Mark Burns"]
+  spec.email         = ["markthedeveloper@gmail.com"]
+  spec.summary     = %q{Turn ActiveRecord instances into factories}
+  spec.description = %q{ActiveRecord::Base#to_factory method to create factory_girl definitions from real data}
+  spec.homepage      = ""
+  spec.license       = "MIT"
 
-  s.description = %q{This gem gives the object.to_factory method to give a formatted string version of an ActiveRecord object that can be used by factory_girl}
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
 
-  s.rubyforge_project = "to_factory"
-  s.add_development_dependency = "rspec"
+  spec.add_dependency  'activerecord'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  spec.add_development_dependency "pry-byebug"
+  spec.add_development_dependency "sqlite3" , "~> 1.3.6"
+  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "bundler", "~> 1.7"
+  spec.add_development_dependency "rake", "~> 10.0"
 end

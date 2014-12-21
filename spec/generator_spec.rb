@@ -1,32 +1,12 @@
-require File.expand_path('spec/spec_helper')
+class User < ActiveRecord::Base; end
 
 describe ToFactory::Generator do
-  def options
-    YAML::load File.read('spec/config/database.yml')
-  end
-
-  def connect
-    AR::Base.establish_connection options rescue nil
-    AR::Base.connection
-  end
-
   before(:all) do
-    ActiveRecord.tap do |AR|
-      connect
-      AR::Base.connection.drop_database options[:database] rescue nil
-
-      begin
-        # Create the SQLite database
-        connect
-        ActiveRecord::Base.connection
-      rescue Exception => e
-        $stderr.puts e, *(e.backtrace)
-        $stderr.puts "Couldn't create database for #{config.inspect}"
-      end
-
-      AR::Migrator.migrate('db/migrate')
-      class User < AR::Base; end
-   end
+    ActiveRecord::Base.tap do |base|
+      config = {adapter: "sqlite3", database: "spec/db/test.sqlite3"}
+      base.configurations = {test: config}.with_indifferent_access
+      base.establish_connection :test
+    end
   end
 
   before(:each) do
@@ -42,55 +22,60 @@ describe ToFactory::Generator do
     end
 
     it "initializes" do
-      @generator.model_class.should == User
+      expect(@generator.model_class).to eq User
     end
 
     let(:user_factory_1) do
       user_factory_1 = <<-eof
-Factory.define :user do |u|
-  u.email "blah@example.com"
-  u.name "Tom"
-  u.some_id 7
+FactoryGirl.define do
+  factory :user do
+    email "blah@example.com"
+    name "Tom"
+    some_id 7
+  end
 end
       eof
       user_factory_1.chop
     end
     let(:user_factory_2) do
       user_factory_2 = <<-eof
-Factory.define :user do |u|
-  u.email "james@example.com"
-  u.name "James"
-  u.some_id 8
+FactoryGirl.define do
+  factory :user do
+    email "james@example.com"
+    name "James"
+    some_id 8
+  end
 end
       eof
       user_factory_2.chop
     end
     context "looking up attributes" do
       it "takes a key value for id" do
-        out = @generator.factory_for :id => 1
-        out.should == user_factory_1
+        result = @generator.factory_for :id => 1
+        expect(result).to eq user_factory_1
       end
 
       it "takes an integer for id" do
-        out = @generator.factory_for 1
-        out.should == user_factory_1
+        result = @generator.factory_for 1
+        expect(result).to eq user_factory_1
       end
 
       it "takes a key value and does a lookup" do
-        out = @generator.factory_for :name => 'Tom'
-        out.should == user_factory_1
+        result = @generator.factory_for :name => 'Tom'
+        expect(result).to eq user_factory_1
 
-        out = @generator.factory_for :name => 'James'
-        out.should == user_factory_2
+        result = @generator.factory_for :name => 'James'
+        expect(result).to eq user_factory_2
       end
 
       it "takes multiple keys and does a lookup" do
-        out = @generator.factory_for :id => 1, :name => 'Tom'
+        result = @generator.factory_for :id => 1, :name => 'Tom'
+        expect(result).to eq user_factory_1
       end
 
       context "with invalid attributes" do
         it "raises an exception" do
-          lambda{@generator.factory_for :id => 1000}.should raise_error ActiveRecord::RecordNotFound
+          expect(->{@generator.factory_for :id => 1000}).to raise_error ActiveRecord::RecordNotFound
         end
       end
     end
@@ -99,28 +84,31 @@ end
   it "initializes with an activerecord instance" do
     user = User.create :name => "Jeff"
     @generator = ToFactory::Generator.new user
-    @generator.model_class.should == "User"
+    expect(@generator.model_class).to eq "User"
   end
 
   it "initializes without an object" do
     @generator = ToFactory::Generator.new
-    @generator.model_class.should be_nil
+    expect(@generator.model_class).to be_nil
   end
 
   it "generates the first line of the factory" do
     @generator = ToFactory::Generator.new User
     f = @generator.factory
+    user = User.create :name => "Jeff"
     output = <<-eof
-Factory.define :user do |u|
+FactoryGirl.define do
+  factory :user do
+  end
 end
     eof
-    f.should ==  output.chop
+    expect(f).to eq  output.chop
   end
 
 
   it "raises an exception without an AR object, when requesting attributes" do
     @generator = ToFactory::Generator.new User
-    lambda{@generator.factory_attribute :foo}.should raise_error ToFactory::MissingActiveRecordInstanceException
+    expect(->{@generator.factory_attribute :foo}).to raise_error ToFactory::MissingActiveRecordInstanceException
   end
 
   context "with a user in the database" do
@@ -132,34 +120,36 @@ end
     let(:user){ User.first}
 
     it "generates lines for multiple the attributes" do
-      @generator.factory_attribute(:name). should == '  u.name "Jeff"'
-      @generator.factory_attribute(:email).should == '  u.email "test@example.com"'
+      expect(@generator.factory_attribute(:name)).to eq '    name "Jeff"'
+      expect(@generator.factory_attribute(:email)).to eq '    email "test@example.com"'
     end
 
     let(:expected) do
       expected = <<-eof
-Factory.define :user do |u|
-  u.email "test@example.com"
-  u.name "Jeff"
-  u.some_id 8
+FactoryGirl.define do
+  factory :user do
+    email "test@example.com"
+    name "Jeff"
+    some_id 8
+  end
 end
       eof
       expected.chop
     end
 
     it "generates the full factory" do
-      @generator.factory_with_attributes.should == expected
+      expect(@generator.factory_with_attributes).to eq expected
     end
 
     it "adds the to_factory method to an active record object" do
       ActiveRecord::Base.send :include, ToFactory
-      user.to_factory.should == expected
+      expect(user.to_factory).to eq expected
     end
 
     it "raises an error if you try to inlude in a non ActiveRecord object" do
       class Egg;end
 
-      lambda{Egg.send :include, ToFactory}.should raise_error ToFactory::MustBeActiveRecordSubClassException
+      expect(->{Egg.send :include, ToFactory}).to raise_error ToFactory::MustBeActiveRecordSubClassException
     end
   end
 

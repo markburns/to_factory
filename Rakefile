@@ -1,18 +1,12 @@
-require 'bundler/gem_tasks'
-require 'logger'
-require 'active_record'
-require 'yaml'
+require "bundler/gem_tasks"
 
-namespace :test do
-  namespace :db do
-    desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"
-    task :migrate => :environment do
-      ActiveRecord::Migrator.migrate('spec/db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
-    end
-
-    task :environment do
-      ActiveRecord::Base.establish_connection(YAML::load(File.read('spec/config/database.yml')))
-      ActiveRecord::Base.logger = Logger.new(File.open('tmp/database.log', 'a'))
-    end
+namespace :spec do
+  desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"
+  task :migrate_db do
+    require 'logger'
+    require 'active_record'
+    ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: "spec/db/test.sqlite3")
+    ActiveRecord::Base.logger = Logger.new(File.open('tmp/database.log', 'a'))
+    ActiveRecord::Migrator.migrate('spec/db/migrate')
   end
 end
