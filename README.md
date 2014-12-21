@@ -1,6 +1,7 @@
 ToFactory
 =========
 
+[![Build Status](https://travis-ci.org/markburns/to_factory.svg?branch=master)](https://travis-ci.org/markburns/to_factory)
 Easily add factories with valid data for an existing project.
 
 If you find yourself working on a project without tests/factories or only using fixtures,
