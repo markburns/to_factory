@@ -1,14 +1,5 @@
-class User < ActiveRecord::Base; end
 
 describe ToFactory::Generator do
-  before(:all) do
-    ActiveRecord::Base.tap do |base|
-      config = {adapter: "sqlite3", database: "spec/db/test.sqlite3"}
-      base.configurations = {test: config}.with_indifferent_access
-      base.establish_connection :test
-    end
-  end
-
   before(:each) do
     User.destroy_all
     ActiveRecord::Base.connection.execute "delete from sqlite_sequence where name = 'users'"
@@ -111,7 +102,7 @@ end
     expect(->{@generator.factory_attribute :foo}).to raise_error ToFactory::MissingActiveRecordInstanceException
   end
 
-  context "with a user in the database" do
+    context "with a user in the database" do
     before do
       User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
       @generator = ToFactory::Generator.new user

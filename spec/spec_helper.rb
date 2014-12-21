@@ -5,3 +5,23 @@ require 'active_support/core_ext/hash'
 require "to_factory"
 require "sqlite3"
 require "pry-byebug"
+
+require "./spec/support/user"
+
+RSpec.configure do |config|
+  config.before :suite do
+    ActiveRecord::Base.tap do |base|
+      config = {adapter: "sqlite3", database: "spec/db/test.sqlite3"}
+      base.configurations = {test: config}.with_indifferent_access
+      base.establish_connection :test
+    end
+  end
+
+  config.expect_with :rspec do |expectations|
+     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
+end
