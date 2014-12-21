@@ -8,20 +8,52 @@ Easily add factories with valid data for an existing project.
 If you find yourself working on a project without tests/factories or only using fixtures,
 then use this gem to quickly generate a factory from an existing object.
 
-Installation
+#Installation
 ___________
 
 ```ruby
 
 #Gemfile
-group [:test, :development] do
+group :test, :development do
   gem 'to_factory'
 end
 ```
 
-Usage
-_____
+#Usage
 
+##Rails auto generation
+_____
+Generates a factory from the first record of each `ActiveRecord::Base` descendant
+found in `app/models/**/*.rb`
+
+###Rake
+
+```bash
+rake to_factory:all
+```
+
+###or from Ruby
+
+```ruby
+#Generate all factories
+ToFactory.generate!
+
+#Generate for specific classes
+ToFactory.generate!(Project, User, Category, Post, Comment)
+
+#Generate from the first three `Project` instances
+ToFactory.generate!(Project => 3)
+
+
+#Specify the folder
+ToFactory.generate!(folder: "spec/support/factories")
+
+#Place all generated factories in a single file
+ToFactory.generate!(single_file: "spec/factories.rb")
+```
+
+
+##Adhoc
 ```ruby
 #rails console
 
