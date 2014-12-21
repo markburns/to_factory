@@ -14,7 +14,7 @@ I've only tried this out with a Rails 3, Ruby 1.8.7 project.
 ```ruby
 
 #Gemfile
-group =>[:test, :development] do
+group [:test, :development] do
   gem 'to_factory'
 end
 ```

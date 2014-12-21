@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.email       = ["markthedeveloper@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{Turn ActiveRecord instances into factories}
-  s.add_dependency('factory_girl_rails')
-  s.add_dependency('rails', '~>3.0')
+  s.add_dependency('activerecord')
 
   s.description = %q{This gem gives the object.to_factory method to give a formatted string version of an ActiveRecord object that can be used by factory_girl}
 
   s.rubyforge_project = "to_factory"
+  s.add_development_dependency = "rspec"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
