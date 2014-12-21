@@ -73,13 +73,10 @@ module ToFactory
 
     def find_from options
       return model_class.find options if options.is_a? Integer
-      unless options.is_a? Hash
-        raise ArgumentError.new("Expected hash of attributes or integer to look up record")
-      end
 
       options = options.with_indifferent_access
 
-      if id=options['id'].to_i
+      if options.keys.length == 1 && id=options['id'].to_i
         return model_class.find(id) if id > 0
       end
 
@@ -104,10 +101,6 @@ module ToFactory
       end
 
       [finder, params]
-    end
-
-    def abbreviation
-      name[0..0]
     end
   end
 end

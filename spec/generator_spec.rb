@@ -61,6 +61,9 @@ end
       it "takes multiple keys and does a lookup" do
         result = @generator.factory_for :id => 1, :name => 'Tom'
         expect(result).to eq user_factory_1
+
+        result = @generator.factory_for :id => 1, :name => 'Incorrect'
+        expect(result).to be_nil
       end
 
       context "with invalid attributes" do
