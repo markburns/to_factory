@@ -7,7 +7,6 @@ module ToFactory
       unless self.ancestors.include? ActiveRecord::Base
         raise MustBeActiveRecordSubClassException
       end
-
     end
 
     base.instance_eval do
