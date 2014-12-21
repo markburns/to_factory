@@ -18,23 +18,32 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency  'activerecord'
-
-
   spec.add_development_dependency "sqlite3" , "~> 1.3.6"
 
-  case RUBY_VERSION
-  when /^1.8.7|^1.9.2/
+  ruby_debug_gem    = RUBY_VERSION =~ /^1\.8\./
+  debugger_gem      = RUBY_VERSION =~ /^1\.9\./
+  pry_byebug        = RUBY_VERSION =~ /^2\.\d/
+  old_active_record = RUBY_VERSION =~ /^1\.8|^1.9\.[1|2]/
+
+  if ruby_debug_gem
+    spec.add_development_dependency "ruby-debug"
+  end
+
+  if debugger_gem
+    spec.add_development_dependency "debugger"
+  end
+
+  if pry_byebug
+    spec.add_development_dependency "pry-byebug"
+  end
+
+  if old_active_record
     spec.add_dependency  'activerecord', ">2.0", "< 4.0"
     spec.add_dependency  'i18n', "< 0.7"
     spec.add_development_dependency "factory_girl", "<3.0"
-    spec.add_development_dependency "ruby-debug"
-  when /^1.9.\d/
+  else
+    spec.add_dependency  'activerecord', ">3.0"
     spec.add_development_dependency "factory_girl", "~> 4.5"
-    spec.add_development_dependency "debugger"
-  when /^2.\d/
-    spec.add_development_dependency "factory_girl", "~> 4.5"
-    spec.add_development_dependency "pry-byebug"
   end
 
   spec.add_development_dependency "rspec", "~> 3.0"
