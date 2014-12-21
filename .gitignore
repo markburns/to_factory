@@ -4,3 +4,4 @@ pkg/*
 *.swp
 tmp/database.log
 Gemfile.lock
+coverage/
