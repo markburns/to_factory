@@ -39,9 +39,8 @@ end
 
 If you are adding specs to an existing project you may want to look at:
 
-* (https://github.com/seratch/rspec-kickstarter)[rspec-kickstarter] (auto generate specs)
-* rspec-kickstarter-vintage https://github.com/ifad/rspec-kickstarter-vintage (for Ruby 1.8/Rspec 1.x)
-* hash_syntax https://github.com/michaeledgar/hash_syntax (convert 1.8 syntax to 1.9 and vice-versa)
-* hash_syntax https://github.com/michaeledgar/hash_syntax (convert 1.8 syntax to 1.9 and vice-versa)
-* transpec https://github.com/yujinakayama/transpec (convert old rspec syntax to new expect syntax)
+* [rspec-kickstarter](https://github.com/seratch/rspec-kickstarter) (auto generate specs)
+* [rspec-kickstarter-vintage](https://github.com/ifad/rspec-kickstarter-vintage) (for Ruby 1.8/Rspec 1.x)
+* [hash_syntax](https://github.com/michaeledgar/hash_syntax) (convert 1.8 syntax to 1.9 and vice-versa)
+* [transpec](https://github.com/yujinakayama/transpec) (convert old rspec syntax to new expect syntax)
 
