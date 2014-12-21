@@ -4,6 +4,8 @@ ToFactory
 [![Build Status](https://travis-ci.org/markburns/to_factory.svg?branch=master)](https://travis-ci.org/markburns/to_factory)
 [![Code Climate](https://codeclimate.com/github/markburns/to_factory/badges/gpa.svg)](https://codeclimate.com/github/markburns/to_factory)
 [![Test Coverage](https://codeclimate.com/github/markburns/to_factory/badges/coverage.svg)](https://codeclimate.com/github/markburns/to_factory)
+[![Dependency Status](https://gemnasium.com/markburns/to_factory.svg)](https://gemnasium.com/markburns/to_factory)
+
 
 Easily add factories with valid data for an existing project.
 
