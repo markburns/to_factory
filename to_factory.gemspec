@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sqlite3" , "~> 1.3.6"
 
   case RUBY_VERSION
-  when /^1.8.7/
+  when /^1.8.7|^1.9.2/
     spec.add_dependency  'activerecord', ">2.0", "< 4.0"
     spec.add_dependency  'i18n', "< 0.7"
     spec.add_development_dependency "factory_girl", "<3.0"
