@@ -1,4 +1,6 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in to_factory.gemspec
+if RUBY_VERSION != "1.8.7"
+  gem "codeclimate-test-reporter", :group => :test, :require => nil
+end
 gemspec
