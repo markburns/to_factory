@@ -7,8 +7,6 @@ require "sqlite3"
 
 begin
   case RUBY_VERSION
-  when /JRUBY/i
-    nil
   when /^1.8.7/
     require "ruby-debug"
   when /^1.9.\d/
