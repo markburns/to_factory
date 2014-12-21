@@ -33,7 +33,7 @@ module ToFactory
 
     def factory
       out = "FactoryGirl.define do\n"
-      out << "  factory :#{name} do\n"
+      out << "  factory(:#{name}) do\n"
       out << yield if block_given?
       out << "  end\n"
       out << "end"

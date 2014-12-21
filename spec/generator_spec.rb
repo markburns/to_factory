@@ -1,4 +1,3 @@
-
 describe ToFactory::Generator do
   before(:each) do
     User.destroy_all
@@ -19,7 +18,7 @@ describe ToFactory::Generator do
     let(:user_factory_1) do
       user_factory_1 = <<-eof
 FactoryGirl.define do
-  factory :user do
+  factory(:user) do
     email "blah@example.com"
     name "Tom"
     some_id 7
@@ -31,7 +30,7 @@ end
     let(:user_factory_2) do
       user_factory_2 = <<-eof
 FactoryGirl.define do
-  factory :user do
+  factory(:user) do
     email "james@example.com"
     name "James"
     some_id 8
@@ -89,7 +88,7 @@ end
     user = User.create :name => "Jeff"
     output = <<-eof
 FactoryGirl.define do
-  factory :user do
+  factory(:user) do
   end
 end
     eof
@@ -118,7 +117,7 @@ end
     let(:expected) do
       expected = <<-eof
 FactoryGirl.define do
-  factory :user do
+  factory(:user) do
     email "test@example.com"
     name "Jeff"
     some_id 8

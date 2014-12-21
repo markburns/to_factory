@@ -30,6 +30,8 @@ GEM
     columnize (0.9.0)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
     i18n (0.6.11)
     json (1.8.1)
     method_source (0.8.2)
@@ -65,6 +67,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.7)
+  factory_girl (~> 4.5)
   pry-byebug
   rake (~> 10.0)
   rspec (~> 3.0)
