@@ -15,7 +15,11 @@ require "sqlite3"
 begin
   require "pry-byebug"
 rescue LoadError
-  $stderr.puts "No debugger available for #{RUBY_VERSION}"
+  begin
+    require "ruby-debug"
+  rescue LoadError
+    $stderr.puts "No debugger available for #{RUBY_VERSION}"
+  end
 end
 
 require "./spec/support/user"

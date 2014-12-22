@@ -1,0 +1,2 @@
+class ToFactory::NotActiveRecord
+end

@@ -1,2 +1,3 @@
-class User < ActiveRecord::Base
+class ToFactory::User < ActiveRecord::Base
+  self.table_name = "users"
 end

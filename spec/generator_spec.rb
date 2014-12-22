@@ -1,18 +1,18 @@
 describe ToFactory::Generator do
   before(:each) do
-    User.destroy_all
+    ToFactory::User.destroy_all
     ActiveRecord::Base.connection.execute "delete from sqlite_sequence where name = 'users'"
   end
 
   context "with an active record class but no instance" do
     before do
-      @generator = ToFactory::Generator.new User
-      User.create :id => 1, :name => 'Tom',   :email => 'blah@example.com',  :some_id => 7
-      User.create :id => 2, :name => 'James', :email => 'james@example.com', :some_id => 8
+      @generator = ToFactory::Generator.new ToFactory::User
+      ToFactory::User.create :id => 1, :name => 'Tom',   :email => 'blah@example.com',  :some_id => 7
+      ToFactory::User.create :id => 2, :name => 'James', :email => 'james@example.com', :some_id => 8
     end
 
     it "initializes" do
-      expect(@generator.model_class).to eq User
+      expect(@generator.model_class).to eq ToFactory::User
     end
 
     let(:user_factory_1) do
@@ -75,9 +75,9 @@ end
   end
 
   it "initializes with an activerecord instance" do
-    user = User.create :name => "Jeff"
+    user = ToFactory::User.create :name => "Jeff"
     @generator = ToFactory::Generator.new user
-    expect(@generator.model_class).to eq "User"
+    expect(@generator.model_class).to eq "ToFactory::User"
   end
 
   it "initializes without an object" do
@@ -86,9 +86,9 @@ end
   end
 
   it "generates the first line of the factory" do
-    @generator = ToFactory::Generator.new User
+    @generator = ToFactory::Generator.new ToFactory::User
     f = @generator.factory
-    user = User.create :name => "Jeff"
+    user = ToFactory::User.create :name => "Jeff"
     output = <<-eof
 FactoryGirl.define do
   factory(:user) do
@@ -100,17 +100,17 @@ end
 
 
   it "raises an exception without an AR object, when requesting attributes" do
-    @generator = ToFactory::Generator.new User
+    @generator = ToFactory::Generator.new ToFactory::User
     expect(lambda{@generator.factory_attribute :foo}).to raise_error ToFactory::MissingActiveRecordInstanceException
   end
 
     context "with a user in the database" do
     before do
-      User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
+      ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
       @generator = ToFactory::Generator.new user
     end
 
-    let(:user){ User.first}
+    let(:user){ ToFactory::User.first}
 
     it "generates lines for multiple the attributes" do
       expect(@generator.factory_attribute(:name)).to eq '    name "Jeff"'

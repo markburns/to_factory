@@ -20,7 +20,11 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "sqlite3" , "~> 1.3.6"
 
-  if pry_byebug = RUBY_VERSION =~ /^2\.\d/
+  if RUBY_VERSION =~ /^1\.8/
+    spec.add_development_dependency "ruby-debug"
+  end
+
+  if RUBY_VERSION =~ /^2\.\d/
     spec.add_development_dependency "pry-byebug"
   end
 

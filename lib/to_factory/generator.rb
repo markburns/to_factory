@@ -66,7 +66,7 @@ module ToFactory
     end
 
     def name
-      model_class.to_s.underscore
+      model_class.to_s.split("::")[-1].underscore
     end
 
     private
