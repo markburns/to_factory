@@ -18,43 +18,4 @@ describe "ToFactory.generate!" do
     expect(user_file)   .to eq ToFactory::User.   first.to_factory
     expect(project_file).to eq ToFactory::Project.first.to_factory
   end
-
-  pending "specify classes" do
-    ToFactory.generate!(ToFactory::Project)
-    expect(project_file).to eq ToFactory::Project.first.to_factory
-    expect(lambda{user_file}).to raise_error
-  end
-
-  pending "generates a number of records" do
-    8.times do
-      ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
-    end
-
-    ToFactory.generate!(ToFactory::User => 3)
-    expect(project_file).to eq ToFactory::User.first.to_factory
-  end
-
-  pending "places factories in a single file" do
-    single_file = "tmp/factories/single_file.rb"
-    ToFactory.generate!(file: single_file)
-
-    expect(File.read(single_file)).to eq <<-FILE.strip_heredoc
-      FactoryGirl.define do
-        factory :"to_factory/user" do
-          name "Jeff"
-          email "test@example.com"
-          some_id 8
-        end
-
-        factory :"to_factory/project" do
-          name "My project"
-          object "easy testing"
-          some_id 9
-        end
-      end
-    FILE
-
-    require single_file
-    FactoryGirl.lint
-  end
 end

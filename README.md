@@ -40,24 +40,14 @@ found in `app/models/**/*.rb`
 rake to_factory:all
 ```
 
-###or from Ruby
+###From Ruby
 
 ```ruby
 #Generate all factories
 ToFactory.generate!
 
-#Generate for specific classes
-ToFactory.generate!(Project, User, Category, Post, Comment)
-
-#Generate from the first three `Project` instances
-ToFactory.generate!(Project => 3)
-
-
-#Specify the directory
-ToFactory.generate!(directory: "spec/support/factories")
-
-#Place all generated factories in a single file
-ToFactory.generate!(file: "spec/factories.rb")
+#Choose input/output directories
+ToFactory.generate!(:models => "models/this/subfolder/only", :factories => "spec/support/factories")
 ```
 
 
