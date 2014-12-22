@@ -48,7 +48,7 @@ describe ToFactory::ModelFinder do
 
     context "no args" do
       it "adds factories for all models" do
-        expect(finder.all).to eq [ToFactory::User, ToFactory::Project]
+        expect(finder.all.sort).to eq [ToFactory::User, ToFactory::Project].sort
       end
     end
   end
