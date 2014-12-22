@@ -53,11 +53,11 @@ ToFactory.generate!(Project, User, Category, Post, Comment)
 ToFactory.generate!(Project => 3)
 
 
-#Specify the folder
-ToFactory.generate!(folder: "spec/support/factories")
+#Specify the directory
+ToFactory.generate!(directory: "spec/support/factories")
 
 #Place all generated factories in a single file
-ToFactory.generate!(single_file: "spec/factories.rb")
+ToFactory.generate!(file: "spec/factories.rb")
 ```
 
 

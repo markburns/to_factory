@@ -1,14 +1,14 @@
 module ToFactory
   class AutoGenerator
-    def initialize(model_finder=ModelFinder.new, file_writer=FileWriter.new)
-      @model_finder = model_finder
-      @file_writer = file_writer
+    def initialize(m=ModelFinder.new, f=FileWriter.new)
+      @model_finder = m.is_a?(String) ? ModelFinder.new(m) : m
+      @file_writer  = f.is_a?(String) ? FileWriter .new(f) : f
     end
 
     def all!
-      klasses = @model_finder.all
+      instances = @model_finder.all
 
-      factory_definitions = klasses.map(&:first).each_with_object({}) do |record, result|
+      factory_definitions = instances.each_with_object({}) do |record, result|
         result[record.class.name.underscore.to_sym] = record.to_factory
       end
 
@@ -29,7 +29,7 @@ module ToFactory
           if match = f.match(/class (.*) ?</)
             require file
             klass = eval(match[1]) rescue nil
-            klasses << klass if klass && klass.ancestors.include?(ActiveRecord::Base)
+            klasses << klass.first if klass && klass.ancestors.include?(ActiveRecord::Base)
           end
         end
       end
