@@ -20,7 +20,6 @@ describe ToFactory::AutoGenerator do
         project
       }
 
-
       it "adds factories for all models" do
         expect(model_finder).to receive(:all)       .and_return [user_klass, project_klass]
         expect(user)   .to      receive(:to_factory).and_return "factory a"

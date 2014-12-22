@@ -7,3 +7,4 @@ Gemfile.lock
 coverage/
 spec/db/test.sqlite3
 tmp
+*.sqlite3

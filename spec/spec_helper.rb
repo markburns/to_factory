@@ -23,6 +23,7 @@ rescue LoadError
 end
 
 require "./spec/support/user"
+require "./spec/support/project"
 
 RSpec.configure do |config|
   config.before :suite do

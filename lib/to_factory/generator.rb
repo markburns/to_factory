@@ -66,7 +66,12 @@ module ToFactory
     end
 
     def name
-      model_class.to_s.split("::")[-1].underscore
+      name = model_class.to_s.underscore
+      if name["/"]
+        "\"#{name}\""
+      else
+        name
+      end
     end
 
     private

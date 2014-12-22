@@ -1,1 +1,2 @@
+bundle exec rake spec:migrate_db
 bundle exec rake

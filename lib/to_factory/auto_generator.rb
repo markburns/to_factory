@@ -9,7 +9,7 @@ module ToFactory
       klasses = @model_finder.all
 
       factory_definitions = klasses.map(&:first).each_with_object({}) do |record, result|
-        result[record.class.name.split("::")[-1].underscore.to_sym] = record.to_factory
+        result[record.class.name.underscore.to_sym] = record.to_factory
       end
 
       @file_writer.write(factory_definitions)
@@ -46,10 +46,18 @@ module ToFactory
 
     def write(definitions)
       definitions.each do |name, definition|
+        mkdir(name) if name["/"]
         File.open(File.join(@path, "#{name}.rb"), "w") do |f|
           f << definition
         end
       end
+    end
+
+    private
+
+    def mkdir(name)
+      dir = name.to_s.split("/")[0..-2]
+      FileUtils.mkdir_p File.join(@path, dir)
     end
   end
 end
