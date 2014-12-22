@@ -6,5 +6,6 @@ tmp/database.log
 Gemfile.lock
 coverage/
 spec/db/test.sqlite3
-tmp
+tmp/*
+!tmp/.keep
 *.sqlite3
