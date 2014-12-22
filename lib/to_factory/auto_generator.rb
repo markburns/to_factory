@@ -46,7 +46,7 @@ module ToFactory
 
     def write(definitions)
       definitions.each do |name, definition|
-        mkdir(name) if name["/"]
+        mkdir(name) if name.to_s["/"]
         File.open(File.join(@path, "#{name}.rb"), "w") do |f|
           f << definition
         end
