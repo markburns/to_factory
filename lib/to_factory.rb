@@ -8,7 +8,7 @@ module ToFactory
 
   def self.included base
     base.class_eval do
-      unless self.ancestors.include? ActiveRecord::Base
+      unless ancestors.include? ActiveRecord::Base
         raise MustBeActiveRecordSubClassException
       end
     end
