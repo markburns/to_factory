@@ -9,7 +9,6 @@ require 'active_record'
 require 'fileutils'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash'
-require "to_factory"
 require "sqlite3"
 
 begin
@@ -21,6 +20,8 @@ rescue LoadError
     $stderr.puts "No debugger available for #{RUBY_VERSION}"
   end
 end
+
+require "to_factory"
 
 require "./spec/support/user"
 require "./spec/support/project"

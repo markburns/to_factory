@@ -1,33 +1,14 @@
 module ToFactory
-  class MissingActiveRecordInstanceException < Exception;end
-  class MustBeActiveRecordSubClassException < Exception;end
-
-  def self.included base
-    base.class_eval do
-      unless self.ancestors.include? ActiveRecord::Base
-        raise MustBeActiveRecordSubClassException
-      end
-    end
-
-    base.instance_eval do
-      define_method :to_factory do
-        Generator.new(self).factory_with_attributes
-      end
-    end
-  end
-
   class Generator
     attr_accessor :model_class, :object_instance
 
-    def initialize object=nil
-      return unless object
-
-      if object.is_a? ActiveRecord::Base
-        @model_class = object.class.to_s
-        @object_instance = object
-      else
-        @model_class = object
+    def initialize object
+      unless object.is_a? ActiveRecord::Base
+        raise ToFactory::MissingActiveRecordInstanceException.new("Generator.new expects an ActiveRecord::Base instance")
       end
+
+      @model_class = object.class.to_s
+      @object_instance = object
     end
 
     def factory
@@ -35,7 +16,7 @@ module ToFactory
       out << "  factory(:#{name}) do\n"
       out << yield if block_given?
       out << "  end\n"
-      out << "end"
+      out << "end\n"
     end
 
     def factory_with_attributes
@@ -49,63 +30,20 @@ module ToFactory
       end
     end
 
-    def factory_for options
-      @object_instance = find_from options
-      return nil unless @object_instance
-      factory_with_attributes
-    end
-
     def factory_attribute attr, value=nil
-      raise MissingActiveRecordInstanceException unless object_instance
+      value ||= object_instance.send(attr)
 
-      value = object_instance.send attr unless value
-
-      value = "nil" if value.nil?
-      value = "\"#{value}\"" if value.is_a? String
-      "    #{attr} #{value}"
+      "    #{attr} #{value.inspect}"
     end
 
     def name
       name = model_class.to_s.underscore
+
       if name["/"]
         "\"#{name}\""
       else
         name
       end
-    end
-
-    private
-
-    def find_from options
-      return model_class.find options if options.is_a? Integer
-
-      options = options.with_indifferent_access
-
-      if options.keys.length == 1 && id=options['id'].to_i
-        return model_class.find(id) if id > 0
-      end
-
-      finder, params = finder_and_params_from_options options
-
-      model_class.send finder, *params
-    end
-
-    def finder_and_params_from_options options
-      params =[]
-      finder = "find_by_"
-
-      options.keys.each do |k|
-        if finder == "find_by_"
-          finder << k
-        else
-          finder << "_and_#{k}"
-        end
-
-        value = options[k]
-        params << value
-      end
-
-      [finder, params]
     end
   end
 end
