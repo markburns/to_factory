@@ -15,7 +15,7 @@ module ToFactory
   end
 
   def to_factory
-    Generator.new(self).factory_with_attributes
+    Generator.new(self).to_factory
   end
 
   class << self

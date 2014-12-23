@@ -11,16 +11,8 @@ module ToFactory
       @object_instance = object
     end
 
-    def factory
-      out = "FactoryGirl.define do\n"
-      out << "  factory(:#{name}) do\n"
-      out << yield if block_given?
-      out << "  end\n"
-      out << "end\n"
-    end
-
-    def factory_with_attributes
-      factory do
+    def to_factory
+      header do
         to_skip = [:id, :created_at, :updated_at]
         attributes = object_instance.attributes.delete_if{|key, _| to_skip.include? key.to_sym}
 
@@ -28,6 +20,14 @@ module ToFactory
           factory_attribute(attr, value)
         end.sort.join("\n") << "\n"
       end
+    end
+
+    def header
+      out = "FactoryGirl.define do\n"
+      out << "  factory(:#{name}) do\n"
+      out << yield if block_given?
+      out << "  end\n"
+      out << "end\n"
     end
 
     def factory_attribute(attr, value)
