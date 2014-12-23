@@ -3,9 +3,18 @@ describe ToFactory::Generator do
     ToFactory::User.destroy_all
     ActiveRecord::Base.connection.execute "delete from sqlite_sequence where name = 'users'"
   end
+  let!(:user) { ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8 }
+  let(:generator) { ToFactory::Generator.new user }
 
-  it "requires an activerecord instance" do
-    expect(lambda{ToFactory::Generator.new ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
+  describe ".new" do
+    it "requires an activerecord instance" do
+      expect(lambda{ToFactory::Generator.new ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
+    end
+
+    it "raises an error if you try to inlude in a non ActiveRecord object" do
+      class Cheese;end
+      expect(lambda{Cheese.send :include, ToFactory}).to raise_error ToFactory::MustBeActiveRecordSubClassException
+    end
   end
 
   describe "#name" do
@@ -22,32 +31,27 @@ describe ToFactory::Generator do
     end
   end
 
-  it "generates the first line of the factory" do
-    user = ToFactory::User.create :name => "Jeff"
-    @generator = ToFactory::Generator.new user
 
-    expect(@generator.factory).to eq  <<-eof.strip_heredoc
-      FactoryGirl.define do
-        factory(:"to_factory/user") do
+  describe "#factory" do
+    it do
+      expect(generator.factory).to eq  <<-eof.strip_heredoc
+        FactoryGirl.define do
+          factory(:"to_factory/user") do
+          end
         end
-      end
-    eof
-
+      eof
+    end
   end
 
-    context "with a user in the database" do
-    before do
-      ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
-      @generator = ToFactory::Generator.new user
+  describe "#factory_attribute" do
+    it do
+      expect(generator.factory_attribute(:name, nil))   .to eq '    name nil'
+      expect(generator.factory_attribute(:name, "Jeff")).to eq '    name "Jeff"'
+      expect(generator.factory_attribute(:id, 8))       .to eq '    id 8'
     end
+  end
 
-    let(:user){ ToFactory::User.first}
-
-    it "generates lines for multiple the attributes" do
-      expect(@generator.factory_attribute(:name)).to eq '    name "Jeff"'
-      expect(@generator.factory_attribute(:email)).to eq '    email "test@example.com"'
-    end
-
+  describe "#factory_with_attributes" do
     let(:expected) do
       <<-eof.strip_heredoc
         FactoryGirl.define do
@@ -60,19 +64,12 @@ describe ToFactory::Generator do
       eof
     end
 
-    it "generates the full factory" do
-      expect(@generator.factory_with_attributes).to eq expected
+    it do
+      expect(generator.factory_with_attributes).to eq expected
     end
 
-    it "adds the to_factory method to an active record object" do
+    it do
       expect(user.to_factory).to eq expected
     end
-
-    it "raises an error if you try to inlude in a non ActiveRecord object" do
-      class Cheese;end
-
-      expect(lambda{Cheese.send :include, ToFactory}).to raise_error ToFactory::MustBeActiveRecordSubClassException
-    end
   end
-
 end

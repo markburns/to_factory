@@ -30,9 +30,7 @@ module ToFactory
       end
     end
 
-    def factory_attribute attr, value=nil
-      value ||= object_instance.send(attr)
-
+    def factory_attribute(attr, value)
       "    #{attr} #{value.inspect}"
     end
 
