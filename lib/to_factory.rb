@@ -28,4 +28,5 @@ module ToFactory
   end
 end
 
+#think about making this optional for next release
 ActiveRecord::Base.send(:include, ToFactory)
