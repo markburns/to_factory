@@ -34,12 +34,6 @@ _____
 Generates a factory from the first record of each `ActiveRecord::Base` descendant
 found in `app/models/**/*.rb`
 
-###Rake
-
-```bash
-rake to_factory:all
-```
-
 ###From Ruby
 
 ```ruby
