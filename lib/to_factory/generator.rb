@@ -22,7 +22,7 @@ module ToFactory
     def factory_with_attributes
       factory do
         to_skip = [:id, :created_at, :updated_at]
-        attributes = object_instance.attributes.delete_if{|key, value| to_skip.include? key.to_sym}
+        attributes = object_instance.attributes.delete_if{|key, _| to_skip.include? key.to_sym}
 
         attributes.map do |attr, value|
           factory_attribute(attr, value)
