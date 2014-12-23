@@ -12,12 +12,10 @@ module ToFactory
         raise MustBeActiveRecordSubClassException
       end
     end
+  end
 
-    base.instance_eval do
-      define_method :to_factory do
-        Generator.new(self).factory_with_attributes
-      end
-    end
+  def to_factory
+    Generator.new(self).factory_with_attributes
   end
 
   class << self
