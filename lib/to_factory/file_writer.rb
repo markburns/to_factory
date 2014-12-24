@@ -8,8 +8,9 @@ module ToFactory
     def all!
       instances = @model_finder.all
 
-      factory_definitions = instances.each_with_object({}) do |record, result|
+      factory_definitions = instances.inject({}) do |result, record|
         result[record.class.name.underscore.to_sym] = ToFactory(record)
+        result
       end
 
       @file_system.write(factory_definitions)
@@ -22,19 +23,42 @@ module ToFactory
     end
 
     def all
-      klasses = []
+      instances = []
 
       Dir.glob("#{@path}/**/*.rb").each do |file|
         File.readlines(file).each do |f|
           if match = f.match(/class (.*) ?</)
-            require file
-            klass = eval(match[1]) rescue nil
-            klasses << klass.first if klass && klass.ancestors.include?(ActiveRecord::Base)
+            klass = rescuing_require file, match
+            instance = get_active_record_instance(klass)
+            instances << instance if instance
           end
         end
       end
 
-      klasses
+      instances
+    end
+
+    private
+
+    def rescuing_require(file, match)
+      require file
+      klass = eval(match[1])
+
+    rescue Exception => e
+      warn "Failed to eval #{file}"
+      warn e.message
+    end
+
+    def get_active_record_instance(klass)
+      if klass && klass.ancestors.include?(ActiveRecord::Base)
+        begin
+          klass.first
+        rescue
+          klass.find(:first)
+        end
+      end
+    rescue Exception => e
+      warn "Failed to get record from #{klass} #{e.message}"
     end
   end
 
