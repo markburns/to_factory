@@ -6,7 +6,7 @@ context "full integration" do
   it "#to_factory linting the output" do
     require "factory_girl"
     if FactoryGirl::VERSION =~ /^4\./
-      factory = user.to_factory
+      factory = ToFactory(user)
 
       eval factory
 

@@ -1,8 +1,8 @@
 module ToFactory
-  class AutoGenerator
-    def initialize(m=ModelFinder.new, f=FileWriter.new)
+  class FileWriter
+    def initialize(m=ModelFinder.new, f=FileSystem.new)
       @model_finder = m.is_a?(String) ? ModelFinder.new(m) : m
-      @file_writer  = f.is_a?(String) ? FileWriter .new(f) : f
+      @file_system  = f.is_a?(String) ? FileSystem .new(f) : f
     end
 
     def all!
@@ -12,7 +12,7 @@ module ToFactory
         result[record.class.name.underscore.to_sym] = ToFactory(record)
       end
 
-      @file_writer.write(factory_definitions)
+      @file_system.write(factory_definitions)
     end
   end
 
@@ -38,7 +38,7 @@ module ToFactory
     end
   end
 
-  class FileWriter
+  class FileSystem
     def initialize(path="./spec/factories")
       @path = path
       FileUtils.mkdir_p(@path)

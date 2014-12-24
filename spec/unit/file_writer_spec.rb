@@ -1,20 +1,20 @@
-describe ToFactory::AutoGenerator do
+describe ToFactory::FileWriter do
   describe "#all!" do
     let!(:user   ) { double("user",    :is_a? => true, :class => double(:name => "User")) }
     let!(:project) { double("project", :is_a? => true, :class => double(:name => "Project")) }
-    let(:writer  ) { double("file writer" ) }
+    let(:file_system  ) { double("file file_system" ) }
     let(:finder) { double("model finder") }
 
-    context "with a finder and a writer" do
-      let(:generator) { ToFactory::AutoGenerator.new(finder, writer) }
+    context "with a finder and a file system" do
+      let(:generator) { ToFactory::FileWriter.new(finder, file_system) }
 
       before do
         x(finder, :all).r [user, project]
-        x(writer, :write, {:user => "factory a", :project => "factory b"})
+        x(file_system, :write, {:user => "factory a", :project => "factory b"})
         x(generator,              :ToFactory          ).r("factory a", "factory b")
       end
 
-      it "requests instances from the model finder and writes to the file writer" do
+      it "requests instances from the model finder and writes to the file file_system" do
         generator.all!
       end
     end
@@ -24,17 +24,17 @@ describe ToFactory::AutoGenerator do
       let(:models_path) { "a" }
       let(:factories_path) { "b" }
       let(:generator) do
-        ToFactory::AutoGenerator.new(models_path, factories_path)
+        ToFactory::FileWriter.new(models_path, factories_path)
       end
 
       before do
         x(finder, :all).r [user, project]
-        x(writer, :write, {:user => "factory a", :project => "factory b"})
+        x(file_system, :write, {:user => "factory a", :project => "factory b"})
       end
 
-      it "instantiates a finder and writer with the passed path arguments" do
+      it "instantiates a finder and file_system with the passed path arguments" do
         x(ToFactory::ModelFinder, :new, models_path   ).r finder
-        x(ToFactory::FileWriter,  :new, factories_path).r writer
+        x(ToFactory::FileSystem,  :new, factories_path).r file_system
         x(generator,              :ToFactory          ).r("factory a", "factory b")
         generator.all!
       end
@@ -65,12 +65,12 @@ describe ToFactory::ModelFinder do
 
 end
 
-describe ToFactory::FileWriter do
+describe ToFactory::FileSystem do
   before do
     FileUtils.rm_rf("tmp/factories/**")
   end
 
-  let(:finder) { ToFactory::FileWriter.new("tmp/factories") }
+  let(:finder) { ToFactory::FileSystem.new("tmp/factories") }
 
   describe "#write" do
     it "adds factories for all models" do

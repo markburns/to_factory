@@ -1,6 +1,6 @@
 require "to_factory/version"
 require "to_factory/generator"
-require "to_factory/auto_generator"
+require "to_factory/file_writer"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
@@ -10,7 +10,7 @@ module ToFactory
       model_dir   = options.fetch(:models)
       factory_dir = options.fetch(:factories)
 
-      AutoGenerator.new(model_dir, factory_dir).all!
+      FileWriter.new(model_dir, factory_dir).all!
     end
   end
 end
