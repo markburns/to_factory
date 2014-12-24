@@ -3,7 +3,13 @@ describe ToFactory::Generator do
     ToFactory::User.destroy_all
     ActiveRecord::Base.connection.execute "delete from sqlite_sequence where name = 'users'"
   end
-  let!(:user) { ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8 }
+
+  let(:birthday) do
+    Time.zone = "UTC"
+    Time.zone.parse("2014-07-08T22:30+09:00") 
+  end
+
+  let!(:user) { ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8, :birthday => birthday}
   let(:generator) { ToFactory::Generator.new user }
 
   describe ".new" do
@@ -44,6 +50,10 @@ describe ToFactory::Generator do
       expect(generator.factory_attribute(:name, "Jeff")).to eq '    name "Jeff"'
       expect(generator.factory_attribute(:id, 8))       .to eq '    id 8'
     end
+    it "generates usable datetime strings" do
+      output = generator.factory_attribute(:birthday, birthday)
+      expect(output).to eq '    birthday "2014-07-08T13:30Z"'
+    end
   end
 
   describe "#ToFactory" do
@@ -51,6 +61,7 @@ describe ToFactory::Generator do
       <<-eof.strip_heredoc
         FactoryGirl.define do
           factory(:"to_factory/user") do
+            birthday "2014-07-08T13:30Z"
             email "test@example.com"
             name "Jeff"
             some_id 8

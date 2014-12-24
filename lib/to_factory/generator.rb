@@ -33,7 +33,15 @@ module ToFactory
     end
 
     def factory_attribute(attr, value)
-      "    #{attr} #{value.inspect}"
+      "    #{attr} #{inspect_value(value)}"
+    end
+
+    def inspect_value(value)
+      if value.is_a?(Time) || value.is_a?(DateTime)
+        value.strftime("%Y-%m-%dT%H:%MZ").inspect
+      else
+        value.inspect
+      end
     end
 
     def name
