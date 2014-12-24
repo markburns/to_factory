@@ -25,8 +25,10 @@ require "to_factory"
 
 require "./spec/support/user"
 require "./spec/support/project"
+require "./spec/support/terse_expect_syntax"
 
 RSpec.configure do |config|
+  config.include TerseExpectSyntax
   config.before :suite do
     ActiveRecord::Base.tap do |base|
       config = {:adapter => "sqlite3", :database => "spec/db/test.sqlite3"}

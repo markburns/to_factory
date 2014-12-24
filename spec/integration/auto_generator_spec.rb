@@ -14,15 +14,15 @@ describe "AutoGenerator" do
   end
 
   let(:project_file) do
-    File.read("./tmp/factories/to_factory/user.rb")
+    File.read("./tmp/factories/to_factory/project.rb")
   end
 
   it do
     generator = ToFactory::AutoGenerator.new("./spec/support", "./tmp/factories")
     generator.all!
 
-    expect(user_file   ).to eq ToFactory::User.first.to_factory
-    expect(project_file).to eq ToFactory::User.first.to_factory
+    expect(user_file   ).to eq ToFactory(ToFactory::User.first)
+    expect(project_file).to eq ToFactory(ToFactory::Project.first)
   end
 
 end

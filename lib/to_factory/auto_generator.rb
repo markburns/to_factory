@@ -9,7 +9,7 @@ module ToFactory
       instances = @model_finder.all
 
       factory_definitions = instances.each_with_object({}) do |record, result|
-        result[record.class.name.underscore.to_sym] = record.to_factory
+        result[record.class.name.underscore.to_sym] = ToFactory(record)
       end
 
       @file_writer.write(factory_definitions)

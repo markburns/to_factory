@@ -4,19 +4,6 @@ require "to_factory/auto_generator"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
-  class MustBeActiveRecordSubClassException < Exception;end
-
-  def self.included base
-    base.class_eval do
-      unless ancestors.include? ActiveRecord::Base
-        raise MustBeActiveRecordSubClassException
-      end
-    end
-  end
-
-  def to_factory
-    Generator.new(self).to_factory
-  end
 
   class << self
     def generate!(options)
@@ -28,5 +15,8 @@ module ToFactory
   end
 end
 
-#think about making this optional for next release
-ActiveRecord::Base.send(:include, ToFactory)
+public
+
+def ToFactory(instance)
+  ToFactory::Generator.new(instance).to_factory
+end

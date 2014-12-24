@@ -15,7 +15,7 @@ describe "ToFactory.generate!" do
 
   it "generates all factories" do
     ToFactory.generate!(:models => "spec/support", :factories => "tmp/factories")
-    expect(user_file)   .to eq ToFactory::User.   first.to_factory
-    expect(project_file).to eq ToFactory::Project.first.to_factory
+    expect(user_file)   .to eq ToFactory(ToFactory::User.   first)
+    expect(project_file).to eq ToFactory(ToFactory::Project.first)
   end
 end

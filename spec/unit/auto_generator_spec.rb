@@ -1,34 +1,41 @@
 describe ToFactory::AutoGenerator do
   describe "#all!" do
-    let!(:user   ) { double("user",    :class => double(:name => "User"),    :to_factory => "factory a") }
-    let!(:project) { double("project", :class => double(:name => "Project"), :to_factory => "factory b") }
-    let(:writer) { double("file writer" ) }
+    let!(:user   ) { double("user",    :is_a? => true, :class => double(:name => "User")) }
+    let!(:project) { double("project", :is_a? => true, :class => double(:name => "Project")) }
+    let(:writer  ) { double("file writer" ) }
+    let(:finder) { double("model finder") }
 
     context "with a finder and a writer" do
-      let(:finder) { double("model finder") }
       let(:generator) { ToFactory::AutoGenerator.new(finder, writer) }
+
+      before do
+        x(finder, :all).r [user, project]
+        x(writer, :write, {:user => "factory a", :project => "factory b"})
+        x(generator,              :ToFactory          ).r("factory a", "factory b")
+      end
+
       it "requests instances from the model finder and writes to the file writer" do
-        expect(finder).to receive(:all).
-          and_return [user, project]
-
-        expect(writer).
-          to receive(:write).
-          with({:user => "factory a", :project =>"factory b"})
-
         generator.all!
       end
     end
 
+
     context "with path arguments" do
-      let(:finder) { double("finder", :all => [user, project])}
+      let(:models_path) { "a" }
+      let(:factories_path) { "b" }
+      let(:generator) do
+        ToFactory::AutoGenerator.new(models_path, factories_path)
+      end
 
       before do
-        expect(ToFactory::ModelFinder).to receive(:new).with("a").and_return finder
-        expect(ToFactory::FileWriter ).to receive(:new).with("b").and_return writer
+        x(finder, :all).r [user, project]
+        x(writer, :write, {:user => "factory a", :project => "factory b"})
       end
-      it do
-        generator = ToFactory::AutoGenerator.new("a", "b")
-        expect(writer).to receive(:write).with({:user => "factory a", :project => "factory b"})
+
+      it "instantiates a finder and writer with the passed path arguments" do
+        x(ToFactory::ModelFinder, :new, models_path   ).r finder
+        x(ToFactory::FileWriter,  :new, factories_path).r writer
+        x(generator,              :ToFactory          ).r("factory a", "factory b")
         generator.all!
       end
     end

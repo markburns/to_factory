@@ -4,7 +4,9 @@ module ToFactory
 
     def initialize object
       unless object.is_a? ActiveRecord::Base
-        raise ToFactory::MissingActiveRecordInstanceException.new("Generator.new expects an ActiveRecord::Base instance")
+        message = "Generator requires initializing with an ActiveRecord::Base instance"
+        message << "\n  but received #{object.inspect}"
+        raise ToFactory::MissingActiveRecordInstanceException.new(message)
       end
 
       @model_class = object.class.to_s

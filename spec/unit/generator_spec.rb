@@ -10,11 +10,6 @@ describe ToFactory::Generator do
     it "requires an activerecord instance" do
       expect(lambda{ToFactory::Generator.new ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
     end
-
-    it "raises an error if you try to inlude in a non ActiveRecord object" do
-      class Cheese;end
-      expect(lambda{Cheese.send :include, ToFactory}).to raise_error ToFactory::MustBeActiveRecordSubClassException
-    end
   end
 
   describe "#name" do
@@ -51,7 +46,7 @@ describe ToFactory::Generator do
     end
   end
 
-  describe "#to_factory" do
+  describe "#ToFactory" do
     let(:expected) do
       <<-eof.strip_heredoc
         FactoryGirl.define do
@@ -66,7 +61,7 @@ describe ToFactory::Generator do
 
     it do
       expect(generator.to_factory).to eq expected
-      expect(user     .to_factory).to eq expected
+      expect(ToFactory user     ).to eq expected
     end
   end
 end
