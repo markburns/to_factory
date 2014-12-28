@@ -24,23 +24,34 @@ module ToFactory
       end
     end
 
-    def header
+
+    def header(&block)
+      if new_syntax?
+        modern_header &block
+      else
+        header_factory_girl_1 &block
+      end
+    end
+
+    def modern_header(&block)
       out = "FactoryGirl.define do\n"
       out << "  factory(:#{name}) do\n"
-      out << yield if block_given?
+      out << yield.to_s
       out << "  end\n"
       out << "end\n"
     end
 
-    def factory_attribute(attr, value)
-      "    #{attr} #{inspect_value(value)}"
+    def header_factory_girl_1(&block)
+      out = "Factory.define(:#{name}) do |o|\n"
+      out << yield.to_s
+      out << "end\n"
     end
 
-    def inspect_value(value)
-      if value.is_a?(Time) || value.is_a?(DateTime)
-        value.strftime("%Y-%m-%dT%H:%MZ").inspect
+    def factory_attribute(attr, value)
+      if new_syntax?
+        "    #{attr} #{inspect_value(value)}"
       else
-        value.inspect
+        "  o.#{attr} #{inspect_value(value)}"
       end
     end
 
@@ -52,6 +63,34 @@ module ToFactory
       else
         name
       end
+    end
+
+    private
+
+    def inspect_value(value)
+      case value
+      when Time, DateTime
+        value.strftime("%Y-%m-%dT%H:%MZ").inspect
+      when BigDecimal
+        value.to_f.inspect
+      when Hash
+        hash = value.inject({}){|result, (k, v)| result[k] = inspect_value(v); result}
+        #"(#{hash})" #prevent hash being considered as a block
+      when Array
+        value.map{|v| inspect_value(v)}
+      else
+        value.inspect
+      end
+    end
+
+    def new_syntax?
+      if FactoryGirl::VERSION.to_s[0].to_i > 1
+        true
+      else
+        false
+      end
+    rescue NameError
+      false
     end
   end
 end

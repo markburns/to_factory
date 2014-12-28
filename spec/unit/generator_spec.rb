@@ -35,7 +35,7 @@ describe ToFactory::Generator do
 
   describe "#header" do
     it do
-      expect(generator.header).to eq  <<-eof.strip_heredoc
+      expect(generator.header{}).to eq  <<-eof.strip_heredoc
         FactoryGirl.define do
           factory(:"to_factory/user") do
           end

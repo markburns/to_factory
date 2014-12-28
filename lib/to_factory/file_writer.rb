@@ -31,6 +31,7 @@ module ToFactory
             klass = rescuing_require file, match
             instance = get_active_record_instance(klass)
             instances << instance if instance
+            break
           end
         end
       end
@@ -43,6 +44,7 @@ module ToFactory
     def rescuing_require(file, match)
       require file
       klass = eval(match[1])
+      klass
 
     rescue Exception => e
       warn "Failed to eval #{file}"

@@ -56,6 +56,12 @@ describe ToFactory::ModelFinder do
         expect(finder.all).to eq []
       end
     end
+    context "with a match" do
+      let(:path) { "spec/support" }
+      it do
+        expect(finder.all).to match_array [ToFactory::User, ToFactory::Project]
+      end
+    end
 
     context "no args" do
       it "adds factories for all models" do
@@ -76,8 +82,8 @@ describe ToFactory::FileSystem do
   describe "#write" do
     it "adds factories for all models" do
       finder.write({:user => "factory a", :project =>"factory b"})
-      expect(File.readlines("tmp/factories/user.rb")).to eq ["factory a"]
-      expect(File.readlines("tmp/factories/project.rb")).to eq ["factory b"]
+      expect(File.read("tmp/factories/user.rb")).to eq "factory a"
+      expect(File.read("tmp/factories/project.rb")).to eq "factory b"
     end
   end
 
