@@ -49,7 +49,7 @@ ToFactory.generate!(:models => "models/this/subfolder/only", :factories => "spec
 ```bash
 #rails console
 
-> puts User.first.to_factory
+> puts ToFactory User.first
 #=>
 FactoryGirl.define
   factory(:user) do |u|
