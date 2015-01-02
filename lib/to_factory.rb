@@ -1,6 +1,11 @@
 require "to_factory/version"
 require "to_factory/generator"
+require "to_factory/hash_collision_deteection"
+require "to_factory/file_system"
 require "to_factory/file_writer"
+require "to_factory/model_finder"
+require "to_factory/dispatcher"
+require "to_factory/factory_collection"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
@@ -17,8 +22,10 @@ end
 
 public
 
-def ToFactory(instance)
-  ToFactory::Generator.new(instance).to_factory
+def ToFactory(args)
+  factories = ToFactory::Dispatcher.new(args).dispatch
+
+  FileSystem.new(factories)
 end
 
 if defined?(Rails)

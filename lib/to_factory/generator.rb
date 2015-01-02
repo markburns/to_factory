@@ -75,7 +75,6 @@ module ToFactory
         value.to_f.inspect
       when Hash
         hash = value.inject({}){|result, (k, v)| result[k] = inspect_value(v); result}
-        #"(#{hash})" #prevent hash being considered as a block
       when Array
         value.map{|v| inspect_value(v)}
       else
