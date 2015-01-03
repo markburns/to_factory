@@ -58,21 +58,12 @@ describe ToFactory::Generator do
 
   describe "#ToFactory" do
     let(:expected) do
-      <<-eof.strip_heredoc
-        FactoryGirl.define do
-          factory(:"to_factory/user") do
-            birthday "2014-07-08T13:30Z"
-            email "test@example.com"
-            name "Jeff"
-            some_id 8
-          end
-        end
-      eof
+      File.read "./spec/example_factories/new_syntax/user_with_header.rb"
     end
 
     it do
-      expect(generator.to_factory).to eq expected
-      expect(ToFactory user     ).to eq expected
+      expect(generator.to_factory).to match_sexp expected
+      expect(ToFactory user      ).to match_sexp expected
     end
   end
 end

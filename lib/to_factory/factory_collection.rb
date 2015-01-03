@@ -2,30 +2,38 @@ module ToFactory
   AlreadyExists = Class.new ArgumentError
 
   class FactoryCollection
-    include HashCollisions
+    include HashCollisionDetection
     attr_reader :items
 
-    def initialize(items)
-      raise ArgumentError.new "Expected hash" unless items.is_a?(Hash)
+    def initialize(items={})
       @items = items
     end
 
-    def add(key, value)
-      raise_already_exists!(key) if @items[key]
+    def add(klass, name, definition)
+      h = @items[klass] ||= {}
+      raise_already_exists!(name) if h[name]
 
-      @items[key]=value
+      h[name] = definition
     end
 
-    def read(file_system=FileSystem.new)
-      extra_items = file_system.read
-      detect_collisions!(extra_items, @items)
+    def read_from_file_system(fs=file_system)
+      extra_items = fs.read
+
+      @items.each do |klass, items|
+        detect_collisions!(extra_items[klass] || {}, items)
+      end
 
       @items.merge! extra_items
     end
 
-    private
+    def write!(fs=file_system)
+      @items.each do |klass, records|
+        fs.write(records)
+      end
+    end
 
-
-
+    def file_system
+      @file_system ||= FileSystem.new
+    end
   end
 end

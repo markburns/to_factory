@@ -10,6 +10,7 @@ require 'fileutils'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash'
 require "sqlite3"
+require "database_cleaner"
 
 begin
   require "pry-byebug"
@@ -23,18 +24,32 @@ end
 
 require "to_factory"
 
-require "./spec/support/user"
-require "./spec/support/project"
+require "./spec/support/models/user"
+require "./spec/support/models/project"
 require "./spec/support/terse_expect_syntax"
+require "./spec/support/match_sexp"
 
 RSpec.configure do |config|
   config.include TerseExpectSyntax
+
   config.before :suite do
     ActiveRecord::Base.tap do |base|
       config = {:adapter => "sqlite3", :database => "spec/db/test.sqlite3"}
       base.configurations = {:test => config}.with_indifferent_access
       base.establish_connection :test
     end
+
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.start
+  end
+
+  config.before(:each) do
+    FileUtils.rm_rf "tmp/factories"
+    DatabaseCleaner.clean
+    ToFactory.reset_config!
+    ToFactory.models = "./spec/support/models"
+    ToFactory.factories = "./tmp/factories"
   end
 
   config.expect_with :rspec do |expectations|

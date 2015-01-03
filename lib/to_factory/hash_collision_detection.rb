@@ -1,4 +1,4 @@
-module HashCollisions
+module HashCollisionDetection
   def detect_collisions!(a, b)
     overlapping = a.keys & b.keys
     raise_already_exists!(overlapping) if overlapping.any?

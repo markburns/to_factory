@@ -1,9 +1,5 @@
 describe ToFactory::FileSystem do
-  before do
-    FileUtils.rm_rf("tmp/factories/**")
-  end
-
-  let(:fs) { ToFactory::FileSystem.new("tmp/factories") }
+  let(:fs) { ToFactory::FileSystem.new }
 
   describe "#write" do
     it "adds factories for all models" do
@@ -12,6 +8,7 @@ describe ToFactory::FileSystem do
       expect(File.read("tmp/factories/project.rb")).to eq "factory b"
     end
   end
+
 
 
 end

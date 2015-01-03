@@ -1,13 +1,9 @@
 module ToFactory
   class ModelFinder
-    def initialize(path="./app/models")
-      @path = File.expand_path(path)
-    end
-
     def all
       instances = []
 
-      Dir.glob("#{@path}/**/*.rb").each do |file|
+      Dir.glob("#{ToFactory.models}/**/*.rb").each do |file|
         File.readlines(file).each do |f|
           if match = f.match(/class (.*) ?</)
             klass = rescuing_require file, match

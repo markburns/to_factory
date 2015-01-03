@@ -2,7 +2,7 @@ module ToFactory
   class Generator
     attr_accessor :model_class, :object_instance
 
-    def initialize object
+    def initialize(object)
       unless object.is_a? ActiveRecord::Base
         message = "Generator requires initializing with an ActiveRecord::Base instance"
         message << "\n  but received #{object.inspect}"
@@ -26,7 +26,7 @@ module ToFactory
 
 
     def header(&block)
-      if new_syntax?
+      if ToFactory.new_syntax?
         modern_header &block
       else
         header_factory_girl_1 &block
@@ -48,7 +48,7 @@ module ToFactory
     end
 
     def factory_attribute(attr, value)
-      if new_syntax?
+      if ToFactory.new_syntax?
         "    #{attr} #{inspect_value(value)}"
       else
         "  o.#{attr} #{inspect_value(value)}"
@@ -80,16 +80,6 @@ module ToFactory
       else
         value.inspect
       end
-    end
-
-    def new_syntax?
-      if FactoryGirl::VERSION.to_s[0].to_i > 1
-        true
-      else
-        false
-      end
-    rescue NameError
-      false
     end
   end
 end

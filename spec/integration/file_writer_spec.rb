@@ -18,7 +18,7 @@ describe "AutoGenerator" do
   end
 
   it do
-    generator = ToFactory::FileWriter.new("./spec/support", "./tmp/factories")
+    generator = ToFactory::FileWriter.new
     generator.all!
 
     expect(user_file   ).to eq ToFactory(ToFactory::User.first)
