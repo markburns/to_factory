@@ -1,8 +1,7 @@
 module ToFactory
-  AlreadyExists = Class.new ArgumentError
-
   class FactoryCollection
     include HashCollisionDetection
+
     attr_reader :items
 
     def initialize(items={})
@@ -24,12 +23,6 @@ module ToFactory
       end
 
       @items.merge! extra_items
-    end
-
-    def write!(fs=file_system)
-      @items.each do |klass, records|
-        fs.write(records)
-      end
     end
 
     def file_system

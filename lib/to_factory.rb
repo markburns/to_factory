@@ -3,11 +3,11 @@ require "to_factory/config"
 require "to_factory/generator"
 require "to_factory/hash_collision_detection"
 require "to_factory/file_system"
-require "to_factory/file_writer"
+require "to_factory/file_sync"
 require "to_factory/factory_collection"
 require "to_factory/parsing/file"
 require "to_factory/model_finder"
-require "to_factory/dispatcher"
+require "to_factory/argument_parser"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
@@ -40,7 +40,7 @@ def ToFactory(args)
   if args.is_a?(ActiveRecord::Base)
     ToFactory.generate! args
   else
-    ToFactory::Dispatcher.new(args).dispatch
+    ToFactory::ArgumentParser.new(args).parse
   end
 end
 

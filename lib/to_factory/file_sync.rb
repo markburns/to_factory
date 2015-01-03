@@ -1,11 +1,11 @@
 module ToFactory
-  class FileWriter
+  class FileSync
     def initialize(m=ModelFinder.new, f=FileSystem.new)
       @model_finder = m
       @file_system  = f
     end
 
-    def all!
+    def perform
       instances = @model_finder.all
 
       factory_definitions = instances.inject({}) do |result, record|

@@ -1,13 +1,10 @@
 module ToFactory
-  class Dispatcher
+  class ArgumentParser
     def initialize(options)
       @options = options
     end
 
-    def dispatch
-      @collection = FactoryCollection.new
-      @collection.read_from_file_system
-
+    def parse
       case @options
       when ActiveRecord::Base
         dispatch_hash(:items => @options)

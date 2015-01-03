@@ -41,7 +41,9 @@ found in `app/models/**/*.rb`
 ToFactory.generate!
 
 #Choose input/output directories
-ToFactory.generate!(:models => "models/this/subfolder/only", :factories => "spec/support/factories")
+ToFactory.models    = "models/this/subfolder/only"
+ToFactory.factories = "spec/support/factories"
+ToFactory.generate!
 ```
 
 
