@@ -26,7 +26,6 @@ require "to_factory"
 
 require "./spec/support/models/user"
 require "./spec/support/models/project"
-require "./spec/support/terse_expect_syntax"
 require "./spec/support/match_sexp"
 
 module ToFactory::DataCreation
@@ -59,7 +58,6 @@ module ToFactory::SpecSyntaxHelpers
 end
 
 RSpec.configure do |config|
-  config.include TerseExpectSyntax
   config.include ToFactory::DataCreation
   config.include ToFactory::SpecSyntaxHelpers
 
