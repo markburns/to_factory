@@ -2,7 +2,7 @@ require "deep_merge"
 
 require "to_factory/version"
 require "to_factory/config"
-require "to_factory/generator"
+require "to_factory/generation/factory"
 require "to_factory/collation"
 require "to_factory/file_writer"
 require "to_factory/finders/model"
@@ -15,11 +15,6 @@ module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
 
   class << self
-    def from_instance(instance, name=nil)
-      name ||= instance.class.name
-      Generator.new(instance, name).to_factory
-    end
-
     def new_syntax?
       require "factory_girl"
       if FactoryGirl::VERSION.to_s[0..0].to_i > 1

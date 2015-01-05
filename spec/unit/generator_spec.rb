@@ -1,4 +1,4 @@
-describe ToFactory::Generator do
+describe ToFactory::Generation::Factory do
   before(:each) do
     ToFactory::User.destroy_all
     ActiveRecord::Base.connection.execute "delete from sqlite_sequence where name = 'users'"
@@ -10,11 +10,11 @@ describe ToFactory::Generator do
 
   let!(:user) { create_user! }
 
-  let(:generator) { ToFactory::Generator.new user, :"to_factory/user"  }
+  let(:generator) { ToFactory::Generation::Factory.new user, :"to_factory/user"  }
 
   describe ".new" do
     it "requires an activerecord instance" do
-      expect(lambda{ToFactory::Generator.new "", ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
+      expect(lambda{ToFactory::Generation::Factory.new "", ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
     end
   end
 

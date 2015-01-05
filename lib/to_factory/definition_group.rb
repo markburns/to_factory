@@ -16,7 +16,7 @@ module ToFactory
     def define_factory(record)
       name, item, parent_klass = extract_details(record)
 
-      definition = ToFactory::Generator.new(item, name).to_factory(parent_klass)
+      definition = ToFactory::Generation::Factory.new(item, name).to_factory(parent_klass)
 
       [item.class, name, definition]
     end
