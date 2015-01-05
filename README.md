@@ -43,7 +43,7 @@ ToFactory.generate!
 #Choose input/output directories
 ToFactory.models    = "models/this/subfolder/only"
 ToFactory.factories = "spec/support/factories"
-ToFactory.generate!
+ToFactory()
 ```
 
 
