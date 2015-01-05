@@ -1,6 +1,5 @@
 module ToFactory
   module Generation
-
     class Factory
       def initialize(object, name)
         unless object.is_a? ActiveRecord::Base
