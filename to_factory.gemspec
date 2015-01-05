@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
     spec.add_development_dependency "ruby-debug"
     spec.add_development_dependency "database_cleaner", "~> 0.3"
   else
-    spec.add_development_dependency "database_cleaner"
+    spec.add_development_dependency "database_cleaner", "~> 1.4.0"
   end
 
   if RUBY_VERSION =~ /^2\.\d/
