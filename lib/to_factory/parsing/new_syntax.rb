@@ -11,12 +11,27 @@ module ToFactory
 
       def parse
         result = {}
+        @klass_inference = KlassInference.new
 
-        parse_multiple do |factory_name, ruby|
-          result[factory_name] = ruby
+        parse_multiple do |factory_name, parent_name, ruby|
+          klass = @klass_inference.infer(factory_name, parent_name)
+          result[klass] ||= {}
+          result[klass][factory_name] = ruby
         end
 
         result
+      end
+
+      class KlassInference
+        def initialize
+          @mapping = {}
+        end
+
+        def infer(klass, parent_klass=nil)
+          @mapping[klass] ||= klass.to_s.camelize.constantize
+        rescue
+          infer(parent_klass)
+        end
       end
 
       def factories
@@ -33,12 +48,16 @@ module ToFactory
 
       def parse_multiple(&block)
         factories.each do |x|
-          yield name_from(x), to_ruby(x)
+          yield name_from(x), parent_from(x), to_ruby(x)
         end
       end
 
+      def parent_from(x)
+        x[1][-1][-1][-1] rescue name_from(x)
+      end
+
       def name_from(sexp)
-        sexp[1][-1][-1]
+        sexp[1][3][1]
       end
     end
   end

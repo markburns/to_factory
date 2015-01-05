@@ -5,40 +5,23 @@ describe ToFactory::Generator do
   end
 
   let(:birthday) do
-    Time.zone = "UTC"
-    Time.zone.parse("2014-07-08T22:30+09:00") 
+    Time.find_zone("UTC").parse("2014-07-08T15:30Z") 
   end
 
-  let!(:user) { ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8, :birthday => birthday}
-  let(:generator) { ToFactory::Generator.new user }
+  let!(:user) { create_user! }
+
+  let(:generator) { ToFactory::Generator.new user, :"to_factory/user"  }
 
   describe ".new" do
     it "requires an activerecord instance" do
-      expect(lambda{ToFactory::Generator.new ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
+      expect(lambda{ToFactory::Generator.new "", ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
     end
   end
-
-  describe "#name" do
-    it "handles namespacing" do
-      generator = ToFactory::Generator.new(ToFactory::Project.new)
-      expect(generator.name).to eq "\"to_factory/project\""
-    end
-
-    it do
-      class NotNamespacedActiveRecordClassButLongEnoughItShouldntCauseConflicts < ActiveRecord::Base; end
-      instance = NotNamespacedActiveRecordClassButLongEnoughItShouldntCauseConflicts.new
-      generator = ToFactory::Generator.new(instance)
-      expect(generator.name).to eq "not_namespaced_active_record_class_but_long_enough_it_shouldnt_cause_conflicts"
-    end
-  end
-
 
   describe "#header" do
     it do
-      expect(generator.header{}).to eq  <<-eof.strip_heredoc
-        FactoryGirl.define do
-          factory(:"to_factory/user") do
-          end
+      expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
+        factory(:"to_factory/user") do
         end
       eof
     end
@@ -52,18 +35,19 @@ describe ToFactory::Generator do
     end
     it "generates usable datetime strings" do
       output = generator.factory_attribute(:birthday, birthday)
-      expect(output).to eq '    birthday "2014-07-08T13:30Z"'
+      expect(output).to eq '    birthday "2014-07-08T15:30Z"'
     end
   end
 
   describe "#ToFactory" do
     let(:expected) do
-      File.read "./spec/example_factories/new_syntax/user_with_header.rb"
+      File.read "./spec/example_factories/new_syntax/user.rb"
     end
 
     it do
       expect(generator.to_factory).to match_sexp expected
-      expect(ToFactory user      ).to match_sexp expected
+      result = ToFactory(user).values.first.values.first
+      expect(result).to match_sexp expected
     end
   end
 end

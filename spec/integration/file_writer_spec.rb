@@ -1,28 +1,16 @@
-describe "AutoGenerator" do
-  let(:user) do
-    ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
-  end
-
-  before do
-    FileUtils.rm_rf "./tmp/factories"
-    ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
-    ToFactory::Project.create :name => "My Project", :objective => "easy testing", :some_id => 9
-  end
-
-  let(:user_file) do
-    File.read("./tmp/factories/to_factory/user.rb")
-  end
-
-  let(:project_file) do
-    File.read("./tmp/factories/to_factory/project.rb")
-  end
-
+describe ToFactory::FileWriter do
+  let(:fw) { ToFactory::FileWriter.new }
+  let(:expected)    { File.read "./spec/example_factories/new_syntax/user_with_header.rb"}
+  let(:user_file_contents)    { File.read "./tmp/factories/to_factory/user.rb"}
+  let!(:user) { create_user!  }
+  let!(:admin) { create_admin!  }
   it do
-    generator = ToFactory::FileWriter.new
-    generator.all!
+    fs = ToFactory::FileSync.new
+    definitions = fs.new_definitions
+    #sanity check generation isn't broken
+    expect(definitions.keys).to eq [ToFactory::User]
 
-    expect(user_file   ).to eq ToFactory(ToFactory::User.first)
-    expect(project_file).to eq ToFactory(ToFactory::Project.first)
+    fw.write definitions
+    expect(user_file_contents).to match_sexp expected
   end
-
 end

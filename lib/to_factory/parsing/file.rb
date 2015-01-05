@@ -9,15 +9,22 @@ module ToFactory
       delegate :multiple_factories?, :header?, :parse, :to => :parser
 
       def self.parse(filename)
-        new(filename).parse
+        from_file(filename).parse
       end
 
-      def initialize(filename)
-        @filename = filename
+      def self.from_file(filename)
+        contents = ::File.read filename rescue nil
+        raise ArgumentError.new "Invalid file #{filename}"  if contents.empty?
+
+        new(contents)
+      end
+
+      def initialize(contents)
+        @contents = contents
       end
 
       def parser
-        @parser ||= parser_klass.new(@filename)
+        @parser ||= parser_klass.new(@contents)
       end
 
       private

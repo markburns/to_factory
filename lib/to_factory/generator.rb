@@ -1,22 +1,20 @@
 module ToFactory
   class Generator
-    attr_accessor :model_class, :object_instance
-
-    def initialize(object)
+    def initialize(object, name)
       unless object.is_a? ActiveRecord::Base
         message = "Generator requires initializing with an ActiveRecord::Base instance"
         message << "\n  but received #{object.inspect}"
         raise ToFactory::MissingActiveRecordInstanceException.new(message)
       end
 
-      @model_class = object.class.to_s
-      @object_instance = object
+      @name = add_quotes name
+      @attributes = object.attributes
     end
 
-    def to_factory
-      header do
+    def to_factory(parent_name=nil)
+      header(parent_name) do
         to_skip = [:id, :created_at, :updated_at]
-        attributes = object_instance.attributes.delete_if{|key, _| to_skip.include? key.to_sym}
+        attributes = @attributes.delete_if{|key, _| to_skip.include? key.to_sym}
 
         attributes.map do |attr, value|
           factory_attribute(attr, value)
@@ -25,24 +23,24 @@ module ToFactory
     end
 
 
-    def header(&block)
+    def header(parent_name=nil, &block)
       if ToFactory.new_syntax?
-        modern_header &block
+        modern_header parent_name, &block
       else
-        header_factory_girl_1 &block
+        header_factory_girl_1 parent_name, &block
       end
     end
 
-    def modern_header(&block)
-      out = "FactoryGirl.define do\n"
-      out << "  factory(:#{name}) do\n"
+    def modern_header(parent_name=nil, &block)
+      parent_clause = parent_name ?  ", :parent => :#{add_quotes parent_name}" : ""
+
+      out =  "  factory(:#{@name}#{parent_clause}) do\n"
       out << yield.to_s
       out << "  end\n"
-      out << "end\n"
     end
 
-    def header_factory_girl_1(&block)
-      out = "Factory.define(:#{name}) do |o|\n"
+    def header_factory_girl_1(parent_name=nil, &block)
+      out = "Factory.define(:#{@name}) do |o|\n"
       out << yield.to_s
       out << "end\n"
     end
@@ -55,22 +53,26 @@ module ToFactory
       end
     end
 
-    def name
-      name = model_class.to_s.underscore
+    private
+
+    def add_quotes(name)
+      name = name.to_s
 
       if name["/"]
-        "\"#{name}\""
+        if name[/^".*"$/]
+          name
+        else
+          "\"#{name}\""
+        end
       else
         name
       end
     end
 
-    private
-
     def inspect_value(value)
       case value
       when Time, DateTime
-        value.strftime("%Y-%m-%dT%H:%MZ").inspect
+        in_utc(value).strftime("%Y-%m-%dT%H:%MZ").inspect
       when BigDecimal
         value.to_f.inspect
       when Hash
@@ -80,6 +82,10 @@ module ToFactory
       else
         value.inspect
       end
+    end
+
+    def in_utc(value)
+      value.in_time_zone(Time.find_zone("UTC"))
     end
   end
 end

@@ -1,24 +1,21 @@
 require "to_factory/version"
 require "to_factory/config"
 require "to_factory/generator"
-require "to_factory/hash_collision_detection"
-require "to_factory/file_system"
+require "to_factory/collation"
+require "to_factory/file_writer"
+require "to_factory/finders/model"
+require "to_factory/finders/factory"
+require "to_factory/definition_group"
 require "to_factory/file_sync"
-require "to_factory/factory_collection"
 require "to_factory/parsing/file"
-require "to_factory/model_finder"
-require "to_factory/argument_parser"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
 
   class << self
-    def generate!(instance=nil)
-      if instance
-        ToFactory::Generator.new(instance).to_factory
-      else
-        FileWriter.new.all!
-      end
+    def from_instance(instance, name=nil)
+      name ||= instance.class.name
+      Generator.new(instance, name).to_factory
     end
 
     def new_syntax?
@@ -36,12 +33,10 @@ end
 
 public
 
-def ToFactory(args)
-  if args.is_a?(ActiveRecord::Base)
-    ToFactory.generate! args
-  else
-    ToFactory::ArgumentParser.new(args).parse
-  end
+def ToFactory(args=nil)
+  meth = ToFactory::FileSync.method(:new)
+  sync = args ? meth.call(args) : meth.call
+  sync.perform
 end
 
 if defined?(Rails)
