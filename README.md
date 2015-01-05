@@ -30,12 +30,24 @@ group :test, :development do
 end
 ```
 
-#Usage
+
+#Warning
+`ToFactory` writes into the `spec/factories` folder. Whilst it
+is tested and avoids overwriting existing factories,
+it is recommended that you execute after committing or when in a known
+safe state.
+
+#Example
+```bash
+git add spec/factories
+git commit "I know what I am doing"
+rails c
+>ToFactory()
+```
 
 ```ruby
 #Generate all factories
 ToFactory()
-
 #outputs the first record of each ActiveRecord::Base subclass in the models folder
 #to spec/factories
 
