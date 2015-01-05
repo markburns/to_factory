@@ -16,14 +16,6 @@ module ToFactory
         end
       end
 
-      def <=>(other)
-        @attribute <=> other
-      end
-
-      def ==(other)
-        to_s == other.to_s
-      end
-
       private
 
       def inspect_value(value)
