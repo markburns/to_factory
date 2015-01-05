@@ -34,9 +34,10 @@ Gem::Specification.new do |spec|
   old_active_record = RUBY_VERSION =~ /^1\.8|^1.9\.[1|2]/
 
   spec.add_dependency "ruby2ruby"
+  spec.add_dependency "deep_merge"
 
   if old_active_record
-    spec.add_dependency  'activerecord', "> 2.0", "< 4.0"
+    spec.add_dependency  'activerecord', ">2.0", "< 4.0"
     spec.add_dependency  'i18n', "< 0.7"
     spec.add_development_dependency "factory_girl", "< 2.0"
   else
