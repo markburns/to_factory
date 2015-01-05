@@ -11,10 +11,12 @@ ToFactory
 
 Easily add factories with valid data for an existing project.
 
-Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x
-
 If you find yourself working on a project without tests/factories or only using fixtures,
 then use this gem to quickly generate a factory from an existing object.
+
+Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x
+
+Reads and writes both new `FactoryGirl`, syntax or older `Factory.define` syntax
 
 #Installation
 ___________
@@ -22,6 +24,7 @@ ___________
 ```ruby
 
 #Gemfile
+#add to whichever environments you want to generate data from
 group :test, :development do
   gem 'to_factory'
 end
@@ -29,33 +32,40 @@ end
 
 #Usage
 
-##Rails auto generation
-_____
-Generates a factory from the first record of each `ActiveRecord::Base` descendant
-found in `app/models/**/*.rb`
-
-###From Ruby
-
 ```ruby
 #Generate all factories
-ToFactory.generate!
+ToFactory()
+
+#outputs the first record of each ActiveRecord::Base subclass in the models folder
+#to spec/factories
 
 #Choose input/output directories
-ToFactory.models    = "models/this/subfolder/only"
-ToFactory.factories = "spec/support/factories"
+ToFactory.models    = "models/this/subfolder/only" #default "./app/models"
+ToFactory.factories = "spec/support/factories"     #default "./spec/factories"
 ToFactory()
 
 #Exclude classes
 ToFactory(exclude: [User, Project])
 
+#Use Adhoc instances from the console
 ToFactory User.last
-#=>
+
+#writes to spec/factories/user.rb
 FactoryGirl.define
   factory(:user) do |u|
     email "test@example.com"
     name "Mike"
   end
 end
+
+#doesn't overwrite existing factories
+ToFactory User.last
+#Exception =>
+ToFactory::AlreadyExists: an item for each of the following keys :user already exists
+
+#Choose specific name
+ToFactory :admin => User.last
+#appends to spec/factories/user.rb
 
 ```
 
