@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mark Burns"]
   spec.email         = ["markthedeveloper@gmail.com"]
   spec.summary     = %q{Turn ActiveRecord instances into factories}
-  spec.description = %q{ActiveRecord::Base#to_factory method to create factory_girl definitions from real data}
+  spec.description = %q{Autogenerate and append/create factory_girl definitions from the console}
   spec.homepage      = ""
   spec.license       = "MIT"
 
