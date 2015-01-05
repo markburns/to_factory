@@ -22,7 +22,6 @@ module ToFactory
       end
     end
 
-
     def header(parent_name=nil, &block)
       if ToFactory.new_syntax?
         modern_header parent_name, &block
@@ -32,29 +31,34 @@ module ToFactory
     end
 
     def modern_header(parent_name=nil, &block)
-      out =  "  factory(:#{@name}#{parent_clause(parent_name)}) do\n"
-      out << yield.to_s
-      out << "  end\n"
+      generic_header(parent_name, "factory", "", &block)
     end
 
     def header_factory_girl_1(parent_name=nil, &block)
-      out = "Factory.define(:#{@name}#{parent_clause(parent_name)}) do |o|\n"
-      out << yield.to_s
-      out << "end\n"
+      generic_header(parent_name, "Factory.define", "|o|", &block)
     end
 
     def factory_attribute(attr, value)
+      attribute = "#{attr} #{inspect_value(value)}"
+
       if ToFactory.new_syntax?
-        "    #{attr} #{inspect_value(value)}"
+        "    #{attribute}"
       else
-        "  o.#{attr} #{inspect_value(value)}"
+        "  o.#{attribute}"
       end
     end
 
     private
-      def parent_clause(name)
-        name ?  ", :parent => :#{add_quotes name}" : ""
-      end
+
+    def generic_header(parent_name, factory_start, block_arg, &block)
+      out =  "  #{factory_start}(:#{@name}#{parent_clause(parent_name)}) do#{block_arg}\n"
+      out << yield.to_s
+      out << "  end\n"
+    end
+
+    def parent_clause(name)
+      name ?  ", :parent => :#{add_quotes name}" : ""
+    end
 
     def add_quotes(name)
       name = name.to_s
