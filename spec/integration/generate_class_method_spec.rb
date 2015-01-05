@@ -26,6 +26,21 @@ describe ToFactory do
       expect(user_file).to include content
     end
 
+    context "excluding classes" do
+      before do
+        user
+      end
+
+      it "ignores specified classes" do
+        ToFactory(:exclude => ToFactory::User)
+        expect(user_file).to be_nil
+
+        #sanity check
+        ToFactory()
+        expect(user_file).to be_present
+      end
+    end
+
     context "with no existing file" do
       it "creates the file" do
         expect(user_file).to be_nil

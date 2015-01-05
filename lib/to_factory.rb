@@ -34,9 +34,16 @@ end
 public
 
 def ToFactory(args=nil)
+  exclusions = if args.is_a?(Hash)
+                 args.delete(:exclude) || []
+               else
+                 []
+               end
+
   meth = ToFactory::FileSync.method(:new)
   sync = args ? meth.call(args) : meth.call
-  sync.perform
+
+  sync.perform(exclusions)
 end
 
 if defined?(Rails)

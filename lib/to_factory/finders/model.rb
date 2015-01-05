@@ -1,13 +1,14 @@
 module ToFactory
   module Finders
     class Model
-      def call
+      def call(exclusions=[])
         instances = []
 
         Dir.glob("#{ToFactory.models}/**/*.rb").each do |file|
           File.readlines(file).each do |f|
             if match = f.match(/class (.*) ?</)
               klass = rescuing_require file, match
+              break if exclusions.include?(klass)
               instance = get_active_record_instance(klass)
               instances << instance if instance
               break

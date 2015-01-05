@@ -8,14 +8,14 @@ module ToFactory
       @factory_finder = ff
     end
 
-    def perform
-      definitions = Collation.merge(new_definitions, pre_existing)
+    def perform(exclusions=[])
+      definitions = Collation.merge(new_definitions(exclusions), pre_existing)
 
       @file_writer.write(definitions)
     end
 
-    def new_definitions
-      instances = @model_finder.call
+    def new_definitions(exclusions=[])
+      instances = @model_finder.call(exclusions)
 
       DefinitionGroup.perform(instances)
     end
@@ -30,12 +30,14 @@ module ToFactory
       if m.respond_to?(:call)
         m
       else
-        lambda{
-          if m.is_a?(ActiveRecord::Base)
+        lambda{|exclusions=[]|
+          records = if m.is_a?(ActiveRecord::Base)
             Array m
           else
             m
           end
+
+          records.reject{|o| exclusions.include?(o.class)}
         }
       end
     end

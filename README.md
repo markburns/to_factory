@@ -44,6 +44,9 @@ ToFactory.generate!
 ToFactory.models    = "models/this/subfolder/only"
 ToFactory.factories = "spec/support/factories"
 ToFactory()
+
+#Exclude classes
+ToFactory(exclude: [User, Project])
 ```
 
 
