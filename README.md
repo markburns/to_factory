@@ -61,7 +61,7 @@ end
 #doesn't overwrite existing factories
 ToFactory User.last
 #Exception =>
-ToFactory::AlreadyExists: an item for each of the following keys :user already exists
+#ToFactory::AlreadyExists: an item for each of the following keys :user already exists
 
 #Choose specific name
 ToFactory :admin => User.last
