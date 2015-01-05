@@ -47,14 +47,8 @@ ToFactory()
 
 #Exclude classes
 ToFactory(exclude: [User, Project])
-```
 
-
-##Adhoc
-```bash
-#rails console
-
-> puts ToFactory User.first
+ToFactory User.last
 #=>
 FactoryGirl.define
   factory(:user) do |u|
