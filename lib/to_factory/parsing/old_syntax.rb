@@ -1,6 +1,6 @@
 module ToFactory
   module Parsing
-    class NewSyntax < Syntax
+    class OldSyntax < Syntax
       def header?
         sexp[1][1][1] == :FactoryGirl rescue false
       end

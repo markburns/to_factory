@@ -2,6 +2,7 @@ require 'ruby2ruby'
 require 'ruby_parser'
 require 'to_factory/parsing/syntax'
 require 'to_factory/parsing/new_syntax'
+require 'to_factory/parsing/old_syntax'
 
 module ToFactory
   module Parsing
@@ -24,6 +25,7 @@ module ToFactory
       end
 
       def parser
+        debugger
         @parser ||= parser_klass.new(@contents)
       end
 

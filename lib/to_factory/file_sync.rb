@@ -30,7 +30,8 @@ module ToFactory
       if m.respond_to?(:call)
         m
       else
-        lambda{|exclusions=[]|
+        lambda{|exclusions|
+          exclusions ||= []
           records = if m.is_a?(ActiveRecord::Base)
             Array m
           else

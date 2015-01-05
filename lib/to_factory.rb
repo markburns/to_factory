@@ -20,7 +20,7 @@ module ToFactory
 
     def new_syntax?
       require "factory_girl"
-      if FactoryGirl::VERSION.to_s[0].to_i > 1
+      if FactoryGirl::VERSION.to_s[0..0].to_i > 1
         true
       else
         false

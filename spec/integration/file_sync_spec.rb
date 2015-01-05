@@ -50,12 +50,11 @@ describe "FileSync" do
     let(:sync) { ToFactory::FileSync.new(user) }
     before do
       sync.perform
-      expect(user_file   ).to match_sexp user_with_header
+      expect(user_file).to match_sexp user_with_header
     end
 
     it "raises an error" do
-      expect(lambda{ sync.perform 
-      }).to raise_error ToFactory::AlreadyExists
+      expect(lambda{ sync.perform }).to raise_error ToFactory::AlreadyExists
     end
 
     context "with a named factory" do

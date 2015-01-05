@@ -36,9 +36,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ruby2ruby"
 
   if old_active_record
-    spec.add_dependency  'activerecord', ">2.0", "< 4.0"
+    spec.add_dependency  'activerecord', "> 2.0", "< 4.0"
     spec.add_dependency  'i18n', "< 0.7"
-    spec.add_development_dependency "factory_girl", "<3.0"
+    spec.add_development_dependency "factory_girl", "< 2.0"
   else
     spec.add_dependency  'activerecord', ">3.0"
     spec.add_development_dependency "factory_girl", "~> 4.5"
