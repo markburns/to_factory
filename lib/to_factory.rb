@@ -27,7 +27,7 @@ module ToFactory
       else
         false
       end
-    rescue NameError
+    rescue NameError, ArgumentError
       false
     end
   end
@@ -37,7 +37,9 @@ public
 
 def ToFactory(args=nil)
   exclusions = if args.is_a?(Hash)
-                 args.delete(:exclude) || []
+                 exclusions = Array(args.delete(:exclude) || [])
+                 args = nil if args.keys.length == 0
+                 exclusions
                else
                  []
                end

@@ -4,7 +4,7 @@ describe "ToFactory  Configuration" do
   end
 
   it do
-    expect(ToFactory.factories).to eq "./tmp/factories"
+    expect(ToFactory.factories).to eq "./spec/factories"
     ToFactory.factories = "factories dir"
 
     expect(ToFactory.factories).to eq "factories dir"

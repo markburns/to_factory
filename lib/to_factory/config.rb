@@ -8,7 +8,7 @@ module ToFactory
     end
 
     def factories
-      @factories ||= "./tmp/factories"
+      @factories ||= "./spec/factories"
     end
 
     def models

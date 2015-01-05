@@ -74,7 +74,7 @@ module ToFactory
       case value
       when Time, DateTime
         time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
-        time.gsub(/UTC"$/, "Z\"")
+        time.gsub(/UTC"$/, "Z\"").gsub(/GMT"$/, "Z\"")
       when BigDecimal
         value.to_f.inspect
       when Hash

@@ -29,15 +29,30 @@ describe ToFactory do
     context "excluding classes" do
       before do
         user
+        project
       end
 
       it "ignores specified classes" do
         ToFactory(:exclude => ToFactory::User)
         expect(user_file).to be_nil
+        expect(project_file).to be_present
+      end
+
+      it "ignores specified classes - sanity check" do
+        ToFactory(:exclude => ToFactory::Project)
+        expect(user_file).to be_present
+        expect(project_file).to be_nil
+      end
+
+      it "doesn't auto generate any if :all is specified" do
+        ToFactory(:exclude => :all)
+        expect(user_file).to be_nil
+        expect(project_file).to be_nil
 
         #sanity check
         ToFactory()
         expect(user_file).to be_present
+        expect(project_file).to be_present
       end
     end
 

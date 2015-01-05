@@ -15,6 +15,8 @@ module ToFactory
     end
 
     def new_definitions(exclusions=[])
+      return {} if exclusions == [:all]
+
       instances = @model_finder.call(exclusions)
 
       DefinitionGroup.perform(instances)
