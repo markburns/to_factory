@@ -25,7 +25,6 @@ module ToFactory
       end
 
       def parser
-        debugger
         @parser ||= parser_klass.new(@contents)
       end
 
