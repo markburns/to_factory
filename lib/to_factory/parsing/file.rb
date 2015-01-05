@@ -15,7 +15,7 @@ module ToFactory
 
       def self.from_file(filename)
         contents = ::File.read filename rescue nil
-        raise ArgumentError.new "Invalid file #{filename}"  if contents.empty?
+        raise ArgumentError.new "Invalid file #{filename}"  if contents.to_s.length == 0
 
         new(contents)
       end

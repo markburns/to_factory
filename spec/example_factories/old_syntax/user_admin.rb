@@ -1,13 +1,13 @@
-factory(:"to_factory/user") do
-  birthday "2014-07-08T15:30Z"
-  email "test@example.com"
-  name "Jeff"
-  some_id 8
+Factory.define(:"to_factory/user") do |o|
+  o.birthday "2014-07-08T15:30Z"
+  o.email "test@example.com"
+  o.name "Jeff"
+  o.some_id 8
 end
 
-factory(:admin, :parent => :"to_factory/user") do
-  birthday "2014-07-08T15:30Z"
-  email "admin@example.com"
-  name "Admin"
-  some_id 9
+Factory.define(:admin, :parent => :"to_factory/user") do |o|
+  o.birthday "2014-07-08T15:30Z"
+  o.email "admin@example.com"
+  o.name "Admin"
+  o.some_id 9
 end

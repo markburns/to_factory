@@ -1,8 +1,8 @@
 describe ToFactory::DefinitionGroup do
   let(:user) { create_user! }
   let(:admin) { create_admin! }
-  let(:user_definition) { File.read "./spec/example_factories/new_syntax/user.rb"}
-  let(:admin_definition) { File.read "./spec/example_factories/new_syntax/admin.rb"}
+  let(:user_definition) { File.read "./spec/example_factories/#{version}_syntax/user.rb"}
+  let(:admin_definition) { File.read "./spec/example_factories/#{version}_syntax/admin.rb"}
   let(:group) { ToFactory::DefinitionGroup.new }
 
   it do

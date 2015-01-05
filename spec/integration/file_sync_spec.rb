@@ -2,11 +2,12 @@ describe "FileSync" do
   let(:user) { create_user!  }
   let(:admin) { create_admin!  }
   let(:project) { create_project!  }
-  let(:expected_user_file) { File.read("./spec/example_factories/new_syntax/user.rb") }
-  let(:expected_user_with_header_file) { File.read("./spec/example_factories/new_syntax/user_with_header.rb") }
-  let(:expected_admin_file) { File.read("./spec/example_factories/new_syntax/admin.rb") }
-  let(:user_with_header) { File.read("./spec/example_factories/new_syntax/user_with_header.rb") }
-  let(:user_admin_with_header) { File.read("./spec/example_factories/new_syntax/user_admin_with_header.rb") }
+  let(:version) { ToFactory.new_syntax? ? "new" : "old"}
+  let(:expected_user_file)             { File.read("./spec/example_factories/#{version}_syntax/user.rb") }
+  let(:expected_user_with_header_file) { File.read("./spec/example_factories/#{version}_syntax/user_with_header.rb") }
+  let(:expected_admin_file)            { File.read("./spec/example_factories/#{version}_syntax/admin.rb") }
+  let(:user_with_header)               { File.read("./spec/example_factories/#{version}_syntax/user_with_header.rb") }
+  let(:user_admin_with_header)         { File.read("./spec/example_factories/#{version}_syntax/user_admin_with_header.rb") }
 
 
   before do

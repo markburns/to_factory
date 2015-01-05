@@ -12,8 +12,8 @@ describe ToFactory do
     File.read("./tmp/factories/to_factory/project.rb") rescue nil
   end
 
-  let(:expected_user_file) { File.read "./spec/example_factories/new_syntax/user_with_header.rb"}
-  let(:expected_project_file) { File.read "./spec/example_factories/new_syntax/project_with_header.rb"}
+  let(:expected_user_file) { File.read "./spec/example_factories/#{version}_syntax/user_with_header.rb"}
+  let(:expected_project_file) { File.read "./spec/example_factories/#{version}_syntax/project_with_header.rb"}
 
   describe "Object#ToFactory" do
     it "generates all factories" do
@@ -66,9 +66,20 @@ describe ToFactory do
 
       context "with a name for the factory" do
         it "appends to the file" do
-          user_file_includes('factory(:"to_factory/user"')
+          if ToFactory.new_syntax?
+            user_file_includes('factory(:"to_factory/user"')
+          else
+            user_file_includes('Factory.define(:"to_factory/user"')
+          end
+
           ToFactory(:specific_user => user)
-          user_file_includes('factory(:specific_user, :parent => :"to_factory/user"')
+          if ToFactory.new_syntax?
+            user_file_includes('factory(:specific_user, :parent => :"to_factory/user"')
+          else
+            user_file_includes('Factory.define(:specific_user, :parent => :"to_factory/user"')
+          end
+
+
         end
       end
 

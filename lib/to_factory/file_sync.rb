@@ -38,7 +38,7 @@ module ToFactory
             m
           end
 
-          records.reject{|o| exclusions.include?(o.class)}
+          records.reject{|o,_| exclusions.include?(o.class)}
         }
       end
     end

@@ -2,7 +2,7 @@ module ToFactory
   module Parsing
     class OldSyntax < Syntax
       def header?
-        sexp[1][1][1] == :FactoryGirl rescue false
+        false
       end
 
       def multiple_factories?

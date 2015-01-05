@@ -2,12 +2,12 @@ describe ToFactory::Finders::Factory do
   describe "#call" do
     before do
       FileUtils.mkdir_p "./tmp/factories/to_factory"
-      FileUtils.cp "./spec/example_factories/new_syntax/user_admin_with_header.rb",
+      FileUtils.cp "./spec/example_factories/#{version}_syntax/user_admin_with_header.rb",
         "./tmp/factories/to_factory/user.rb"
     end
 
-    let(:user_file_contents) { File.read "./spec/example_factories/new_syntax/user.rb"}
-    let(:admin_file_contents){ File.read "./spec/example_factories/new_syntax/admin.rb" }
+    let(:user_file_contents) { File.read "./spec/example_factories/#{version}_syntax/user.rb"}
+    let(:admin_file_contents){ File.read "./spec/example_factories/#{version}_syntax/admin.rb" }
 
     it "reads all the factories" do
       finder = ToFactory::Finders::Factory.new

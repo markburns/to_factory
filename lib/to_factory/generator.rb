@@ -32,15 +32,13 @@ module ToFactory
     end
 
     def modern_header(parent_name=nil, &block)
-      parent_clause = parent_name ?  ", :parent => :#{add_quotes parent_name}" : ""
-
-      out =  "  factory(:#{@name}#{parent_clause}) do\n"
+      out =  "  factory(:#{@name}#{parent_clause(parent_name)}) do\n"
       out << yield.to_s
       out << "  end\n"
     end
 
     def header_factory_girl_1(parent_name=nil, &block)
-      out = "Factory.define(:#{@name}) do |o|\n"
+      out = "Factory.define(:#{@name}#{parent_clause(parent_name)}) do |o|\n"
       out << yield.to_s
       out << "end\n"
     end
@@ -54,6 +52,9 @@ module ToFactory
     end
 
     private
+      def parent_clause(name)
+        name ?  ", :parent => :#{add_quotes name}" : ""
+      end
 
     def add_quotes(name)
       name = name.to_s
