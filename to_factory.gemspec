@@ -22,6 +22,9 @@ Gem::Specification.new do |spec|
 
   if RUBY_VERSION =~ /^1\.8/
     spec.add_development_dependency "ruby-debug"
+    spec.add_development_dependency "database_cleaner", "~> 0.3"
+  else
+    spec.add_development_dependency "database_cleaner", "~> 1.4.0"
   end
 
   if RUBY_VERSION =~ /^2\.\d/
@@ -29,6 +32,8 @@ Gem::Specification.new do |spec|
   end
 
   old_active_record = RUBY_VERSION =~ /^1\.8|^1.9\.[1|2]/
+
+  spec.add_dependency "ruby2ruby"
 
   if old_active_record
     spec.add_dependency  'activerecord', ">2.0", "< 4.0"

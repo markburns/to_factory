@@ -6,9 +6,9 @@ context "full integration" do
   it "#to_factory linting the output" do
     require "factory_girl"
     if FactoryGirl::VERSION =~ /^4\./
-      factory = ToFactory(user)
+      ToFactory(user)
 
-      eval factory
+      load "./tmp/factories/to_factory/user.rb"
 
       FactoryGirl.lint
     end

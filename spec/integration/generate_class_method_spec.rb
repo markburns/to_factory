@@ -1,21 +1,66 @@
-describe "ToFactory.generate!" do
-  before do
-    FileUtils.rm_rf "./tmp/factories"
-    ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8
-    ToFactory::Project.create :name => "My Project", :objective => "easy testing", :some_id => 9
+describe ToFactory do
+  let!(:user)    { create_user! }
+  let!(:project) { create_project!}
+
+  before { FileUtils.rm_rf "./tmp/factories" }
+
+  def user_file
+    File.read("./tmp/factories/to_factory/user.rb") rescue nil
   end
 
-  let(:user_file) do
-    File.read("./tmp/factories/to_factory/user.rb")
+  def project_file
+    File.read("./tmp/factories/to_factory/project.rb") rescue nil
   end
 
-  let(:project_file) do
-    File.read("./tmp/factories/to_factory/project.rb")
-  end
+  let(:expected_user_file) { File.read "./spec/example_factories/new_syntax/user_with_header.rb"}
+  let(:expected_project_file) { File.read "./spec/example_factories/new_syntax/project_with_header.rb"}
 
-  it "generates all factories" do
-    ToFactory.generate!(:models => "spec/support", :factories => "tmp/factories")
-    expect(user_file)   .to eq ToFactory(ToFactory::User.   first)
-    expect(project_file).to eq ToFactory(ToFactory::Project.first)
+  describe "Object#ToFactory" do
+    it "generates all factories" do
+      ToFactory()
+      expect(user_file)   .to match_sexp expected_user_file
+      expect(project_file).to match_sexp expected_project_file
+    end
+
+    def user_file_includes(content)
+      expect(user_file).to include content
+    end
+
+    context "with no existing file" do
+      it "creates the file" do
+        expect(user_file).to be_nil
+        ToFactory(user)
+        expect(user_file).to be_present
+      end
+
+      context "with single ActiveRecord::Base instance argument" do
+        it "creates the file" do
+          expect(user_file).to be_nil
+          ToFactory(user)
+          expect(user_file).to be_present
+        end
+      end
+    end
+
+    context "with an existing file" do
+      before do
+        expect(user_file).to be_nil
+        ToFactory(user)
+        expect(user_file).to be_present
+      end
+
+      context "with a name for the factory" do
+        it "appends to the file" do
+          user_file_includes('factory(:"to_factory/user"')
+          ToFactory(:specific_user => user)
+          user_file_includes('factory(:specific_user, :parent => :"to_factory/user"')
+        end
+      end
+
+      it "without a name" do
+        expect(lambda{ToFactory(user)}).
+               to raise_error ToFactory::AlreadyExists
+      end
+    end
   end
 end
