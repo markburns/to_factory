@@ -73,7 +73,8 @@ module ToFactory
     def inspect_value(value)
       case value
       when Time, DateTime
-        in_utc(value).strftime("%Y-%m-%dT%H:%MZ").inspect
+        time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
+        time.gsub(/UTC"$/, "Z\"")
       when BigDecimal
         value.to_f.inspect
       when Hash
@@ -85,8 +86,8 @@ module ToFactory
       end
     end
 
-    def in_utc(value)
-      value.in_time_zone(Time.find_zone("UTC"))
+    def in_utc(time)
+      time.utc
     end
   end
 end
