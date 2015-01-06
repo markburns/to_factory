@@ -36,13 +36,13 @@ describe ToFactory::Parsing::File do
   end
 
   describe "#parse" do
-    context "with bug" do
-      let(:filename) { "spec/example_factories/#{version}_syntax/#{'buggy_country'}.rb"}
+    context "with multiple levels of parent classes" do
+      let(:filename) { "spec/example_factories/#{version}_syntax/#{'user_admin_super_admin'}.rb"}
 
       it do
-        result = parser.parse[ToFactory::User]
+        result = parser.parse
 
-        expect(result[:"to_factory/country" ]).to match_sexp "123"
+        expect(result[ToFactory::User].keys).to match_array [:super_admin, :admin, :"to_factory/user"]
       end
     end
 

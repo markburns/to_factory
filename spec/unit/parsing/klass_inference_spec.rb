@@ -21,4 +21,9 @@ describe ToFactory::Parsing::KlassInference do
       expect(result).to eq expected
     end
   end
+
+  it do
+
+    expect(lambda{inference.infer("unknown")}).to raise_error
+  end
 end

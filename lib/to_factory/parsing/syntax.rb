@@ -16,9 +16,10 @@ module ToFactory
       def parse
         result = {}
         @klass_inference = KlassInference.new
+        @klass_inference.setup(all_factories)
 
         all_factories.each do |factory_name, parent_name, ruby|
-          klass = @klass_inference.infer(factory_name, parent_name)
+          klass = @klass_inference.infer(factory_name)
           result[klass] ||= {}
           result[klass][factory_name] = ruby
         end

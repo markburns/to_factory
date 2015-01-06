@@ -5,21 +5,6 @@ module ToFactory
     class KlassInference
       def initialize
         @mapping = {}
-        # :name     => :parent_a
-        # :parent_a => :parent_b
-        # :parent_b => ParentB
-        #
-        # 
-        #fetch(name) ParentB
-        # @mapping[:name]
-        # => :parent_a
-        # @mapping[:parent_a]
-        # => :parent_b
-        # @mapping[:parent_b]
-        # => ParentB
-        #
-        # @mapping[name]
-        #fetch(name2) ParentC
       end
 
       def setup(klasses_and_parents)
