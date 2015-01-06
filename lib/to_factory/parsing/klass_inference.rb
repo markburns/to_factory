@@ -24,10 +24,10 @@ module ToFactory
 
       private
 
-      def to_const(parent)
-        parent.to_s.camelize.constantize
+      def to_const(klass)
+        klass.to_s.camelize.constantize
       rescue NameError
-        parent
+        klass
       end
     end
   end

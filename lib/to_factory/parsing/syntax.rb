@@ -45,10 +45,6 @@ module ToFactory
         end
       end
 
-      def parent_from(x)
-        x[1][-1][-1][-1] rescue name_from(x)
-      end
-
       def name_from(sexp)
         sexp[1][3][1]
       end
