@@ -36,6 +36,16 @@ describe ToFactory::Parsing::File do
   end
 
   describe "#parse" do
+    context "with bug" do
+      let(:filename) { "spec/example_factories/#{version}_syntax/#{'buggy_country'}.rb"}
+
+      it do
+        result = parser.parse[ToFactory::User]
+
+        expect(result[:"to_factory/country" ]).to match_sexp "123"
+      end
+    end
+
     context "file: user" do
       let(:filename) { "spec/example_factories/#{version}_syntax/#{'user'}.rb"}
 
