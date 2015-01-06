@@ -1,3 +1,5 @@
+require "to_factory/parsing/klass_inference"
+
 module ToFactory
   module Parsing
     class Syntax
@@ -15,7 +17,7 @@ module ToFactory
         result = {}
         @klass_inference = KlassInference.new
 
-        parse_multiple do |factory_name, parent_name, ruby|
+        all_factories.each do |factory_name, parent_name, ruby|
           klass = @klass_inference.infer(factory_name, parent_name)
           result[klass] ||= {}
           result[klass][factory_name] = ruby
@@ -36,9 +38,9 @@ module ToFactory
         header? ?  sexp[3] : sexp
       end
 
-      def parse_multiple(&block)
-        factories.each do |x|
-          yield name_from(x), parent_from(x), to_ruby(x)
+      def all_factories
+        factories.map do |x|
+          [name_from(x), parent_from(x), to_ruby(x)]
         end
       end
 
@@ -67,20 +69,6 @@ module ToFactory
       def ruby_parser
         @ruby_parseer ||= RubyParser.new
       end
-
-      class KlassInference
-        def initialize
-          @mapping = {}
-        end
-
-        def infer(klass, parent_klass=nil)
-          @mapping[klass] ||= klass.to_s.camelize.constantize
-        rescue
-          infer(parent_klass)
-        end
-      end
-
-
     end
   end
 end
