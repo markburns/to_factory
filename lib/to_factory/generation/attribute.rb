@@ -7,31 +7,36 @@ module ToFactory
       end
 
       def to_s
-        attribute = "#{@attribute} #{inspect_value(@value)}"
+        setter = "#{@attribute}#{inspect_value(@value)}"
 
         if ToFactory.new_syntax?
-          "    #{attribute}"
+          "    #{setter}"
         else
-          "  o.#{attribute}"
+          "  o.#{setter}"
         end
       end
 
-      private
-
       def inspect_value(value)
-        case value
+        formatted = case value
         when Time, DateTime
           time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
           time.gsub(/UTC"$/, "Z\"").gsub(/GMT"$/, "Z\"")
         when BigDecimal
           value.to_f.inspect
         when Hash
-          hash = value.inject({}){|result, (k, v)| result[k] = inspect_value(v); result}
+          formatted = value.inspect.gsub(/=>/, " => ")
+          "(#{formatted})"
         when Array
           value.map{|v| inspect_value(v)}
         else
           value.inspect
         end
+
+        unless value.is_a?(Hash)
+          formatted = " #{formatted}"
+        end
+
+        formatted
       end
 
       def in_utc(time)
