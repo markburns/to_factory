@@ -26,6 +26,11 @@ module ToFactory
     rescue NameError, ArgumentError
       false
     end
+
+    def definitions
+      results = Finders::Factory.new.call
+      results.map{|_, r| r.keys}.flatten
+    end
   end
 end
 

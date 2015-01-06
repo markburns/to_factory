@@ -15,6 +15,14 @@ describe ToFactory do
   let(:expected_user_file) { File.read "./spec/example_factories/#{version}_syntax/user_with_header.rb"}
   let(:expected_project_file) { File.read "./spec/example_factories/#{version}_syntax/project_with_header.rb"}
 
+  describe "ToFactory.definitions" do
+    it do
+      ToFactory()
+      expect(ToFactory.definitions).to match_array ["to_factory/user", "to_factory/project"]
+    end
+
+  end
+
   describe "Object#ToFactory" do
     it "generates all factories" do
       ToFactory()
