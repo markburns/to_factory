@@ -62,6 +62,11 @@ ToFactory(exclude: [User, Project])
 #Use Adhoc instances from the console
 ToFactory User.last
 
+#List defined factory names
+ToFactory.definitions
+#=> [:user, :admin, :project]
+
+
 #writes to spec/factories/user.rb
 FactoryGirl.define
   factory(:user) do |u|
