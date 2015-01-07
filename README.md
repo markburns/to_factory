@@ -14,7 +14,7 @@ Easily add factories with valid data for an existing project.
 If you find yourself working on a project without tests/factories or only using fixtures,
 then use this gem to quickly generate a factory from an existing object.
 
-Tested against Ruby 1.8.7, 1.9.3, 2.0.0,  2.1.x
+Tested against Ruby 1.8.7, 1.9.3, 2.0.0,  2.1.x, 2.2.0
 
 Reads and writes both new `FactoryGirl`, syntax or older `Factory.define` syntax
 
