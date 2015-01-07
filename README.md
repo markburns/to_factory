@@ -88,7 +88,6 @@ ToFactory :admin => User.last
 
 #Known bugs/limitations
 * Factory generation does not follow a hierarchical order, so factory files may require manual editing for now.
-* Serialized hashes are not generated correctly
 
 #Other useful projects
 
