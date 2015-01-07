@@ -1,5 +1,5 @@
-:wrench:
-=========
+##:wrench:
+
 ToFactory
 =========
 
@@ -21,7 +21,7 @@ Easily add factories with valid data for an existing project.
 Tested against Ruby 1.8.7, 1.9.3, 2.0.0,  2.1.x, 2.2.0
 
 
-# :file_folder:
+## :file_folder:
 # Installation
 
 ```ruby
@@ -34,14 +34,14 @@ end
 ```
 
 
-# :warning:
+## :warning:
 # Warning
 `ToFactory` writes into the `spec/factories` folder. Whilst it
 is tested and avoids overwriting existing factories,
 it is recommended that you execute after committing or when in a known
 safe state.
 
-# :computer:
+## :computer:
 # Example
 
 ```bash
