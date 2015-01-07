@@ -1,4 +1,6 @@
-:wrench: ToFactory
+:wrench:
+=========
+ToFactory
 =========
 
 [![Build Status](https://travis-ci.org/markburns/to_factory.svg)](https://travis-ci.org/markburns/to_factory)
@@ -19,8 +21,8 @@ Easily add factories with valid data for an existing project.
 Tested against Ruby 1.8.7, 1.9.3, 2.0.0,  2.1.x, 2.2.0
 
 
-#Installation
-___________
+# :file_folder:
+# Installation
 
 ```ruby
 
@@ -32,13 +34,16 @@ end
 ```
 
 
-# :warning: Warning
+# :warning:
+# Warning
 `ToFactory` writes into the `spec/factories` folder. Whilst it
 is tested and avoids overwriting existing factories,
 it is recommended that you execute after committing or when in a known
 safe state.
 
-#Example
+# :computer:
+# Example
+
 ```bash
 git add spec/factories
 git commit -m "I know what I am doing"
