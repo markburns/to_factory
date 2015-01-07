@@ -32,7 +32,7 @@ end
 ```
 
 
-#Warning
+#Warning :warning:
 `ToFactory` writes into the `spec/factories` folder. Whilst it
 is tested and avoids overwriting existing factories,
 it is recommended that you execute after committing or when in a known
