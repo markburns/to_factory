@@ -41,7 +41,7 @@ safe state.
 #Example
 ```bash
 git add spec/factories
-git commit "I know what I am doing"
+git commit -m "I know what I am doing"
 rails c
 >ToFactory()
 ```
