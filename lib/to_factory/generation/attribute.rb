@@ -16,7 +16,7 @@ module ToFactory
         end
       end
 
-      def inspect_value(value)
+      def inspect_value(value, nested=false)
         formatted = case value
         when Time, DateTime
           time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
@@ -24,15 +24,24 @@ module ToFactory
         when BigDecimal
           value.to_f.inspect
         when Hash
-          formatted = value.inspect.gsub(/=>/, " => ")
-          "(#{formatted})"
+          formatted = value.keys.inject([]) do |a, key|
+            formatted_key = inspect_value(key, true)
+            formatted_value = inspect_value(value.fetch(key), true)
+            a << "#{formatted_key} => #{formatted_value}"
+          end.join(', ')
+
+          if nested
+            "{#{formatted}}"
+          else
+            "({#{formatted}})"
+          end
         when Array
           value.map{|v| inspect_value(v)}
         else
           value.inspect
         end
 
-        unless value.is_a?(Hash)
+        if !value.is_a?(Hash) && !nested
           formatted = " #{formatted}"
         end
 

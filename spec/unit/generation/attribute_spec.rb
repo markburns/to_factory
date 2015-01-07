@@ -13,13 +13,14 @@ describe ToFactory::Generation::Attribute do
     end
 
     it do
-      value = ActiveSupport::OrderedHash.new(
-                   {{"with" => :hash} => "keys", 2 => "integers", :a => {:nested => "hash"}}
-      )
+      hash = ActiveSupport::OrderedHash.new
+      hash[{"with" => :hash}] = "keys"
+      hash[2] = "integers"
+      hash[:a] = {:nested => "hash"}
 
       expected = '({{"with" => :hash} => "keys", 2 => "integers", :a => {:nested => "hash"}})'
 
-      expect(attribute.inspect_value(value)).to eq expected
+      expect(attribute.inspect_value(hash)).to eq expected
     end
   end
 
