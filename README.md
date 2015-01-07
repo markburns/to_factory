@@ -19,7 +19,7 @@ Easily add factories with valid data for an existing project.
 Tested against Ruby 1.8.7, 1.9.3, 2.0.0,  2.1.x, 2.2.0
 
 
-# Installation :file_folder:
+## Installation :file_folder:
 
 ```ruby
 
@@ -30,14 +30,13 @@ group :test, :development do
 end
 ```
 
-# Warning :warning:
+## Warning :warning:
 `ToFactory` writes into the `spec/factories` folder. Whilst it
 is tested and avoids overwriting existing factories,
 it is recommended that you execute after committing or when in a known
 safe state.
 
 
-# Example :computer:
 
 ```bash
 git add spec/factories
@@ -45,6 +44,7 @@ git commit -m "I know what I am doing"
 rails c
 >ToFactory()
 ```
+## Example :computer:
 
 ```ruby
 #Generate all factories
@@ -87,10 +87,10 @@ ToFactory :admin => User.last
 
 ```
 
-#Known bugs :beetle:
+## Known bugs :beetle:
 * Factory generation does not follow a hierarchical order, so factory files may require manual editing for now.
 
-#Other useful projects
+### Other useful projects
 
 If you are adding specs to an existing project you may want to look at:
 
