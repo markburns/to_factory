@@ -1,4 +1,4 @@
-ToFactory
+:wrench: ToFactory
 =========
 
 [![Build Status](https://travis-ci.org/markburns/to_factory.svg)](https://travis-ci.org/markburns/to_factory)
@@ -32,7 +32,7 @@ end
 ```
 
 
-#Warning :warning:
+# :warning: Warning
 `ToFactory` writes into the `spec/factories` folder. Whilst it
 is tested and avoids overwriting existing factories,
 it is recommended that you execute after committing or when in a known
