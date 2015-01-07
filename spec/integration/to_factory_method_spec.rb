@@ -24,6 +24,21 @@ describe ToFactory do
   end
 
   describe "Object#ToFactory" do
+    context "with multiple levels of parent classes" do
+      let(:filename) { "spec/example_factories/#{version}_syntax/#{'user_admin_super_admin'}.rb"}
+
+      it "gets the output order correct" do
+        output = "./tmp/factories/to_factory/user.rb"
+        `mkdir -p ./tmp/factories/to_factory`
+        `cp #{filename} #{output}`
+        ToFactory(:root => user)
+
+
+        #user, admin, super_admin, root
+        expect(File.read(output)).to match_sexp File.read(filename)
+      end
+    end
+
     it "generates all factories" do
       ToFactory()
       expect(user_file)   .to match_sexp expected_user_file

@@ -9,7 +9,8 @@ module ToFactory
     end
 
     def perform(exclusions=[])
-      definitions = Collation.merge(new_definitions(exclusions), pre_existing)
+      debugger
+      definitions = Collation.organize(new_definitions(exclusions), pre_existing)
 
       @file_writer.write(definitions)
     end

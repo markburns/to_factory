@@ -47,6 +47,8 @@ describe "FileSync" do
     end
   end
 
+
+
   context "with a pre-existing file" do
     let(:sync) { ToFactory::FileSync.new(user) }
     before do

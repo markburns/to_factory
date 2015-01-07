@@ -2,6 +2,9 @@ module ToFactory
   AlreadyExists = Class.new ArgumentError
 
   class Collation
+    def self.organize(a, b)
+
+    end
     def self.merge(a, b)
       c = new
 
