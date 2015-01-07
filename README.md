@@ -14,7 +14,7 @@ Easily add factories with valid data for an existing project.
 If you find yourself working on a project without tests/factories or only using fixtures,
 then use this gem to quickly generate a factory from an existing object.
 
-Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x
+Tested against Ruby 1.8.7, 1.9.3, 2.0.0,  2.1.x
 
 Reads and writes both new `FactoryGirl`, syntax or older `Factory.define` syntax
 
@@ -62,6 +62,11 @@ ToFactory(exclude: [User, Project])
 #Use Adhoc instances from the console
 ToFactory User.last
 
+#List defined factory names
+ToFactory.definitions
+#=> [:user, :admin, :project]
+
+
 #writes to spec/factories/user.rb
 FactoryGirl.define
   factory(:user) do |u|
@@ -80,6 +85,10 @@ ToFactory :admin => User.last
 #appends to spec/factories/user.rb
 
 ```
+
+#Known bugs/limitations
+* Factory generation does not follow a hierarchical order, so factory files may require manual editing for now.
+* Serialized hashes are not generated correctly
 
 #Other useful projects
 

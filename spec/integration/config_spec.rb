@@ -1,4 +1,4 @@
-describe "ToFactory  Configuration" do
+describe "ToFactory Configuration" do
   before do
     ToFactory.reset_config!
   end
