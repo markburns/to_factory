@@ -1,5 +1,7 @@
 module ToFactory
   module Parsing
+    ParseException = Class.new ::Exception
+
     class Syntax
       attr_accessor :contents
 
@@ -15,6 +17,9 @@ module ToFactory
         factories.map do |x|
           Representation.new(name_from(x), parent_from(x), to_ruby(x))
         end
+
+      rescue Racc::ParseError => e
+        raise ParseException.new("Original exception: #{e.message}\n #{e.backtrace}\nToFactory Error parsing \n#{@contents}\n o")
       end
 
       def factories
