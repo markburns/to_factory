@@ -16,7 +16,7 @@ module ToFactory
       private
 
       def each_klass(exclusions)
-        each_model do |file|
+        models.each do |file|
           matching_lines(file) do |match|
             klass = rescuing_require(file, match)
 
@@ -25,11 +25,8 @@ module ToFactory
         end
       end
 
-
-      def each_model
-        Dir.glob("#{ToFactory.models}/**/*.rb").each do |file|
-          yield file
-        end
+      def models
+        Dir.glob("#{ToFactory.models}/**/*.rb")
       end
 
       def matching_lines(file)
