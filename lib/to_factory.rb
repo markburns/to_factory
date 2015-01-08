@@ -8,9 +8,10 @@ require "to_factory/collation"
 require "to_factory/file_writer"
 require "to_factory/finders/model"
 require "to_factory/finders/factory"
-require "to_factory/definition_group"
+require "to_factory/representation"
 require "to_factory/file_sync"
 require "to_factory/parsing/file"
+require "to_factory/klass_inference"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
@@ -29,7 +30,7 @@ module ToFactory
 
     def definitions
       results = Finders::Factory.new.call
-      results.map{|_, r| r.keys}.flatten
+      results.map(&:name)
     end
   end
 end

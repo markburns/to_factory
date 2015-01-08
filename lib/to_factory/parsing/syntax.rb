@@ -1,5 +1,3 @@
-require "to_factory/parsing/klass_inference"
-
 module ToFactory
   module Parsing
     class Syntax
@@ -14,17 +12,9 @@ module ToFactory
       end
 
       def parse
-        result = {}
-        @klass_inference = KlassInference.new
-        @klass_inference.setup(all_factories)
-
-        all_factories.each do |factory_name, parent_name, ruby|
-          klass = @klass_inference.infer(factory_name)
-          result[klass] ||= {}
-          result[klass][factory_name] = ruby
+        factories.map do |x|
+          Representation.new(name_from(x), parent_from(x), to_ruby(x))
         end
-
-        result
       end
 
       def factories
@@ -37,12 +27,6 @@ module ToFactory
 
       def factories_sexp
         header? ?  sexp[3] : sexp
-      end
-
-      def all_factories
-        factories.map do |x|
-          [name_from(x), parent_from(x), to_ruby(x)]
-        end
       end
 
       def name_from(sexp)

@@ -11,8 +11,10 @@ describe ToFactory::FileWriter do
     end
 
     it "adds factories for all models" do
-      fw.write({ToFactory::User =>{:user => "factory a"},
-                ToFactory::Project => {:project =>"factory b"}
+      user_representation = double :name => :user, "definition" => "factory a"
+      project_representation = double :name => "project", :definition =>"factory b"
+      fw.write({ToFactory::User =>[user_representation],
+                ToFactory::Project => [project_representation]
       })
 
       if ToFactory.new_syntax?

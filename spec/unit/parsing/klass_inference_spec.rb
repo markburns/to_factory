@@ -1,24 +1,23 @@
-describe ToFactory::Parsing::KlassInference do
-  let(:inference) { ToFactory::Parsing::KlassInference.new }
+describe ToFactory::KlassInference do
+  let(:inference) { ToFactory::KlassInference.new representations }
 
-  mappings = #klass, parent, result
-    [:admin,        :"to_factory/user",    ToFactory::User],
-    [:some_project, :"to_factory/project", ToFactory::Project],
-    [:sub_project,  :"some_project",       ToFactory::Project],
-    [:super_admin,  :admin,                ToFactory::User],
-    [:"to_factory/user", nil,              ToFactory::User]
+  mappings = [
+    [:super_admin,  :admin,                ToFactory::User,    3],
+    [:"to_factory/user", nil,              ToFactory::User,    1],
+    [:admin,        :"to_factory/user",    ToFactory::User,    2],
+    [:some_project, :"to_factory/project", ToFactory::Project, 2],
+    [:sub_project,  :"some_project",       ToFactory::Project, 3],
+  ]
 
 
-  to_infer = mappings.map{|a| a[0..1]}
+  let(:representations) { mappings.map{|name, parent, _| ToFactory::Representation.new(name,parent) }}
 
-  before do
-    inference.setup to_infer
-  end
+  mappings.each do |name, parent_name, expected_klass, expected_order|
+    it "having #{name} and #{parent_name.inspect} implies #{expected_klass} #{expected_order} "do
+      result_klass, order = inference.infer(name.to_s)
 
-  mappings.each do |klass, parent, expected|
-    it "having #{klass} and #{parent.inspect} implies #{expected} "do
-      result = inference.infer(klass)
-      expect(result).to eq expected
+      expect(result_klass).to eq expected_klass
+      expect(order       ).to eq expected_order
     end
   end
 

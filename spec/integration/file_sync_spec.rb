@@ -47,6 +47,8 @@ describe "FileSync" do
     end
   end
 
+
+
   context "with a pre-existing file" do
     let(:sync) { ToFactory::FileSync.new(user) }
     before do
@@ -64,9 +66,13 @@ describe "FileSync" do
         sync.perform
 
         parser = ToFactory::Parsing::File.new(user_file)
-        result = parser.parse[ToFactory::User]
-        expect(result[:admin]).to match_sexp expected_admin_file
-        expect(result[:"to_factory/user"]).to match_sexp expected_user_file
+        result = parser.parse
+        admin= result.find{|r| r.name == "admin"}
+        user= result.find{|r| r.name == "to_factory/user"}
+
+
+        expect(admin.definition).to match_sexp expected_admin_file
+        expect(user.definition).to match_sexp expected_user_file
 
         expect(lambda{
           sync.perform

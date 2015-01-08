@@ -4,13 +4,15 @@ describe ToFactory::FileWriter do
   let(:user_file_contents)    { File.read "./tmp/factories/to_factory/user.rb"}
   let!(:user) { create_user!  }
   let!(:admin) { create_admin!  }
+
   it do
     fs = ToFactory::FileSync.new
-    definitions = fs.new_definitions
+    representations = fs.all_representations
     #sanity check generation isn't broken
-    expect(definitions.keys).to eq [ToFactory::User]
+    expect(representations.keys).to eq [ToFactory::User]
+    expect(representations.values[0][0]).to be_a ToFactory::Representation
 
-    fw.write definitions
+    fw.write representations
     expect(user_file_contents).to match_sexp expected
   end
 end

@@ -8,6 +8,7 @@ module ToFactory
   module Parsing
     class File
       delegate :multiple_factories?, :header?, :parse, :to => :parser
+      attr_reader :contents
 
       def self.parse(filename)
         from_file(filename).parse
