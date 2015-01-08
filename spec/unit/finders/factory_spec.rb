@@ -13,12 +13,11 @@ describe ToFactory::Finders::Factory do
       finder = ToFactory::Finders::Factory.new
 
       result = finder.call
-      result = result[ToFactory::User]
 
-      expect(result[:"to_factory/user"]).
+      expect(result[0].definition).
         to match_sexp user_file_contents
 
-      expect(result[:admin]).
+      expect(result[1].definition).
         to match_sexp admin_file_contents
     end
   end

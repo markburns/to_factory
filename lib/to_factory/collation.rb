@@ -10,7 +10,6 @@ module ToFactory
       new(a, b).representations
     end
 
-
     def initialize(a, b)
       @a = a
       @b = b
@@ -24,7 +23,7 @@ module ToFactory
     end
 
     def representations
-      detect_collisions!
+      detect_collisions!(@a,@b)
 
       inference = KlassInference.new(merged)
 
@@ -37,17 +36,10 @@ module ToFactory
       merged
     end
 
-    private
-
-    def merged
-      @merged ||= @a + @b
-    end
-
-
-    def detect_collisions!
+    def detect_collisions!(a,b)
       collisions = []
-      @a.each do |a_representation|
-        @b.each do |b_representation|
+      a.each do |a_representation|
+        b.each do |b_representation|
           collisions << a_representation.name if a_representation.name == b_representation.name
         end
       end
@@ -55,7 +47,13 @@ module ToFactory
       raise_already_exists!(collisions) if collisions.any?
     end
 
-    def raise_already_exists!(keys)
+    private
+
+    def merged
+      @merged ||= @a + @b
+    end
+
+   def raise_already_exists!(keys)
       raise ToFactory::AlreadyExists.new "an item for each of the following keys #{keys} already exists"
     end
   end

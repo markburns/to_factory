@@ -1,42 +1,41 @@
 describe ToFactory::Collation do
-  def perform
-    ToFactory::Collation.merge(a, b)
-  end
+  describe "detect_collisions!" do
+    let(:collation) { ToFactory::Collation.new(a,b) }
+    let(:a) { [double(:name => "a")]}
+    let(:b) { [double(:name => "a")]}
 
-  context "matching keys" do
-    let(:a) { {:A => {:a => 1}} }
-    let(:b) { {:B => {:a => 2}} }
+    def perform
+      collation.detect_collisions!(a, b)
+    end
 
     it do
       expect(lambda{perform}).to raise_error ToFactory::AlreadyExists
     end
-  end
 
-  context "non matching keys" do
-    let(:a) { {:A => {:a => 1}} }
-    let(:b) { {:B => {:b => 2}} }
+    context "non matching keys" do
+      let(:a) { [double(:name => "a")]}
+      let(:b) { [double(:name => "b")]}
 
-    it do
-      result = {:A => {:a  => 1}, :B => {:b => 2}}.with_indifferent_access
-      expect(perform).to eq result
+      it do
+        expect(perform).to eq nil
+      end
     end
   end
 
-  context "merging" do
-    let(:a) { {:A => {:a => 1}} }
-    let(:b) { {:A => {:b => 2}} }
-
-    it do
-      result = {:A => {:a  => 1, :b => 2}}.with_indifferent_access
-      expect(perform).to eq result
-    end
-  end
   context "organizing" do
+    let(:root) { ToFactory::Representation.new(:root, "super_admin", "  Factory.define(:root, :parent => :\"to_factory/user\") do|o|\n  o.birthday \"2014-07-08T15:30Z\"\n  o.email \"test@example.com\"\n  o.name \"Jeff\"\n  o.some_id 8\n  end\n") }
+    let(:user) { ToFactory::Representation.new("to_factory/user", nil, "Factory.define(:\"to_factory/user\") { |o| o.name(\"User\") }") }
+    let(:admin) { ToFactory::Representation.new("admin", "to_factory/user", "Factory.define(:admin, :parent => :\"to_factory/user\") { |o| o.name(\"Admin\") }") }
+    let(:super_admin) { ToFactory::Representation.new("super_admin", "admin", "Factory.define(:super_admin, :parent => :admin) { |o| o.name(\"Super Admin\") }") }
+
     it do
-      new_definitions = {ToFactory::User=>{:root=>"  Factory.define(:root, :parent => :\"to_factory/user\") do|o|\n  o.birthday \"2014-07-08T15:30Z\"\n  o.email \"test@example.com\"\n  o.name \"Jeff\"\n  o.some_id 8\n  end\n"}}
-      pre_existing    = {ToFactory::User=>{"to_factory/user"=>"Factory.define(:\"to_factory/user\") { |o| o.name(\"User\") }", "admin"=>"Factory.define(:admin, :parent => :\"to_factory/user\") { |o| o.name(\"Admin\") }", "super_admin"=>"Factory.define(:super_admin, :parent => :admin) { |o| o.name(\"Super Admin\") }"}}
+      new_definitions = [ root ]
+      pre_existing    = [ admin, user, super_admin ]
 
       result = ToFactory::Collation.organize(new_definitions, pre_existing)
+      result = result[ToFactory::User]
+      expect(result.map &:hierarchy_order).to eq [1,2,3,4]
+      expect(result).to eq [user, admin, super_admin, root]
     end
   end
 end

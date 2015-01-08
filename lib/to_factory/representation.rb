@@ -42,16 +42,6 @@ module ToFactory
       @klass.name.inspect rescue "nil"
     end
 
-    def record=(record)
-      unless record.is_a? ActiveRecord::Base
-        message = "Generation::Representation expects an ActiveRecord::Base instance"
-        message << "\n  but received #{record.inspect}"
-        raise ToFactory::MissingActiveRecordInstanceException.new(message)
-      end
-
-      @record = record
-    end
-
     def definition
       @definition ||= ToFactory::Generation::Factory.new(self).to_factory
     end

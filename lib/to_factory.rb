@@ -30,7 +30,7 @@ module ToFactory
 
     def definitions
       results = Finders::Factory.new.call
-      results.map{|_, r| r.keys}.flatten
+      results.map(&:name)
     end
   end
 end

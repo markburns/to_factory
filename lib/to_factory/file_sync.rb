@@ -9,11 +9,13 @@ module ToFactory
     end
 
     def perform(exclusions=[])
-      definitions = Collation.organize(
+      @file_writer.write(all_representations exclusions)
+    end
+
+    def all_representations(exclusions=[])
+      Collation.organize(
         new_representations(exclusions),
         existing_representations)
-
-      @file_writer.write(definitions)
     end
 
     def new_representations(exclusions=[])

@@ -31,11 +31,13 @@ describe ToFactory do
         output = "./tmp/factories/to_factory/user.rb"
         `mkdir -p ./tmp/factories/to_factory`
         `cp #{filename} #{output}`
+
         ToFactory(:root => user)
 
+        expected = File.read "spec/example_factories/#{version}_syntax/#{'user_admin_root'}.rb"
 
         #user, admin, super_admin, root
-        expect(File.read(output)).to match_sexp File.read(filename)
+        expect(File.read(output)).to match_sexp expected
       end
     end
 

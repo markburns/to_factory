@@ -13,24 +13,20 @@ describe ToFactory::Generation::Factory do
   let(:representation) { ToFactory::Representation.from(user) }
   let(:generator) { ToFactory::Generation::Factory.new representation  }
 
-  describe ".new" do
-    it "requires an activerecord instance" do
-      expect(lambda{ToFactory::Generation::Factory.new "", ""}).to raise_error ToFactory::MissingActiveRecordInstanceException
-    end
-  end
+
 
   describe "#header" do
     it do
       if ToFactory.new_syntax?
-      expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
-        factory(:"to_factory/user") do
-        end
-      eof
+        expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
+          factory(:"to_factory/user") do
+          end
+        eof
       else
-      expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
-        Factory.define(:"to_factory/user") do |o|
-        end
-      eof
+        expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
+          Factory.define(:"to_factory/user") do |o|
+          end
+        eof
       end
     end
   end
@@ -64,10 +60,9 @@ describe ToFactory::Generation::Factory do
     end
 
     it do
-      debugger
       expect(generator.to_factory).to match_sexp expected
       result = ToFactory(user).values.first.first
-      expect(result).to match_sexp expected
+      expect(result.definition).to match_sexp expected
     end
   end
 end
