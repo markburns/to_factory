@@ -4,13 +4,13 @@ module ToFactory
       def call(exclusions=[])
         instances = []
 
-        Dir.glob("#{ToFactory.models}/**/*.rb").each do |file|
-          File.readlines(file).each do |f|
-            if match = f.match(/class (.*) ?</)
-              klass = rescuing_require file, match
-              break if exclusions.include?(klass)
-              instance = get_active_record_instance(klass)
-              instances << instance if instance
+        each_model do |file|
+          matching_lines(file) do |match|
+            klass = rescuing_require file, match
+            break if exclusions.include?(klass)
+
+            if instance = get_active_record_instance(klass)
+              instances << instance
               break
             end
           end
@@ -20,6 +20,20 @@ module ToFactory
       end
 
       private
+
+      def each_model
+        Dir.glob("#{ToFactory.models}/**/*.rb").each do |file|
+          yield file
+        end
+      end
+
+      def matching_lines(file)
+        File.readlines(file).each do |l|
+          if match = l.match(/class (.*) ?</)
+            yield match
+          end
+        end
+      end
 
       def rescuing_require(file, match)
         require file
