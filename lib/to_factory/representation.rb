@@ -4,24 +4,31 @@ module ToFactory
     attr_accessor :klass, :name, :parent_name, :definition, :hierarchy_order, :record
 
     class << self
-      def from(record)
-        name, record, parent_name = 
-          if record.is_a?(ActiveRecord::Base)
-            name = calculate_name record.class
+      def from(options)
+        new(*parse(options))
+      end
 
-            [name, record, nil]
-          elsif record.is_a?(Array)
-            name, item = record
-            parent_name = calculate_name(item.class)
-            parent_name = nil if parent_name.to_s == name.to_s
-            [name, item, parent_name]
-          else
-            raise NotImplementedError
-          end
+      private
 
-        new(name, parent_name).tap do |r|
-          r.record = record
+      def parse(options)
+        case options
+        when ActiveRecord::Base
+          from_record(options)
+        when Array
+          from_array(*options)
         end
+      end
+
+      def from_record(record)
+        name = calculate_name record.class
+
+        [name, nil, nil, record]
+      end
+
+      def from_array(name, record)
+        parent_name = calculate_name(record.class)
+        parent_name = nil if parent_name.to_s == name.to_s
+        [name, parent_name, nil, record]
       end
 
       def calculate_name(klass)
@@ -29,9 +36,9 @@ module ToFactory
       end
     end
 
-    def initialize(name, parent_name, definition=nil)
-      @name, @parent_name, @definition =
-       name.to_s, parent_name.to_s, definition
+    def initialize(name, parent_name, definition=nil, record=nil)
+      @name, @parent_name, @definition, @record =
+        name.to_s, parent_name.to_s, definition, record
     end
 
     def inspect
