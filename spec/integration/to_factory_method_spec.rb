@@ -68,17 +68,6 @@ describe ToFactory do
         expect(user_file).to be_present
         expect(project_file).to be_nil
       end
-
-      it "doesn't auto generate any if :all is specified" do
-        ToFactory(:exclude => :all)
-        expect(user_file).to be_nil
-        expect(project_file).to be_nil
-
-        #sanity check
-        ToFactory()
-        expect(user_file).to be_present
-        expect(project_file).to be_present
-      end
     end
 
     context "with no existing file" do

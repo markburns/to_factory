@@ -19,8 +19,6 @@ module ToFactory
     end
 
     def new_representations(exclusions=[])
-      return [] if exclusions == [:all]
-
       instances = @model_finder.call(exclusions)
 
       instances.map{|r| Representation.from(r) }
