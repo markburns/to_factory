@@ -6,16 +6,25 @@ module ToFactory
 
     def write(definitions)
       definitions.each do |klass, representations|
-        name = klass.name.underscore.gsub /^"|"$/, ""
-        mkdir(name) if name.to_s["/"]
-
-        File.open(File.join(ToFactory.factories, "#{name}.rb"), "w") do |f|
-          f << wrap_factories(representations.map(&:definition))
+        write_to(name_from klass) do
+          wrap_factories(representations.map(&:definition))
         end
       end
     end
 
     private
+
+    def name_from(klass)
+      klass.name.underscore.gsub /^"|"$/, ""
+    end
+
+    def write_to(name)
+      mkdir(name)
+
+      File.open(File.join(ToFactory.factories, "#{name}.rb"), "w") do |f|
+        f << yield
+      end
+    end
 
     def wrap_factories(definitions)
       if ToFactory.new_syntax?
@@ -32,6 +41,7 @@ module ToFactory
     end
 
     def mkdir(name)
+      return unless name.to_s["/"]
       dir = name.to_s.split("/")[0..-2]
       FileUtils.mkdir_p File.join(ToFactory.factories, dir)
     end
