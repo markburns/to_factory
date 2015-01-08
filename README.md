@@ -11,6 +11,8 @@ ToFactory :wrench:
 
 Easily add factories with valid data for an existing project.
 
+If you find yourself retro-fitting tests this gem will you some of the legwork.
+
 * auto-generate all factories
 * adhoc generate from existing records
 * unintrusively update factory files in place
