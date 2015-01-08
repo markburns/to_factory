@@ -18,7 +18,7 @@ module ToFactory
           Representation.new(name_from(x), parent_from(x), to_ruby(x))
         end
 
-      rescue Racc::ParseError => e
+      rescue Racc::ParseError, StringScanner::Error => e
         raise ParseException.new("Original exception: #{e.message}\n #{e.backtrace}\nToFactory Error parsing \n#{@contents}\n o")
       end
 

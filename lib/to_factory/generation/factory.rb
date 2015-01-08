@@ -50,14 +50,17 @@ module ToFactory
       end
 
       def generic_header(factory_start, block_arg, &block)
-        #debugger if name.blank?
         out =  "  #{factory_start}(:#{name}#{parent_clause}) do#{block_arg}\n"
         out << yield.to_s
         out << "  end\n"
       end
 
       def parent_clause
-        parent_name.present? ?  ", :parent => :#{add_quotes parent_name}" : ""
+        has_parent? ?  ", :parent => :#{add_quotes parent_name}" : ""
+      end
+
+      def has_parent?
+        parent_name.to_s.length > 0
       end
 
       def add_quotes(name)
