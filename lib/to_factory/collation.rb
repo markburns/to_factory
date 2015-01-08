@@ -38,9 +38,9 @@ module ToFactory
 
     def detect_collisions!(a,b)
       collisions = []
-      a.each do |a_representation|
-        b.each do |b_representation|
-          collisions << a_representation.name if a_representation.name == b_representation.name
+      a.each do |x|
+        b.each do |y|
+          collisions << x.name if x.name == y.name
         end
       end
 
