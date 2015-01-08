@@ -18,10 +18,9 @@ module ToFactory
       def each_klass(exclusions)
         each_model do |file|
           matching_lines(file) do |match|
-            klass = rescuing_require file, match
-            break if exclusions.include?(klass)
+            klass = rescuing_require(file, match)
 
-            break if yield klass
+            break if exclusions.include?(klass) || yield(klass)
           end
         end
       end
