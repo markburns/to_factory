@@ -87,9 +87,6 @@ ToFactory :admin => User.last
 
 ```
 
-## Known bugs :beetle:
-* Factory generation does not follow a hierarchical order, so factory files may require manual editing for now.
-
 ### Other useful projects
 
 If you are adding specs to an existing project you may want to look at:
