@@ -4,7 +4,7 @@ module ToFactory
       def call
         all = []
 
-        parse_files do |r|
+        parsed_files.each do |r|
           all = Collation.representations_from(all, r)
         end
 
@@ -13,12 +13,11 @@ module ToFactory
 
       private
 
-      def parse_files
-        Dir.glob(File.join(ToFactory.factories, "**/*.rb")).each do |f|
-          yield ToFactory::Parsing::File.parse(f)
+      def parsed_files
+        Dir.glob(File.join(ToFactory.factories, "**/*.rb")).map do |f|
+          ToFactory::Parsing::File.parse(f)
         end
       end
-
     end
   end
 end

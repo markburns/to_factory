@@ -17,7 +17,19 @@ module ToFactory
       end
 
       def inspect_value(value, nested=false)
-        formatted = case value
+        formatted = format(value, nested)
+
+        if !value.is_a?(Hash) && !nested
+          formatted = " #{formatted}"
+        end
+
+        formatted
+      end
+
+      private
+
+      def format(value, nested)
+        case value
         when Time, DateTime
           inspect_time(value)
         when BigDecimal
@@ -29,15 +41,7 @@ module ToFactory
         else
           value.inspect
         end
-
-        if !value.is_a?(Hash) && !nested
-          formatted = " #{formatted}"
-        end
-
-        formatted
       end
-
-      private
 
       def inspect_time(value)
         time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
@@ -46,9 +50,7 @@ module ToFactory
 
       def inspect_hash(value, nested)
         formatted = value.keys.inject([]) do |a, key|
-          formatted_key = inspect_value(key, true)
-          formatted_value = inspect_value(value.fetch(key), true)
-          a << "#{formatted_key} => #{formatted_value}"
+          a << key_value_pair(key, value)
         end.join(', ')
 
         if nested
@@ -57,6 +59,13 @@ module ToFactory
           "({#{formatted}})"
         end
       end
+
+      def key_value_pair(key, value)
+        formatted_key = inspect_value(key, true)
+        formatted_value = inspect_value(value.fetch(key), true)
+        "#{formatted_key} => #{formatted_value}"
+      end
+
       def in_utc(time)
         time.utc
       end
