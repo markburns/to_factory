@@ -2,32 +2,57 @@ module ToFactory
   AlreadyExists = Class.new ArgumentError
 
   class Collation
-    def self.organize(a, b)
-
-    end
-    def self.merge(a, b)
-      c = new
-
-      c.merge_without_collisions(a.with_indifferent_access, b.with_indifferent_access)
+    def self.organize(a,b)
+      new(a, b).organize
     end
 
-    def merge_without_collisions(a,b)
-      nested_detect_collisions!(a, b)
-
-      a.deep_merge(b)
+    def self.representations_from(a,b)
+      new(a, b).representations
     end
 
-    def nested_detect_collisions!(a,b)
-      a.each do |a_klass, _|
-        b.each do |b_klass, _|
-          detect_collisions!(a[a_klass] || {}, b[b_klass] || {})
-        end
+
+    def initialize(a, b)
+      @a = a
+      @b = b
+    end
+
+    def organize
+      representations.group_by(&:klass).inject({}) do |o, (klass,r)|
+        o[klass] = r.sort_by(&:hierarchy_order)
+        o
       end
     end
 
-    def detect_collisions!(a, b)
-      overlapping = a.keys & b.keys
-      raise_already_exists!(overlapping) if overlapping.any?
+    def representations
+      detect_collisions!
+
+      inference = KlassInference.new(merged)
+
+      merged.each do |r|
+        klass, order = inference.infer(r.name)
+        r.klass = klass
+        r.hierarchy_order = order
+      end
+
+      merged
+    end
+
+    private
+
+    def merged
+      @merged ||= @a + @b
+    end
+
+
+    def detect_collisions!
+      collisions = []
+      @a.each do |a_representation|
+        @b.each do |b_representation|
+          collisions << a_representation.name if a_representation.name == b_representation.name
+        end
+      end
+
+      raise_already_exists!(collisions) if collisions.any?
     end
 
     def raise_already_exists!(keys)

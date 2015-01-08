@@ -9,23 +9,24 @@ module ToFactory
     end
 
     def perform(exclusions=[])
-      debugger
-      definitions = Collation.organize(new_definitions(exclusions), pre_existing)
+      definitions = Collation.organize(
+        new_representations(exclusions),
+        existing_representations)
 
       @file_writer.write(definitions)
     end
 
-    def new_definitions(exclusions=[])
-      return {} if exclusions == [:all]
+    def new_representations(exclusions=[])
+      return [] if exclusions == [:all]
 
       instances = @model_finder.call(exclusions)
 
-      DefinitionGroup.perform(instances)
+      instances.map{|r| Representation.from(r) }
     end
 
     private
 
-    def pre_existing
+    def existing_representations
       @factory_finder.call
     end
 

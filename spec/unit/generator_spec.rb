@@ -10,7 +10,8 @@ describe ToFactory::Generation::Factory do
 
   let!(:user) { create_user! }
 
-  let(:generator) { ToFactory::Generation::Factory.new user, :"to_factory/user"  }
+  let(:representation) { ToFactory::Representation.from(user) }
+  let(:generator) { ToFactory::Generation::Factory.new representation  }
 
   describe ".new" do
     it "requires an activerecord instance" do
@@ -63,8 +64,9 @@ describe ToFactory::Generation::Factory do
     end
 
     it do
+      debugger
       expect(generator.to_factory).to match_sexp expected
-      result = ToFactory(user).values.first.values.first
+      result = ToFactory(user).values.first.first
       expect(result).to match_sexp expected
     end
   end

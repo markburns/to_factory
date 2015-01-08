@@ -2,16 +2,23 @@ module ToFactory
   module Finders
     class Factory
       def call
-        all_factories = {}
+        all = []
 
-        Dir.glob(File.join(ToFactory.factories, "**/*.rb")).each do |f|
-          factories = ToFactory::Parsing::File.parse(f)
-
-          all_factories = Collation.merge(all_factories, factories)
+        parse_files do |r|
+          all = Collation.representations_from(all, r)
         end
 
-        all_factories
+        all
       end
+
+      private
+
+      def parse_files
+        Dir.glob(File.join(ToFactory.factories, "**/*.rb")).each do |f|
+          yield ToFactory::Parsing::File.parse(f)
+        end
+      end
+
     end
   end
 end

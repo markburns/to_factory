@@ -42,7 +42,7 @@ describe ToFactory::Parsing::File do
       it do
         result = parser.parse
 
-        expect(result[ToFactory::User].keys).to match_array [:super_admin, :admin, :"to_factory/user"]
+        expect(result.map(&:name)).to match_array ["super_admin", "admin", "to_factory/user"]
       end
     end
 
@@ -50,9 +50,9 @@ describe ToFactory::Parsing::File do
       let(:filename) { "spec/example_factories/#{version}_syntax/#{'user'}.rb"}
 
       it do
-        result = parser.parse[ToFactory::User]
+        result = parser.parse
 
-        expect(result[:"to_factory/user" ]).to match_sexp user_contents
+        expect(result.first.definition).to match_sexp user_contents
       end
     end
 
@@ -60,9 +60,9 @@ describe ToFactory::Parsing::File do
       let(:filename) { "spec/example_factories/#{version}_syntax/#{'user_with_header'}.rb"}
 
       it do
-        result = parser.parse[ToFactory::User]
+        result = parser.parse
 
-        expect(result[:"to_factory/user" ]).to match_sexp user_contents
+        expect(result.first.definition).to match_sexp user_contents
       end
     end
 
@@ -72,11 +72,10 @@ describe ToFactory::Parsing::File do
       it do
         result = parser.parse
 
-        expect(result.keys).to match_array [ToFactory::User]
-        users = result[ToFactory::User]
+        user, admin = result
 
-        expect(users[:"to_factory/user" ]).to match_sexp user_contents
-        expect(users[:admin]).to match_sexp admin_contents
+        expect(user.definition).to match_sexp user_contents
+        expect(admin.definition).to match_sexp admin_contents
       end
     end
 
@@ -84,9 +83,9 @@ describe ToFactory::Parsing::File do
       let(:filename) { "spec/example_factories/#{version}_syntax/#{'user_admin_with_header'}.rb"}
 
       it do
-        result = parser.parse[ToFactory::User]
+        result = parser.parse
 
-        expect(result[:"to_factory/user" ]).to match_sexp user_contents
+        expect(result.first.definition).to match_sexp user_contents
       end
     end
   end
