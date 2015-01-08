@@ -1,5 +1,3 @@
-require "deep_merge"
-
 require "to_factory/version"
 require "to_factory/config"
 require "to_factory/generation/factory"
