@@ -36,8 +36,8 @@ module ToFactory
 
     def modern_header(definitions)
       out = "FactoryGirl.define do\n"
-      out << definitions.join("\n")
-      out << "\nend\n"
+      out << definitions.join("\n\n")
+      out << "end"
     end
 
     def mkdir(name)
