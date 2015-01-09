@@ -43,8 +43,12 @@ describe ToFactory do
 
     it "generates all factories" do
       ToFactory()
+      #simple check that doesn't care about whitespace/syntax preferences etc
       expect(user_file)   .to match_sexp expected_user_file
       expect(project_file).to match_sexp expected_project_file
+
+      #check output exactly same
+      expect(user_file)   .to eq expected_user_file
     end
 
     def user_file_includes(content)
