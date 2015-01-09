@@ -54,7 +54,7 @@ module ToFactory
     end
 
    def raise_already_exists!(keys)
-      raise ToFactory::AlreadyExists.new "an item for each of the following keys #{keys} already exists"
+     raise ToFactory::AlreadyExists.new "an item for each of the following keys #{keys.inspect} already exists"
     end
   end
 end
