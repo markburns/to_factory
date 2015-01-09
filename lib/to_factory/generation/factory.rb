@@ -19,18 +19,10 @@ module ToFactory
 
       def header(&block)
         if ToFactory.new_syntax?
-          modern_header &block
+          generic_header("  factory", "", "  end", &block)
         else
-          header_factory_girl_1 &block
+          generic_header("Factory.define", " |o|", "end", &block)
         end
-      end
-
-      def modern_header(&block)
-        generic_header("factory", "", &block)
-      end
-
-      def header_factory_girl_1(&block)
-        generic_header("Factory.define", " |o|", &block)
       end
 
       def factory_attribute(attr, value)
@@ -49,10 +41,10 @@ module ToFactory
         @representation.parent_name
       end
 
-      def generic_header(factory_start, block_arg, &block)
-        out =  "  #{factory_start}(:#{name}#{parent_clause}) do#{block_arg}\n"
+      def generic_header(factory_start, block_arg, ending, &block)
+        out =  "#{factory_start}(:#{name}#{parent_clause}) do#{block_arg}\n"
         out << yield.to_s
-        out << "  end\n"
+        out << "#{ending}"
       end
 
       def parent_clause
