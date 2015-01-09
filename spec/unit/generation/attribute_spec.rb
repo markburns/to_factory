@@ -22,6 +22,13 @@ describe ToFactory::Generation::Attribute do
 
       expect(attribute.inspect_value(hash)).to eq expected
     end
+
+    it "handles arrays correctly" do
+      expected = "[1, 2, :a, \"4\"]"
+
+      input = [1, 2, :a, "4"]
+      expect(attribute.format(input, false)).to eq expected
+    end
   end
 
 end

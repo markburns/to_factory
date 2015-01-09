@@ -26,8 +26,6 @@ module ToFactory
         formatted
       end
 
-      private
-
       def format(value, nested)
         case value
         when Time, DateTime
@@ -37,11 +35,13 @@ module ToFactory
         when Hash
           inspect_hash(value, nested)
         when Array
-          value.map{|v| inspect_value(v)}
+          inspect_array(value, nested)
         else
           value.inspect
         end
       end
+
+      private
 
       def inspect_time(value)
         time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
@@ -58,6 +58,11 @@ module ToFactory
         else
           "({#{formatted}})"
         end
+      end
+
+      def inspect_array(value, nested)
+        values = value.map{|v| format(v, nested)}.join(", ")
+        "[#{values}]"
       end
 
       def key_value_pair(key, value)
