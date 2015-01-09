@@ -33,7 +33,7 @@ describe ToFactory::Collation do
       pre_existing    = [ admin, user, super_admin ]
 
       result = ToFactory::Collation.organize(new_definitions, pre_existing)
-      result = result[ToFactory::User]
+      result = result["to_factory/user"]
       expect(result.map &:hierarchy_order).to eq [1,2,3,4]
       expect(result).to eq [user, admin, super_admin, root]
     end

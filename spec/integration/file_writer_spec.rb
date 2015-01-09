@@ -9,7 +9,7 @@ describe ToFactory::FileWriter do
     fs = ToFactory::FileSync.new
     representations = fs.all_representations
     #sanity check generation isn't broken
-    expect(representations.keys).to eq [ToFactory::User]
+    expect(representations.keys).to eq ["to_factory/user"]
     expect(representations.values[0][0]).to be_a ToFactory::Representation
 
     fw.write representations

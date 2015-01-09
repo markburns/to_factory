@@ -5,18 +5,14 @@ module ToFactory
     end
 
     def write(definitions)
-      definitions.each do |klass, representations|
-        write_to(name_from klass) do
+      definitions.each do |klass_name, representations|
+        write_to(klass_name) do
           wrap_factories(representations.map(&:definition))
         end
       end
     end
 
     private
-
-    def name_from(klass)
-      klass.name.underscore.gsub /^"|"$/, ""
-    end
 
     def write_to(name)
       mkdir(name)
@@ -35,7 +31,7 @@ module ToFactory
     end
 
     def modern_header(definitions)
-      out = "FactoryGirl.define do\n"
+      out =  "FactoryGirl.define do\n"
       out << definitions.join("\n\n")
       out << "end"
     end
