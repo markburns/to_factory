@@ -36,12 +36,28 @@ module ToFactory
           inspect_hash(value, nested)
         when Array
           inspect_array(value, nested)
+        when String
+          validate_parseable!(value).inspect
         else
           value.inspect
         end
       end
 
       private
+
+      def validate_parseable!(value)
+        return value if parse(value)
+
+        "ToFactory: RubyParser exception parsing this attribute after factory generation"
+      end
+
+      def parse(value)
+        @parser ||= RubyParser.new
+        @parser.parse(value)
+        true
+      rescue
+        false
+      end
 
       def inspect_time(value)
         time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect

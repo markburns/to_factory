@@ -31,4 +31,14 @@ describe ToFactory::Generation::Attribute do
     end
   end
 
+  it "alters attributes that are unparseable by RubyParser" do
+    #when reparsing the generated files, we don't want the parser itself
+    #to raise an exception, rather than fix RubyParser now, a hotfix is to
+    #warn about these attributes and replace them with something parseable
+    value = File.read("./spec/support/ruby_parser_exception_causing_string.rb")
+    expect(lambda{RubyParser.new.parse(value)}).to raise_error StringScanner::Error
+    result = attribute.inspect_value(value)
+    expect(lambda{RubyParser.new.parse(result)}).not_to raise_error
+    expect(result).to match /ToFactory: RubyParser exception/
+  end
 end
