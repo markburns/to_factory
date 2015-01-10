@@ -6,8 +6,9 @@ begin
   rescue NoMethodError
 end 
 inst = Gem::DependencyInstaller.new
+puts 'tests'
 begin
-  if RUBY_VERSION < "1.9.3"
+  if RUBY_VERSION < "2.1.0"
     inst.install "to_factory", ">= 0.2.0", "< 1.0.0"
   else
     inst.install "to_factory", ">= 1.0.0"
