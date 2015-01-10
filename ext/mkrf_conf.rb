@@ -11,6 +11,7 @@ inst = Gem::DependencyInstaller.new
 begin
   if RUBY_VERSION < "1.9.3"
     inst.install "activerecord", ">2.0", "< 4.0"
+    inst.install 'i18n', "< 0.7"
   else
     inst.install "activerecord", "> 4.0"
   end
