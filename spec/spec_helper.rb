@@ -6,7 +6,6 @@ rescue LoadError
 end
 
 require 'active_record'
-require 'fileutils'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash'
 require "sqlite3"
