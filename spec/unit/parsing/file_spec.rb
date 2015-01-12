@@ -4,6 +4,26 @@ describe ToFactory::Parsing::File do
 
   let(:parser) { ToFactory::Parsing::File.from_file(filename) }
 
+  context "with non-parseable factories" do
+    let(:dynamic_content) do
+      <<-RUBY
+        [ 0, 1, 2, 3, 4].each do |i|
+          Factory.define(:"user_\#{i}", :parent => :"to_factory/user") do |o|
+            p.project_statuses = statuses
+          end
+        end
+      RUBY
+    end
+    it do
+      instance = ToFactory::Parsing::File.new(dynamic_content)
+      expect(lambda{instance.parse}).not_to raise_error
+      result= instance.parse
+      expect(result).to be_a Array
+      expect(result[0]).to be_a ToFactory::NullRepresentation
+      expect(result[0].definition).to match_sexp dynamic_content
+    end
+  end
+
   describe "#multiple_factories? and #header?" do
     context "new syntax" do
       tests = if ToFactory.new_syntax?

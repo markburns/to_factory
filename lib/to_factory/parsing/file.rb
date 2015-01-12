@@ -1,5 +1,6 @@
 require 'ruby2ruby'
 require 'ruby_parser'
+require "to_factory/parsing/ruby_parsing_helpers"
 require 'to_factory/parsing/syntax'
 require 'to_factory/parsing/new_syntax'
 require 'to_factory/parsing/old_syntax'
