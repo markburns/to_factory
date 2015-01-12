@@ -4,13 +4,9 @@ context "full integration" do
   end
 
   it "#to_factory linting the output" do
-    if ToFactory.new_syntax?
-      ToFactory(user)
-
-      load "./tmp/factories/to_factory/user.rb"
-
-      FactoryGirl.lint
-    end
+    ToFactory(user)
+    load "./tmp/factories/to_factory/user.rb"
+    FactoryGirl.lint
   end
 end
 

@@ -13,21 +13,12 @@ require "to_factory/file_sync"
 require "to_factory/parsing/file"
 require "to_factory/klass_inference"
 require "to_factory/options_parser"
+require "factory_girl"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
 
   class << self
-    def new_syntax?
-      require "factory_girl"
-      if FactoryGirl::VERSION.to_s[0..0].to_i > 1
-        true
-      else
-        false
-      end
-    rescue NameError, ArgumentError
-      false
-    end
 
     def definitions
       results = Finders::Factory.new.call

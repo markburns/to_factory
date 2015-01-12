@@ -28,15 +28,8 @@ require "./spec/support/models/project"
 require "./spec/support/match_sexp"
 require "./spec/support/data_creation"
 
-module ToFactory::SpecSyntaxHelpers
-  def version
-    ToFactory.new_syntax? ? "new" : "old"
-  end
-end
-
 RSpec.configure do |config|
   config.include ToFactory::DataCreation
-  config.include ToFactory::SpecSyntaxHelpers
 
   config.before :suite do
     ActiveRecord::Base.tap do |base|

@@ -8,12 +8,7 @@ module ToFactory
 
       def to_s
         setter = "#{@attribute}#{inspect_value(@value)}"
-
-        if ToFactory.new_syntax?
-          "    #{setter}"
-        else
-          "  o.#{setter}"
-        end
+        "    #{setter}"
       end
 
       def inspect_value(value, nested=false)

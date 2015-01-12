@@ -17,9 +17,7 @@ describe ToFactory::FileWriter do
                 "to_factory/project" => [project_representation]
       })
 
-      if ToFactory.new_syntax?
-        expect(user_file).to match /FactoryGirl.define do/
-      end
+      expect(user_file).to match /FactoryGirl.define do/
       expect(user_file).to include "factory a"
       expect(project_file).to include "factory b"
     end

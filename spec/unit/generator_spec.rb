@@ -17,46 +17,28 @@ describe ToFactory::Generation::Factory do
 
   describe "#header" do
     it do
-      if ToFactory.new_syntax?
-        expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
-          factory(:"to_factory/user") do
-          end
-        eof
-      else
-        expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
-          Factory.define(:"to_factory/user") do |o|
-          end
-        eof
-      end
+      expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
+        factory(:"to_factory/user") do
+        end
+      eof
     end
   end
 
   describe "#factory_attribute" do
     it do
-      if ToFactory.new_syntax?
-        expect(generator.factory_attribute(:name, nil))   .to eq '    name nil'
-        expect(generator.factory_attribute(:name, "Jeff")).to eq '    name "Jeff"'
-        expect(generator.factory_attribute(:id, 8))       .to eq '    id 8'
-
-      else
-        expect(generator.factory_attribute(:name, nil))   .to eq '  o.name nil'
-        expect(generator.factory_attribute(:name, "Jeff")).to eq '  o.name "Jeff"'
-        expect(generator.factory_attribute(:id, 8))       .to eq '  o.id 8'
-      end
+      expect(generator.factory_attribute(:name, nil))   .to eq '    name nil'
+      expect(generator.factory_attribute(:name, "Jeff")).to eq '    name "Jeff"'
+      expect(generator.factory_attribute(:id, 8))       .to eq '    id 8'
     end
     it "generates usable datetime strings" do
       output = generator.factory_attribute(:birthday, birthday)
-      if ToFactory.new_syntax?
-        expect(output).to eq '    birthday "2014-07-08T15:30Z"'
-      else
-        expect(output).to eq '  o.birthday "2014-07-08T15:30Z"'
-      end
+      expect(output).to eq '    birthday "2014-07-08T15:30Z"'
     end
   end
 
   describe "#ToFactory" do
     let(:expected) do
-      File.read "./spec/example_factories/#{version}_syntax/user.rb"
+      File.read "./spec/example_factories/user.rb"
     end
 
     it do

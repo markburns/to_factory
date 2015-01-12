@@ -1,6 +1,6 @@
 describe ToFactory::FileWriter do
   let(:fw) { ToFactory::FileWriter.new }
-  let(:expected)    { File.read "./spec/example_factories/#{version}_syntax/user_with_header.rb"}
+  let(:expected)    { File.read "./spec/example_factories/user_with_header.rb"}
   let(:user_file_contents)    { File.read "./tmp/factories/to_factory/user.rb"}
   let!(:user) { create_user!  }
   let!(:admin) { create_admin!  }

@@ -23,14 +23,6 @@ module ToFactory
     end
 
     def wrap_factories(definitions)
-      if ToFactory.new_syntax?
-        modern_header(definitions)
-      else
-        definitions.join("\n\n")
-      end
-    end
-
-    def modern_header(definitions)
       out =  "FactoryGirl.define do\n"
       out << definitions.join("\n\n")
       out << "end"

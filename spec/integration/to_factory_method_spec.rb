@@ -12,8 +12,8 @@ describe ToFactory do
     File.read("./tmp/factories/to_factory/project.rb") rescue nil
   end
 
-  let(:expected_user_file) { File.read "./spec/example_factories/#{version}_syntax/user_with_header.rb"}
-  let(:expected_project_file) { File.read "./spec/example_factories/#{version}_syntax/project_with_header.rb"}
+  let(:expected_user_file) { File.read "./spec/example_factories/user_with_header.rb"}
+  let(:expected_project_file) { File.read "./spec/example_factories/project_with_header.rb"}
 
   describe "ToFactory.definitions" do
     it do
@@ -25,7 +25,7 @@ describe ToFactory do
 
   describe "Object#ToFactory" do
     context "with multiple levels of parent classes" do
-      let(:filename) { "spec/example_factories/#{version}_syntax/#{'user_admin_super_admin'}.rb"}
+      let(:filename) { "spec/example_factories/#{'user_admin_super_admin'}.rb"}
 
       it "gets the output order correct" do
         output = "./tmp/factories/to_factory/user.rb"
@@ -34,7 +34,7 @@ describe ToFactory do
 
         ToFactory(:root => user)
 
-        expected = File.read "spec/example_factories/#{version}_syntax/#{'user_admin_root'}.rb"
+        expected = File.read "spec/example_factories/#{'user_admin_root'}.rb"
 
         #user, admin, super_admin, root
         expect(File.read(output)).to match_sexp expected
@@ -100,20 +100,9 @@ describe ToFactory do
 
       context "with a name for the factory" do
         it "appends to the file" do
-          if ToFactory.new_syntax?
-            user_file_includes('factory(:"to_factory/user"')
-          else
-            user_file_includes('Factory.define(:"to_factory/user"')
-          end
-
+          user_file_includes('factory(:"to_factory/user"')
           ToFactory(:specific_user => user)
-          if ToFactory.new_syntax?
-            user_file_includes('factory(:specific_user, :parent => :"to_factory/user"')
-          else
-            user_file_includes('Factory.define(:specific_user, :parent => :"to_factory/user"')
-          end
-
-
+          user_file_includes('factory(:specific_user, :parent => :"to_factory/user"')
         end
       end
 

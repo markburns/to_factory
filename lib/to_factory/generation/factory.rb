@@ -18,11 +18,7 @@ module ToFactory
       end
 
       def header(&block)
-        if ToFactory.new_syntax?
-          generic_header("  factory", "", "  end", &block)
-        else
-          generic_header("Factory.define", " |o|", "end", &block)
-        end
+        generic_header("  factory", "", "  end", &block)
       end
 
       def factory_attribute(attr, value)
