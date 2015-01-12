@@ -14,10 +14,12 @@ describe ToFactory::Parsing::File do
         end
       RUBY
     end
+    let(:instance) { ToFactory::Parsing::File.new(dynamic_content) }
+
     it do
-      instance = ToFactory::Parsing::File.new(dynamic_content)
+      expect(Kernel).to receive(:warn).with(/#{dynamic_content}/).at_least :once
       expect(lambda{instance.parse}).not_to raise_error
-      result= instance.parse
+      result = instance.parse
       expect(result).to be_a Array
       expect(result[0]).to be_a ToFactory::NullRepresentation
       expect(result[0].definition).to match_sexp dynamic_content
