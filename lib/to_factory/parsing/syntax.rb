@@ -36,7 +36,7 @@ module ToFactory
         Representation.new(name_from(x), parent_from(x), to_ruby(x))
       rescue CouldNotInferClassException => e
         ruby = to_ruby(e.sexp)
-        Kernel.warn "Could not parse #{ruby}"
+        Kernel.warn "ToFactory could not parse\n#{ruby}"
         NullRepresentation.new(e.sexp)
       end
 
