@@ -78,15 +78,11 @@ end
 ToFactory.definitions
 #=> [:user, :admin, :project]
 
-#Display definition
+#Display definition from record
 ToFactory.definition_for @user
-#=>
-# FactoryGirl.define
-#   factory(:user) do |u|
-#     email "test@example.com"
-#     name "Mike"
-#   end
-# end
+
+#Display existing definition from name
+ToFactory.definition_for :admin
 
 #doesn't overwrite existing factories
 ToFactory User.last

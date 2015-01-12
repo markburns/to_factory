@@ -27,6 +27,15 @@ describe ToFactory do
     it do
       expect(ToFactory.definition_for user).to match_sexp expected_user_file
     end
+
+    it do
+      ToFactory(user)
+      expect(ToFactory.definition_for :"to_factory/user").to match_sexp expected_user_file
+    end
+
+    it "raises a not found error" do
+      expect(lambda{ToFactory.definition_for :"to_factory/user"}).to raise_error ToFactory::NotFoundError
+    end
   end
 
   describe "Object#ToFactory" do

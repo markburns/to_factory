@@ -16,6 +16,7 @@ require "to_factory/options_parser"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
+  class NotFoundError < Exception;end
 
   class << self
     def new_syntax?
@@ -29,13 +30,24 @@ module ToFactory
       false
     end
 
-    def definition_for(*args)
-      Representation.from(*args).definition
+    def definition_for(item)
+      if item.is_a? ActiveRecord::Base
+        Representation.from(item).definition
+      else
+        if found = representations.find{|r| r.name.to_s == item.to_s }
+          found.definition
+        else
+          raise NotFoundError.new "No definition found for #{item}"
+        end
+      end
     end
 
     def definitions
-      results = Finders::Factory.new.call
-      results.map(&:name)
+      representations.map(&:name)
+    end
+
+    def representations
+      Finders::Factory.new.call
     end
   end
 end
