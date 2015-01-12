@@ -29,6 +29,10 @@ module ToFactory
       false
     end
 
+    def definition_for(*args)
+      Representation.from(*args).definition
+    end
+
     def definitions
       results = Finders::Factory.new.call
       results.map(&:name)

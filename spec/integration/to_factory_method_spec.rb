@@ -23,6 +23,12 @@ describe ToFactory do
 
   end
 
+  describe "ToFactory.definition_for" do
+    it do
+      expect(ToFactory.definition_for user).to match_sexp expected_user_file
+    end
+  end
+
   describe "Object#ToFactory" do
     context "with multiple levels of parent classes" do
       let(:filename) { "spec/example_factories/#{version}_syntax/#{'user_admin_super_admin'}.rb"}
