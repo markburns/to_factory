@@ -29,13 +29,13 @@ module ToFactory
         Attribute.new(attr, value).to_s
       end
 
-      private
-
       def attributes
-        to_skip = [:id, :created_at, :updated_at]
+        to_skip = [:id, :created_at, :created_on, :updated_at, :updated_on]
 
-        @representation.attributes.delete_if{|key, _| to_skip.include? key.to_sym}
+        @representation.attributes.delete_if{|key, _| key.nil? || to_skip.include?(key.to_sym)}
       end
+
+      private
 
       def parent_name
         @representation.parent_name
