@@ -9,12 +9,12 @@ describe ToFactory::Generation::Attribute do
 
   describe "#format" do
     it "formats Date, Time, DateTime" do
-      Time.zone= "CET"
-      time_string ="2011-12-13T14:15 CET"
+      Time.zone= "UTC"
+      time_string ="2011-12-13T14:15 UTC"
 
-      expect(attribute.format(Time    .parse(time_string))).to eq "2011-12-13T14:15 CET".inspect
+      expect(attribute.format(Time    .parse(time_string))).to eq "2011-12-13T14:15 UTC".inspect
       expect(attribute.format(Date    .parse(time_string))).to eq "2011-12-13".inspect
-      expect(attribute.format(DateTime.parse(time_string))).to eq "2011-12-13T14:15 +01:00".inspect
+      expect(attribute.format(DateTime.parse(time_string))).to eq "2011-12-13T14:15 +00:00".inspect
     end
 
     it "formats Integer, Float"do
