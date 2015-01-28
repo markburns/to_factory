@@ -34,6 +34,7 @@ describe ToFactory::Generation::Factory do
   describe "#attributes" do
     let(:representation) do
       double(:attributes => {"something" => "something",
+                             :id         => 123,
                              :created_at => anything,
                              :created_on => anything,
                              :updated_at => anything,
