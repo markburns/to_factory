@@ -5,7 +5,7 @@ describe ToFactory::Generation::Factory do
   end
 
   let(:birthday) do
-    Time.find_zone("UTC").parse("2014-07-08T15:30Z")
+    Time.find_zone("UTC").parse("2014-07-08T15:30 UTC")
   end
 
   let!(:user) { create_user! }
@@ -61,9 +61,9 @@ describe ToFactory::Generation::Factory do
     it "generates usable datetime strings" do
       output = generator.factory_attribute(:birthday, birthday)
       if ToFactory.new_syntax?
-        expect(output).to eq '    birthday "2014-07-08T15:30Z"'
+        expect(output).to eq '    birthday "2014-07-08T15:30 UTC"'
       else
-        expect(output).to eq '  o.birthday "2014-07-08T15:30Z"'
+        expect(output).to eq '  o.birthday "2014-07-08T15:30 UTC"'
       end
     end
   end
