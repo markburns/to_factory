@@ -62,7 +62,9 @@ module ToFactory
       end
 
       def inspect_time(value)
-        value.strftime("%Y-%m-%dT%H:%M %Z").inspect
+        value = value.strftime("%Y-%m-%dT%H:%M %Z").inspect
+        value.gsub! /GMT/, "UTC"
+        value
       end
 
       def inspect_hash(value, nested)
