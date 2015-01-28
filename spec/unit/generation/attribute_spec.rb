@@ -7,12 +7,28 @@ describe ToFactory::Generation::Attribute do
     end
   end
 
+  describe "#format" do
+    it "formats Date, Time, DateTime" do
+      Time.zone= "CET"
+      time_string ="2011-12-13T14:15 CET"
+
+      expect(attribute.format(Time    .parse(time_string))).to eq "2011-12-13T14:15 CET".inspect
+      expect(attribute.format(Date    .parse(time_string))).to eq "2011-12-13".inspect
+      expect(attribute.format(DateTime.parse(time_string))).to eq "2011-12-13T14:15 +01:00".inspect
+    end
+
+    it "formats Integer, Float"do
+      expect(attribute.format(123))  .to eq "123"
+      expect(attribute.format(123.0)).to eq "123.0"
+    end
+  end
+
+
   describe "#inspect_value" do
     it do
       expect(attribute.inspect_value({:a => 1})).to eq "({:a => 1})"
     end
-
-    it do
+    it "formats hashes correctly" do
       hash = ActiveSupport::OrderedHash.new
       hash[{"with" => :hash}] = "keys"
       hash[2] = "integers"
