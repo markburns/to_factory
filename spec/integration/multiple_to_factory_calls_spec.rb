@@ -53,7 +53,7 @@ describe ToFactory do
       ToFactory(user_4: ToFactory::User.first)
     end
 
-    it "renders two factories correctly" do
+    pending "renders two factories correctly" do
       expect(user_file).to match_sexp <<-FACTORY
        FactoryGirl.define do
          factory(:"to_factory/user") do
