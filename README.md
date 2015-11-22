@@ -33,7 +33,7 @@ group :test, :development do
 end
 ```
 
-For Ruby 1.8.7 and older FactoryGirl syntax etc 
+For Ruby <2.x and older FactoryGirl syntax etc
 ```
 group :test, :development do
   gem "to_factory", "~> 0.2.1"
