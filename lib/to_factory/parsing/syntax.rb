@@ -28,7 +28,7 @@ module ToFactory
         end
 
       rescue Racc::ParseError, StringScanner::Error => e
-        raise ParseException.new("Original exception: #{e.message}\n #{e.backtrace}\nToFactory Error parsing \n#{@contents}\n o")
+        raise ParseException.new("Original exception: #{e.message}\n #{e.backtrace.join("\n")}\nToFactory Error parsing \n#{@contents}\n o")
       end
 
 
