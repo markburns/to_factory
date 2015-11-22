@@ -28,7 +28,7 @@ module ToFactory
         when Date
           value.to_s.inspect
         when BigDecimal
-          value.to_f.inspect
+          "BigDecimal.new(#{value.to_s.inspect})"
         when Hash
           inspect_hash(value, nested)
         when Array

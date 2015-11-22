@@ -21,6 +21,10 @@ describe ToFactory::Generation::Attribute do
       expect(attribute.format(123))  .to eq "123"
       expect(attribute.format(123.0)).to eq "123.0"
     end
+
+    it "formats BigDecimal"do
+      expect(attribute.format(BigDecimal.new "123456789012345678900.0")).to eq "BigDecimal.new(\"123456789012345678900.0\")"
+    end
   end
 
 
