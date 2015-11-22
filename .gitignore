@@ -9,3 +9,4 @@ spec/db/test.sqlite3
 tmp/*
 !tmp/.keep
 *.sqlite3
+/spec/dummy/spec/factories
