@@ -19,7 +19,7 @@ If you find yourself retro-fitting tests this gem will save you some of the legw
 * display factory definition for a record
 * parse and write `FactoryGirl` syntax or older `Factory.define` syntax
 
-Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x, 2.2.0
+Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x, 2.2.x
 
 
 ## Installation :file_folder:
@@ -32,6 +32,14 @@ group :test, :development do
   gem 'to_factory'
 end
 ```
+
+For Ruby 1.8.7 and older FactoryGirl syntax etc 
+```
+group :test, :development do
+  gem "to_factory", "~> 0.2.1"
+ end
+```
+
 
 ## Warning :warning:
 `ToFactory` writes into the `spec/factories` folder. Whilst it
