@@ -1,6 +1,8 @@
 module ToFactory
   module Generation
     class Attribute
+      attr_writer :parser
+
       def initialize(attribute, value)
         @attribute = attribute
         @value = value
@@ -45,7 +47,7 @@ module ToFactory
       def validate_parseable!(value)
         return value if parse(value)
 
-        "ToFactory: RubyParser exception parsing this attribute after factory generation"
+        "ToFactory: RubyParser exception parsing this attribute"
       end
 
       def parse(value)

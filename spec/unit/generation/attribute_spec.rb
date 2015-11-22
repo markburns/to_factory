@@ -25,6 +25,16 @@ describe ToFactory::Generation::Attribute do
     it "formats BigDecimal"do
       expect(attribute.format(BigDecimal.new "123456789012345678900.0")).to eq "BigDecimal.new(\"123456789012345678900.0\")"
     end
+
+    it "handles unparseable strings" do
+      #NB this spec may only have been relevant for ruby 1.8 i.e. older RubyParser versions
+      #see https://github.com/markburns/to_factory/issues/4
+      parser = double "RubyParser"
+      expect(parser).to receive(:parse).and_raise "some error"
+      attribute.parser = parser
+
+      expect(attribute.format("anything")).to eq "ToFactory: RubyParser exception parsing this attribute".inspect
+    end
   end
 
 
