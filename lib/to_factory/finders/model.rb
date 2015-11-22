@@ -49,11 +49,7 @@ module ToFactory
 
       def get_active_record_instance(klass)
         if klass && klass.ancestors.include?(ActiveRecord::Base)
-          begin
-            klass.first
-          rescue
-            klass.find(:first)
-          end
+          klass.first
         end
       rescue Exception => e
         warn "Failed to get record from #{klass} #{e.message}"
