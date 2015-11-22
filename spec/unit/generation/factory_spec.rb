@@ -13,6 +13,32 @@ describe ToFactory::Generation::Factory do
   let(:representation) { ToFactory::Representation.from(user) }
   let(:generator) { ToFactory::Generation::Factory.new representation  }
 
+  describe "#name" do
+    context "with a simple name" do
+      let(:representation) { double "Representation", name: "some_name" }
+
+      it "adds just displays the name" do
+        expect(generator.name).to eq "some_name"
+      end
+    end
+
+    context "with a namespace" do
+      let(:representation) { double "Representation", name: "some_namespace/some_name" }
+
+      it "adds quotes to the name" do
+        expect(generator.name).to eq "some_namespace/some_name".inspect
+      end
+    end
+
+    context "with a an already quoted name in a namespace" do
+      let(:representation) { double "Representation", name: "some_namespace/some_name".inspect }
+
+      it "doesn't add extra adds quotes to the name" do
+        expect(generator.name).to eq "some_namespace/some_name".inspect
+      end
+    end
+  end
+
 
 
   describe "#header" do
