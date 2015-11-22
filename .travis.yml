@@ -5,6 +5,8 @@ rvm:
   - 2.0.0
 
 script: "./bin/ci"
+cache: bundler
+
 
 branches:
   only:
