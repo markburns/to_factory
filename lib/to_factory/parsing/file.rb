@@ -6,6 +6,8 @@ require 'to_factory/parsing/syntax'
 module ToFactory
   module Parsing
     class File
+      EmptyFileException = Class.new ArgumentError
+
       delegate :multiple_factories?, :header?, :parse, :to => :parser
       attr_reader :contents
 
@@ -15,7 +17,7 @@ module ToFactory
 
       def self.from_file(filename)
         contents = ::File.read filename rescue nil
-        raise ArgumentError.new "Invalid file #{filename}"  if contents.to_s.length == 0
+        raise EmptyFileException.new "Invalid file #{filename}"  if contents.to_s.strip.length == 0
 
         new(contents)
       end

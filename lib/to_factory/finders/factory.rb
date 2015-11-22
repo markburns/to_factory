@@ -15,8 +15,14 @@ module ToFactory
 
       def parsed_files
         Dir.glob(File.join(ToFactory.factories, "**/*.rb")).map do |f|
-          ToFactory::Parsing::File.parse(f)
-        end
+          parse_file(f)
+        end.compact
+      end
+
+      def parse_file(f)
+        ToFactory::Parsing::File.parse(f)
+      rescue ToFactory::Parsing::File::EmptyFileException => e
+        #ignore empty files
       end
     end
   end
