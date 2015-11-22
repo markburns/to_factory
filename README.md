@@ -34,10 +34,11 @@ end
 ```
 
 For Ruby <2.x and older FactoryGirl syntax etc
-```
+
+```ruby
 group :test, :development do
   gem "to_factory", "~> 0.2.1"
- end
+end
 ```
 
 
