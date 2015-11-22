@@ -11,16 +11,7 @@ require 'active_support/core_ext/hash'
 require "sqlite3"
 require "database_cleaner"
 
-begin
-  require "pry-byebug"
-rescue LoadError
-  begin
-    require "ruby-debug"
-  rescue LoadError
-    $stderr.puts "No debugger available for #{RUBY_VERSION}"
-  end
-end
-
+require "pry-byebug"
 require "to_factory"
 
 require "./spec/support/models/user"

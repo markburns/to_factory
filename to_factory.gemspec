@@ -21,9 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sqlite3" , "~> 1.3.6"
   spec.add_development_dependency "database_cleaner", "~> 1.4.0"
 
-  if RUBY_VERSION =~ /^2\.\d/
-    spec.add_development_dependency "pry-byebug"
-  end
+  spec.add_development_dependency "pry-byebug"
 
   spec.add_development_dependency "factory_girl", "~> 4.5"
   spec.add_development_dependency "rspec", "~> 3.0"
