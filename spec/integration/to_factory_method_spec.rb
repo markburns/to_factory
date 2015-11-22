@@ -24,7 +24,7 @@ describe ToFactory do
   end
 
   describe "ToFactory.definition_for" do
-  let(:expected_user_file) { File.read "./spec/example_factories/#{version}_syntax/user.rb"}
+  let(:expected_user_file) { File.read "./spec/example_factories/user.rb"}
     it do
       expect(ToFactory.definition_for user).to match_sexp expected_user_file
     end
