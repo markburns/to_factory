@@ -59,12 +59,3 @@ def ToFactory(args=nil)
 
   sync.perform(exclusions)
 end
-
-if defined?(Rails)
-  unless Rails.respond_to?(:configuration)
-    #FactoryGirl 1.3.x expects this method, but it isn't defined in Rails 2.0.2
-    def Rails.configuration
-      OpenStruct.new
-    end
-  end
-end
