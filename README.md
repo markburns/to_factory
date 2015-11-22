@@ -21,6 +21,14 @@ If you find yourself retro-fitting tests this gem will save you some of the legw
 
 Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x, 2.2.x
 
+## Warning :warning:
+`ToFactory` writes into the `spec/factories` folder. Whilst it
+is tested and avoids overwriting existing factories,
+it is recommended that you execute after committing or when in a known
+safe state.
+
+
+
 
 ## Installation :file_folder:
 
@@ -33,20 +41,13 @@ group :test, :development do
 end
 ```
 
-For Ruby <2.x and older FactoryGirl syntax etc
+For Ruby < `2.x` and older `FactoryGirl` syntax etc
 
 ```ruby
 group :test, :development do
   gem "to_factory", "~> 0.2.1"
 end
 ```
-
-
-## Warning :warning:
-`ToFactory` writes into the `spec/factories` folder. Whilst it
-is tested and avoids overwriting existing factories,
-it is recommended that you execute after committing or when in a known
-safe state.
 
 
 
