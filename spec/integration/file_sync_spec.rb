@@ -8,11 +8,6 @@ describe "FileSync" do
   let(:user_with_header)               { File.read("./spec/example_factories/user_with_header.rb") }
   let(:user_admin_with_header)         { File.read("./spec/example_factories/user_admin_with_header.rb") }
 
-
-  before do
-    FileUtils.rm_rf "./tmp/factories"
-  end
-
   def user_file
     File.read("./tmp/factories/to_factory/user.rb") rescue nil
   end
@@ -20,7 +15,6 @@ describe "FileSync" do
   def project_file
     File.read("./tmp/factories/to_factory/project.rb") rescue nil
   end
-
 
   context "with no arguments" do
     before do

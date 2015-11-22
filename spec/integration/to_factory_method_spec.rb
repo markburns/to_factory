@@ -2,8 +2,6 @@ describe ToFactory do
   let!(:user)    { create_user! }
   let!(:project) { create_project!}
 
-  before { FileUtils.rm_rf "./tmp/factories" }
-
   def user_file
     File.read("./tmp/factories/to_factory/user.rb") rescue nil
   end
