@@ -5,7 +5,7 @@ describe ToFactory::Generation::Factory do
   end
 
   let(:birthday) do
-    Time.find_zone("UTC").parse("2014-07-08T15:30Z") 
+    Time.find_zone("UTC").parse("2014-07-08T15:30 UTC")
   end
 
   let!(:user) { create_user! }
@@ -24,6 +24,20 @@ describe ToFactory::Generation::Factory do
     end
   end
 
+  describe "#attributes" do
+    let(:representation) do
+      double(:attributes => {"something" => "something",
+                             :id         => 123,
+                             :created_at => anything,
+                             :created_on => anything,
+                             :updated_at => anything,
+                             :updated_on => anything,
+                             nil => nil})
+    end
+    it "ignores blank keys, :id, :created_at, :updated_at, :created_on, :updated_on" do
+      expect(generator.attributes).to eq({"something" => "something"})
+    end
+  end
   describe "#factory_attribute" do
     it do
       expect(generator.factory_attribute(:name, nil))   .to eq '    name nil'

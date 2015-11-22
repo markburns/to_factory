@@ -2,7 +2,16 @@ module ToFactory
   module Parsing
     ParseException = Class.new ::Exception
 
+    class CouldNotInferClassException < ::Exception
+      attr_reader :sexp
+
+      def initialize(sexp)
+        @sexp = sexp
+      end
+    end
+
     class Syntax
+      include Parsing::RubyParsingHelpers
       attr_accessor :contents
 
       def initialize(contents)
@@ -15,11 +24,20 @@ module ToFactory
 
       def parse
         factories.map do |x|
-          Representation.new(name_from(x), parent_from(x), to_ruby(x))
+          representation_from(x)
         end
 
       rescue Racc::ParseError, StringScanner::Error => e
         raise ParseException.new("Original exception: #{e.message}\n #{e.backtrace}\nToFactory Error parsing \n#{@contents}\n o")
+      end
+
+
+      def representation_from(x)
+        Representation.new(name_from(x), parent_from(x), to_ruby(x))
+      rescue CouldNotInferClassException => e
+        ruby = to_ruby(e.sexp)
+        Kernel.warn "ToFactory could not parse\n#{ruby}"
+        NullRepresentation.new(e.sexp)
       end
 
       def factories
@@ -36,6 +54,8 @@ module ToFactory
 
       def name_from(sexp)
         sexp[1][3][1]
+      rescue NoMethodError
+        raise CouldNotInferClassException.new(sexp)
       end
 
       def header?
@@ -54,21 +74,10 @@ module ToFactory
 
       private
 
-      def to_ruby(sexp)
-        ruby2ruby.process sexp.deep_clone
-      end
-
       def sexp
         @sexp ||= ruby_parser.process(@contents)
       end
 
-      def ruby2ruby
-        @ruby2ruby ||= Ruby2Ruby.new
-      end
-
-      def ruby_parser
-        @ruby_parseer ||= RubyParser.new
-      end
     end
   end
 end

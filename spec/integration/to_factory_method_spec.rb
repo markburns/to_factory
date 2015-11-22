@@ -23,6 +23,22 @@ describe ToFactory do
 
   end
 
+  describe "ToFactory.definition_for" do
+  let(:expected_user_file) { File.read "./spec/example_factories/#{version}_syntax/user.rb"}
+    it do
+      expect(ToFactory.definition_for user).to match_sexp expected_user_file
+    end
+
+    it do
+      ToFactory(user)
+      expect(ToFactory.definition_for :"to_factory/user").to match_sexp expected_user_file
+    end
+
+    it "raises a not found error" do
+      expect(lambda{ToFactory.definition_for :"to_factory/user"}).to raise_error ToFactory::NotFoundError
+    end
+  end
+
   describe "Object#ToFactory" do
     context "with multiple levels of parent classes" do
       let(:filename) { "spec/example_factories/#{'user_admin_super_admin'}.rb"}

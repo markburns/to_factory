@@ -8,21 +8,37 @@ require "to_factory/collation"
 require "to_factory/file_writer"
 require "to_factory/finders/model"
 require "to_factory/finders/factory"
-require "to_factory/representation"
 require "to_factory/file_sync"
 require "to_factory/parsing/file"
+require "to_factory/representation"
 require "to_factory/klass_inference"
 require "to_factory/options_parser"
 require "factory_girl"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception;end
+  class NotFoundError < Exception;end
 
   class << self
 
+    def definition_for(item)
+      if item.is_a? ActiveRecord::Base
+        Representation.from(item).definition
+      else
+        if found = representations.find{|r| r.name.to_s == item.to_s }
+          found.definition
+        else
+          raise NotFoundError.new "No definition found for #{item}"
+        end
+      end
+    end
+
     def definitions
-      results = Finders::Factory.new.call
-      results.map(&:name)
+      representations.map(&:name)
+    end
+
+    def representations
+      Finders::Factory.new.call
     end
   end
 end

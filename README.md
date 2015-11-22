@@ -16,7 +16,8 @@ If you find yourself retro-fitting tests this gem will save you some of the legw
 * auto-generate all factories
 * adhoc generate from existing records
 * unintrusively update factory files in place
-* Parses and writes both new `FactoryGirl`, syntax or older `Factory.define` syntax
+* display factory definition for a record
+* parse and write `FactoryGirl` syntax or older `Factory.define` syntax
 
 Tested against Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,  2.1.x, 2.2.0
 
@@ -77,6 +78,11 @@ end
 ToFactory.definitions
 #=> [:user, :admin, :project]
 
+#Display definition from record
+ToFactory.definition_for @user
+
+#Display existing definition from name
+ToFactory.definition_for :admin
 
 #doesn't overwrite existing factories
 ToFactory User.last

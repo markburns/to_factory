@@ -21,10 +21,12 @@ module ToFactory
         formatted
       end
 
-      def format(value, nested)
+      def format(value, nested=false)
         case value
         when Time, DateTime
           inspect_time(value)
+        when Date
+          value.to_s.inspect
         when BigDecimal
           value.to_f.inspect
         when Hash
@@ -55,8 +57,9 @@ module ToFactory
       end
 
       def inspect_time(value)
-        time = in_utc(value).strftime("%Y-%m-%dT%H:%M%Z").inspect
-        time.gsub(/UTC"$/, "Z\"").gsub(/GMT"$/, "Z\"")
+        value = value.strftime("%Y-%m-%dT%H:%M %Z").inspect
+        value.gsub! /GMT/, "UTC"
+        value
       end
 
       def inspect_hash(value, nested)
@@ -80,10 +83,6 @@ module ToFactory
         formatted_key = inspect_value(key, true)
         formatted_value = inspect_value(value.fetch(key), true)
         "#{formatted_key} => #{formatted_value}"
-      end
-
-      def in_utc(time)
-        time.utc
       end
     end
   end

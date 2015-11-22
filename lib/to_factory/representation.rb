@@ -1,4 +1,25 @@
 module ToFactory
+  class NullRepresentation
+    include ToFactory::Parsing::RubyParsingHelpers
+
+    def initialize(sexp)
+      @sexp = sexp
+    end
+
+    def name
+      nil
+    end
+
+    def parent
+      nil
+    end
+
+    def definition
+      to_ruby(@sexp)
+    end
+  end
+
+
   class Representation
     delegate :attributes, :to => :record
     attr_accessor :klass, :name, :parent_name, :definition, :hierarchy_order, :record
