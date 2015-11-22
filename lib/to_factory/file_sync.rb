@@ -19,7 +19,7 @@ module ToFactory
     end
 
     def new_representations(exclusions=[])
-      instances = @model_finder.call(exclusions)
+      instances = @model_finder.call(exclusions: exclusions)
 
       instances.map{|r| Representation.from(r) }
     end

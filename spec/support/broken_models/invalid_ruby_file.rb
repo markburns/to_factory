@@ -1,0 +1,1 @@
+class Egg < ActiveRecord::Base

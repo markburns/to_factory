@@ -1,10 +1,11 @@
 module ToFactory
   module Finders
     class Model
-      def call(exclusions=[])
+      def call(exclusions: [], klasses: nil)
         instances = []
+        klasses ||= find_klasses(exclusions)
 
-        each_klass(exclusions) do |klass|
+        klasses.each do |klass|
           if instance = get_active_record_instance(klass)
             instances << instance
           end
@@ -15,14 +16,17 @@ module ToFactory
 
       private
 
-      def each_klass(exclusions)
+      def find_klasses(exclusions)
+        klasses = []
         models.each do |file|
           matching_lines(file) do |match|
             klass = rescuing_require(file, match)
 
-            break if exclusions.include?(klass) || yield(klass)
+            klasses << klass unless exclusions.include?(klass) 
           end
         end
+
+        klasses
       end
 
       def models
@@ -51,8 +55,8 @@ module ToFactory
         if klass && klass.ancestors.include?(ActiveRecord::Base)
           klass.first
         end
-      rescue Exception => e
-        warn "Failed to get record from #{klass} #{e.message}"
+      rescue StandardError => e
+        warn "Failed to get record from #{klass} #{e.message.inspect}"
       end
     end
   end
