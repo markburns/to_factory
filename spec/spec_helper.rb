@@ -11,7 +11,7 @@ require 'active_support/core_ext/hash'
 require "sqlite3"
 require "database_cleaner"
 
-require "pry-byebug"
+require "byebug"
 require "to_factory"
 
 require "./spec/support/models/user"
