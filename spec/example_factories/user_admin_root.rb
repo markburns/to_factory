@@ -3,6 +3,10 @@ FactoryGirl.define do
     name("User")
   end
 
+  factory(:admin, :parent => :"to_factory/user") do
+    name("Admin")
+  end
+
   factory(:root, :parent => :"to_factory/user") do
     birthday "2014-07-08T15:30 UTC"
     email "test@example.com"
@@ -11,9 +15,6 @@ FactoryGirl.define do
     some_id 8
   end
 
-  factory(:admin, :parent => :"to_factory/user") do
-    name("Admin")
-  end
 
   factory(:super_admin, :parent => :admin) do
     name("Super Admin")

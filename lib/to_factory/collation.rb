@@ -17,7 +17,7 @@ module ToFactory
 
     def organize
       representations.group_by{|i| i.klass.name.underscore}.inject({}) do |o, (klass_name,r)|
-        o[klass_name] = r.sort_by(&:hierarchy_order)
+        o[klass_name] = r.sort_by{|r| [r.hierarchy_order, r.name]}
         o
       end
     end

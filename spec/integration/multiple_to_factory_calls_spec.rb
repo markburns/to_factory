@@ -64,6 +64,14 @@ describe ToFactory do
            some_id(8)
          end
 
+         factory(:user_2, :parent => :"to_factory/user") do
+           birthday("2014-07-08T15:30 UTC")
+           email("test@example.com")
+           name("Jeff")
+           some_attributes(:a => 1)
+           some_id(8)
+         end
+
          factory(:user_3, :parent => :"to_factory/user") do
            birthday("2014-07-08T15:30 UTC")
            email("test@example.com")
@@ -79,14 +87,6 @@ describe ToFactory do
            some_attributes({:a => 1})
            some_id 8
          end
-
-         factory(:user_2, :parent => :"to_factory/user") do
-           birthday("2014-07-08T15:30 UTC")
-           email("test@example.com")
-           name("Jeff")
-           some_attributes(:a => 1)
-           some_id(8)
-         end 
        end
       FACTORY
     end
