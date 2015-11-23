@@ -80,7 +80,6 @@ describe ToFactory do
            some_id 8
          end
 
-
          factory(:user_2, :parent => :"to_factory/user") do
            birthday("2014-07-08T15:30 UTC")
            email("test@example.com")
