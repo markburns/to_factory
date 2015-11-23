@@ -1,6 +1,6 @@
 context "full integration" do
   let(:user) do
-    ToFactory::User.create :name => "Jeff", :email => "test@example.com", :some_id => 8, :birthday => Time.now
+    ToFactory::User.create name: "Jeff", email: "test@example.com", some_id: 8, birthday: Time.now
   end
 
   it "#to_factory linting the output" do
@@ -9,4 +9,3 @@ context "full integration" do
     FactoryGirl.lint
   end
 end
-

@@ -7,8 +7,8 @@ describe ToFactory::Finders::Model do
   let(:path) { "./spec/support/models" }
 
   describe "#call" do
-    let!(:user) { ToFactory::User.create! :name => "a user"}
-    let!(:project) { ToFactory::Project.create! :name => "a project"}
+    let!(:user) { ToFactory::User.create! name: "a user" }
+    let!(:project) { ToFactory::Project.create! name: "a project" }
 
     context "with a match" do
       it do
@@ -32,8 +32,8 @@ describe ToFactory::Finders::Model do
       it "displays a warning" do
         expect(finder.call).to eq [project]
 
-        expect(finder).to have_received(:warn).
-          with( "Failed to eval ./spec/support/broken_models/invalid_ruby_file.rb")
+        expect(finder).to have_received(:warn)
+          .with("Failed to eval ./spec/support/broken_models/invalid_ruby_file.rb")
       end
     end
 
@@ -47,12 +47,9 @@ describe ToFactory::Finders::Model do
         expect(klass).to receive(:ancestors).and_raise("Some error")
         finder.call(klasses: [klass])
 
-        expect(finder).to have_received(:warn).
-          with( "Failed to get record from BrokenClass \"Some error\"")
+        expect(finder).to have_received(:warn)
+          .with("Failed to get record from BrokenClass \"Some error\"")
       end
     end
   end
-
 end
-
-

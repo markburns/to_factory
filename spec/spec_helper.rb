@@ -2,12 +2,12 @@ begin
   require "codeclimate-test-reporter"
   CodeClimate::TestReporter.start
 rescue LoadError
-  #ignore on ruby 1.8.x
+  # ignore on ruby 1.8.x
 end
 
-require 'active_record'
-require 'active_support/core_ext/string'
-require 'active_support/core_ext/hash'
+require "active_record"
+require "active_support/core_ext/string"
+require "active_support/core_ext/hash"
 require "sqlite3"
 require "database_cleaner"
 
@@ -24,8 +24,8 @@ RSpec.configure do |config|
 
   config.before :suite do
     ActiveRecord::Base.tap do |base|
-      config = {:adapter => "sqlite3", :database => "spec/db/test.sqlite3"}
-      base.configurations = {:test => config}.with_indifferent_access
+      config = { adapter: "sqlite3", database: "spec/db/test.sqlite3" }
+      base.configurations = { test: config }.with_indifferent_access
       base.establish_connection :test
     end
 

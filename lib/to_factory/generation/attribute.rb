@@ -13,17 +13,15 @@ module ToFactory
         "    #{setter}"
       end
 
-      def inspect_value(value, nested=false)
+      def inspect_value(value, nested = false)
         formatted = format(value, nested)
 
-        if !value.is_a?(Hash) && !nested
-          formatted = " #{formatted}"
-        end
+        formatted = " #{formatted}" if !value.is_a?(Hash) && !nested
 
         formatted
       end
 
-      def format(value, nested=false)
+      def format(value, nested = false)
         case value
         when Time, DateTime
           inspect_time(value)
@@ -67,7 +65,7 @@ module ToFactory
       def inspect_hash(value, nested)
         formatted = value.keys.inject([]) do |a, key|
           a << key_value_pair(key, value)
-        end.join(', ')
+        end.join(", ")
 
         if nested
           "{#{formatted}}"
@@ -77,7 +75,7 @@ module ToFactory
       end
 
       def inspect_array(value, nested)
-        values = value.map{|v| format(v, nested)}.join(", ")
+        values = value.map { |v| format(v, nested) }.join(", ")
         "[#{values}]"
       end
 
@@ -89,5 +87,3 @@ module ToFactory
     end
   end
 end
-
-

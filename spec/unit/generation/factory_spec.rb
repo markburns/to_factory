@@ -11,7 +11,7 @@ describe ToFactory::Generation::Factory do
   let!(:user) { create_user! }
 
   let(:representation) { ToFactory::Representation.from(user) }
-  let(:generator) { ToFactory::Generation::Factory.new representation  }
+  let(:generator) { ToFactory::Generation::Factory.new representation }
 
   describe "#name" do
     context "with a simple name" do
@@ -39,11 +39,9 @@ describe ToFactory::Generation::Factory do
     end
   end
 
-
-
   describe "#header" do
     it do
-      expect(generator.header{}).to match_sexp  <<-eof.strip_heredoc
+      expect(generator.header {}).to match_sexp <<-eof.strip_heredoc
         factory(:"to_factory/user") do
         end
       eof
@@ -52,23 +50,23 @@ describe ToFactory::Generation::Factory do
 
   describe "#attributes" do
     let(:representation) do
-      double(:attributes => {"something" => "something",
-                             :id         => 123,
-                             :created_at => anything,
-                             :created_on => anything,
-                             :updated_at => anything,
-                             :updated_on => anything,
-                             nil => nil})
+      double(attributes: { "something" => "something",
+                           :id         => 123,
+                           :created_at => anything,
+                           :created_on => anything,
+                           :updated_at => anything,
+                           :updated_on => anything,
+                           nil => nil })
     end
     it "ignores blank keys, :id, :created_at, :updated_at, :created_on, :updated_on" do
-      expect(generator.attributes).to eq({"something" => "something"})
+      expect(generator.attributes).to eq("something" => "something")
     end
   end
   describe "#factory_attribute" do
     it do
-      expect(generator.factory_attribute(:name, nil))   .to eq '    name nil'
+      expect(generator.factory_attribute(:name, nil))   .to eq "    name nil"
       expect(generator.factory_attribute(:name, "Jeff")).to eq '    name "Jeff"'
-      expect(generator.factory_attribute(:id, 8))       .to eq '    id 8'
+      expect(generator.factory_attribute(:id, 8))       .to eq "    id 8"
     end
     it "generates usable datetime strings" do
       output = generator.factory_attribute(:birthday, birthday)

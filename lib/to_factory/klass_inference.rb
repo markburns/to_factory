@@ -14,14 +14,12 @@ module ToFactory
       end
     end
 
-    def infer(factory_name, count=0)
-      count = count + 1
-      result  = @mapping[factory_name]
+    def infer(factory_name, count = 0)
+      count += 1
+      result = @mapping[factory_name]
       return [result, count] if result.is_a? Class
 
-      if result.nil?
-        raise CannotInferClass.new(factory_name)
-      end
+      fail CannotInferClass.new(factory_name) if result.nil?
 
       infer(result, count)
     end

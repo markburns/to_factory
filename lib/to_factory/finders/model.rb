@@ -22,7 +22,7 @@ module ToFactory
           matching_lines(file) do |match|
             klass = rescuing_require(file, match)
 
-            klasses << klass unless exclusions.include?(klass) 
+            klasses << klass unless exclusions.include?(klass)
           end
         end
 
@@ -52,9 +52,7 @@ module ToFactory
       end
 
       def get_active_record_instance(klass)
-        if klass && klass.ancestors.include?(ActiveRecord::Base)
-          klass.first
-        end
+        klass.first if klass && klass.ancestors.include?(ActiveRecord::Base)
       rescue StandardError => e
         warn "Failed to get record from #{klass} #{e.message.inspect}"
       end

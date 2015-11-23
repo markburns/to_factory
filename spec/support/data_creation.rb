@@ -5,7 +5,7 @@ module ToFactory::DataCreation
   end
 
   def create_project!
-    ToFactory::Project.create({:name => "My Project", :objective => "easy testing", :some_id => 9 })
+    ToFactory::Project.create(name: "My Project", objective: "easy testing", some_id: 9)
   end
 
   def birthday
@@ -14,23 +14,21 @@ module ToFactory::DataCreation
 
   def create_user!
     ToFactory::User.create(
-      :name            => "Jeff",
-      :email           => "test@example.com",
-      :some_attributes => {:a => 1},
-      :some_id         => 8,
-      :birthday        => birthday
+      name: "Jeff",
+      email: "test@example.com",
+      some_attributes: { a: 1 },
+      some_id: 8,
+      birthday: birthday
     )
   end
 
   def create_admin!
     ToFactory::User.create(
-      :name            => "Admin",
-      :email           => "admin@example.com",
-      :some_attributes => {:a => 1},
-      :some_id         => 9,
-      :birthday        => birthday
+      name: "Admin",
+      email: "admin@example.com",
+      some_attributes: { a: 1 },
+      some_id: 9,
+      birthday: birthday
     )
   end
 end
-
-

@@ -8,7 +8,6 @@ RSpec::Matchers.define :match_sexp do |expected|
       @raised = e
       false
     end
-
   end
 
   failure_message do |actual|

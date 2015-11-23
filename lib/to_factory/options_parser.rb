@@ -6,10 +6,10 @@ module ToFactory
 
     def get_instance
       args = case @options
-      when ActiveRecord::Base
-        from_record(@options)
-      when Array
-        from_array(*@options)
+             when ActiveRecord::Base
+               from_record(@options)
+             when Array
+               from_array(*@options)
       end
 
       Representation.new(*args)

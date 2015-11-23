@@ -12,17 +12,13 @@ describe ToFactory::FileWriter do
 
     it "adds factories for all models" do
       user_representation = double :name => :user, "definition" => "factory a"
-      project_representation = double :name => "project", :definition =>"factory b"
-      fw.write({"to_factory/user" =>[user_representation],
-                "to_factory/project" => [project_representation]
-      })
+      project_representation = double name: "project", definition: "factory b"
+      fw.write("to_factory/user" => [user_representation],
+               "to_factory/project" => [project_representation])
 
       expect(user_file).to match /FactoryGirl.define do/
       expect(user_file).to include "factory a"
       expect(project_file).to include "factory b"
     end
   end
-
-
-
 end

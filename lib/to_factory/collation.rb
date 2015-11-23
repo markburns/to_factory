@@ -2,11 +2,11 @@ module ToFactory
   AlreadyExists = Class.new ArgumentError
 
   class Collation
-    def self.organize(a,b)
+    def self.organize(a, b)
       new(a, b).organize
     end
 
-    def self.representations_from(a,b)
+    def self.representations_from(a, b)
       new(a, b).representations
     end
 
@@ -16,14 +16,14 @@ module ToFactory
     end
 
     def organize
-      representations.group_by{|i| i.klass.name.underscore}.inject({}) do |o, (klass_name,r)|
-        o[klass_name] = r.sort_by{|r| [r.hierarchy_order, r.name]}
+      representations.group_by { |i| i.klass.name.underscore }.inject({}) do |o, (klass_name, r)|
+        o[klass_name] = r.sort_by { |r| [r.hierarchy_order, r.name] }
         o
       end
     end
 
     def representations
-      detect_collisions!(@a,@b)
+      detect_collisions!(@a, @b)
 
       inference = KlassInference.new(merged)
 
@@ -36,7 +36,7 @@ module ToFactory
       merged
     end
 
-    def detect_collisions!(a,b)
+    def detect_collisions!(a, b)
       collisions = []
       a.each do |x|
         b.each do |y|
@@ -53,8 +53,8 @@ module ToFactory
       @merged ||= @a + @b
     end
 
-   def raise_already_exists!(keys)
-     raise ToFactory::AlreadyExists.new "an item for each of the following keys #{keys.inspect} already exists"
-    end
+    def raise_already_exists!(keys)
+      fail ToFactory::AlreadyExists.new "an item for each of the following keys #{keys.inspect} already exists"
+     end
   end
 end

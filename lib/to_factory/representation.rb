@@ -19,18 +19,19 @@ module ToFactory
     end
   end
 
-
   class Representation
-    delegate :attributes, :to => :record
+    delegate :attributes, to: :record
     attr_accessor :klass, :name, :parent_name, :definition, :hierarchy_order, :record
 
     def self.from(options)
       OptionsParser.new(options).get_instance
     end
 
-    def initialize(name, parent_name, definition=nil, record=nil)
-      @name, @parent_name, @definition, @record =
-        name.to_s, parent_name.to_s, definition, record
+    def initialize(name, parent_name, definition = nil, record = nil)
+      @name = name.to_s
+      @parent_name = parent_name.to_s
+      @definition = definition
+      @record = record
     end
 
     def inspect
@@ -38,7 +39,9 @@ module ToFactory
     end
 
     def klass_name_inspect
-      @klass.name.inspect rescue "nil"
+      @klass.name.inspect
+    rescue
+      "nil"
     end
 
     def definition

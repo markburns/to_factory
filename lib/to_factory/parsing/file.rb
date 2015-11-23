@@ -1,6 +1,6 @@
-require 'ruby2ruby'
-require 'ruby_parser'
-require 'to_factory/parsing/ruby_parsing_helpers'
+require "ruby2ruby"
+require "ruby_parser"
+require "to_factory/parsing/ruby_parsing_helpers"
 
 module ToFactory
   module Parsing
@@ -26,8 +26,12 @@ module ToFactory
         end
 
         def from_file(filename)
-          contents = ::File.read filename rescue nil
-          raise EmptyFileException.new "Invalid file #{filename}"  if contents.to_s.strip.length == 0
+          begin
+            contents = ::File.read filename
+          rescue
+            nil
+          end
+          fail EmptyFileException.new "Invalid file #{filename}" if contents.to_s.strip.length == 0
 
           new(contents)
         end
@@ -51,7 +55,9 @@ module ToFactory
       end
 
       def header?
-        sexp[1][1][1] == :FactoryGirl rescue false
+        sexp[1][1][1] == :FactoryGirl
+      rescue
+        false
       end
 
       private
@@ -73,7 +79,7 @@ module ToFactory
       end
 
       def factories_sexp
-        header? ?  sexp[3] : sexp
+        header? ? sexp[3] : sexp
       end
 
       def name_from(sexp)
@@ -84,11 +90,11 @@ module ToFactory
 
       def parent_from(x)
         # e.g.
-        #s(:call, nil, :factory, s(:lit, :admin), s(:hash, s(:lit, :parent), s(:lit, :"to_factory/user")))
+        # s(:call, nil, :factory, s(:lit, :admin), s(:hash, s(:lit, :parent), s(:lit, :"to_factory/user")))
         x[1][4][2][1]
-      rescue  NoMethodError
+      rescue NoMethodError
         # e.g.
-        #s(:call, nil, :factory, s(:lit, :"to_factory/user"))
+        # s(:call, nil, :factory, s(:lit, :"to_factory/user"))
         x[1][3][1]
       end
 

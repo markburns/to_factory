@@ -1,5 +1,5 @@
 describe "Empty File spec" do
-  let(:user) { create_user!  }
+  let(:user) { create_user! }
 
   context "with an empty factory file" do
     before do
@@ -13,7 +13,7 @@ describe "Empty File spec" do
     end
 
     it "doesn't blow up" do
-      ToFactory(:empty => OpenStruct.new({attributes: {}}), :user => user)
+      ToFactory(empty: OpenStruct.new({ attributes: {} }), user: user)
     end
   end
 end

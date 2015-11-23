@@ -28,7 +28,7 @@ module ToFactory
       def attributes
         to_skip = [:id, :created_at, :created_on, :updated_at, :updated_on]
 
-        @representation.attributes.delete_if{|key, _| key.nil? || to_skip.include?(key.to_sym)}
+        @representation.attributes.delete_if { |key, _| key.nil? || to_skip.include?(key.to_sym) }
       end
 
       private
@@ -37,14 +37,14 @@ module ToFactory
         @representation.parent_name
       end
 
-      def generic_header(factory_start, block_arg, ending, &block)
+      def generic_header(factory_start, block_arg, ending, &_block)
         out =  "#{factory_start}(:#{name}#{parent_clause}) do#{block_arg}\n"
         out << yield.to_s
         out << "#{ending}\n"
       end
 
       def parent_clause
-        has_parent? ?  ", :parent => :#{add_quotes parent_name}" : ""
+        has_parent? ? ", :parent => :#{add_quotes parent_name}" : ""
       end
 
       def has_parent?

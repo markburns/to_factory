@@ -1,11 +1,13 @@
 describe ToFactory do
-  let!(:user)    { create_user! }
+  let!(:user) { create_user! }
 
   def user_file
-    File.read("./tmp/factories/to_factory/user.rb") rescue nil
+    File.read("./tmp/factories/to_factory/user.rb")
+  rescue
+    nil
   end
 
-  let(:expected_user_file) { File.read "./spec/example_factories/user_with_header.rb"}
+  let(:expected_user_file) { File.read "./spec/example_factories/user_with_header.rb" }
 
   context "single call" do
     before do

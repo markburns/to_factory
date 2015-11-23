@@ -1,20 +1,20 @@
 describe ToFactory::Collation do
   describe "detect_collisions!" do
-    let(:collation) { ToFactory::Collation.new(a,b) }
-    let(:a) { [double(:name => "a")]}
-    let(:b) { [double(:name => "a")]}
+    let(:collation) { ToFactory::Collation.new(a, b) }
+    let(:a) { [double(name: "a")] }
+    let(:b) { [double(name: "a")] }
 
     def perform
       collation.detect_collisions!(a, b)
     end
 
     it do
-      expect(lambda{perform}).to raise_error ToFactory::AlreadyExists
+      expect(-> { perform }).to raise_error ToFactory::AlreadyExists
     end
 
     context "non matching keys" do
-      let(:a) { [double(:name => "a")]}
-      let(:b) { [double(:name => "b")]}
+      let(:a) { [double(name: "a")] }
+      let(:b) { [double(name: "b")] }
 
       it do
         expect(perform).to eq nil
@@ -29,14 +29,13 @@ describe ToFactory::Collation do
     let(:super_admin) { ToFactory::Representation.new("super_admin", "admin", "Factory.define(:super_admin, :parent => :admin) { |o| o.name(\"Super Admin\") }") }
 
     it do
-      new_definitions = [ root ]
-      pre_existing    = [ admin, user, super_admin ]
+      new_definitions = [root]
+      pre_existing    = [admin, user, super_admin]
 
       result = ToFactory::Collation.organize(new_definitions, pre_existing)
       result = result["to_factory/user"]
-      expect(result.map &:hierarchy_order).to eq [1,2,3,4]
+      expect(result.map &:hierarchy_order).to eq [1, 2, 3, 4]
       expect(result).to eq [user, admin, super_admin, root]
     end
   end
 end
-

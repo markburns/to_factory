@@ -8,20 +8,20 @@ module ToFactory
       @factory_finder = ff
     end
 
-    def perform(exclusions=[])
+    def perform(exclusions = [])
       @file_writer.write(all_representations exclusions)
     end
 
-    def all_representations(exclusions=[])
+    def all_representations(exclusions = [])
       Collation.organize(
         new_representations(exclusions),
         existing_representations)
     end
 
-    def new_representations(exclusions=[])
+    def new_representations(exclusions = [])
       instances = @model_finder.call(exclusions: exclusions)
 
-      instances.map{|r| Representation.from(r) }
+      instances.map { |r| Representation.from(r) }
     end
 
     private
@@ -34,16 +34,16 @@ module ToFactory
       if m.respond_to?(:call)
         m
       else
-        lambda{|exclusions|
+        lambda do|exclusions|
           exclusions ||= []
           records = if m.is_a?(ActiveRecord::Base)
-            Array m
-          else
-            m
+                      Array m
+                    else
+                      m
           end
 
-          records.reject{|o,_| exclusions.include?(o.class)}
-        }
+          records.reject { |o, _| exclusions.include?(o.class) }
+        end
       end
     end
   end
