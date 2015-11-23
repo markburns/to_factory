@@ -24,8 +24,24 @@ module ToFactory
 
     def wrap_factories(definitions)
       out =  "FactoryGirl.define do\n"
-      out << definitions.join("\n\n")
+      out << indent(definitions).join("\n\n")
+      out << "\n" unless out[-1] == "\n"
       out << "end"
+      out << "\n" unless out[-1] == "\n"
+    end
+
+    def indent(definitions)
+      definitions.map do |d|
+        if d[/\A\s\s/]
+          d
+        else
+          lines = d.split("\n").map do |l|
+            "  #{l}"
+          end
+
+          lines.join("\n")
+        end
+      end
     end
 
     def mkdir(name)

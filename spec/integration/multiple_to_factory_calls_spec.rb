@@ -23,24 +23,24 @@ describe ToFactory do
     end
 
     it "renders two factories correctly" do
-      expect(user_file).to match_sexp <<-FACTORY
-       FactoryGirl.define do
-         factory(:"to_factory/user") do
-           birthday("2014-07-08T15:30 UTC")
-           email("test@example.com")
-           name("Jeff")
-           some_attributes(:a => 1)
-           some_id(8)
-         end
+      expect(user_file).to eq <<-FACTORY.strip_heredoc
+        FactoryGirl.define do
+          factory(:"to_factory/user") do
+            birthday("2014-07-08T15:30 UTC")
+            email("test@example.com")
+            name("Jeff")
+            some_attributes(:a => 1)
+            some_id(8)
+          end
 
-         factory(:user_2, :parent => :"to_factory/user") do
-           birthday "2014-07-08T15:30 UTC"
-           email "test@example.com"
-           name "Jeff"
-           some_attributes({:a => 1})
-           some_id 8
-         end
-       end
+          factory(:user_2, :parent => :"to_factory/user") do
+            birthday "2014-07-08T15:30 UTC"
+            email "test@example.com"
+            name "Jeff"
+            some_attributes({:a => 1})
+            some_id 8
+          end
+        end
       FACTORY
     end
   end
@@ -53,7 +53,7 @@ describe ToFactory do
       ToFactory(user_4: ToFactory::User.first)
     end
 
-    pending "renders two factories correctly" do
+    it "renders multiple factories correctly" do
       expect(user_file).to match_sexp <<-FACTORY
        FactoryGirl.define do
          factory(:"to_factory/user") do
@@ -64,20 +64,12 @@ describe ToFactory do
            some_id(8)
          end
 
-         factory(:user_2, :parent => :"to_factory/user") do
-           birthday "2014-07-08T15:30 UTC"
-           email "test@example.com"
-           name "Jeff"
-           some_attributes({:a => 1})
-           some_id 8
-         end
-
          factory(:user_3, :parent => :"to_factory/user") do
-           birthday "2014-07-08T15:30 UTC"
-           email "test@example.com"
-           name "Jeff"
-           some_attributes({:a => 1})
-           some_id 8
+           birthday("2014-07-08T15:30 UTC")
+           email("test@example.com")
+           name("Jeff")
+           some_attributes(:a => 1)
+           some_id(8)
          end
 
          factory(:user_4, :parent => :"to_factory/user") do
@@ -87,6 +79,15 @@ describe ToFactory do
            some_attributes({:a => 1})
            some_id 8
          end
+
+
+         factory(:user_2, :parent => :"to_factory/user") do
+           birthday("2014-07-08T15:30 UTC")
+           email("test@example.com")
+           name("Jeff")
+           some_attributes(:a => 1)
+           some_id(8)
+         end 
        end
       FACTORY
     end
