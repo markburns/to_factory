@@ -13,7 +13,7 @@ require "to_factory/parsing/file"
 require "to_factory/representation"
 require "to_factory/klass_inference"
 require "to_factory/options_parser"
-require "factory_girl"
+require "factory_bot"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception; end
