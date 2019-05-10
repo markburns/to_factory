@@ -55,7 +55,7 @@ module ToFactory
       end
 
       def header?
-        sexp[1][1][1] == :FactoryGirl
+        sexp[1][1][1] == :FactoryBot
       rescue
         false
       end

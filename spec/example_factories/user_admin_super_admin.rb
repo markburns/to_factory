@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory(:"to_factory/user") do
     name "User"
   end

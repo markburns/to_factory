@@ -23,7 +23,7 @@ module ToFactory
     end
 
     def wrap_factories(definitions)
-      out =  "FactoryGirl.define do\n"
+      out =  "FactoryBot.define do\n"
       out << indent(definitions).join("\n\n")
       out << "\n" unless out[-1] == "\n"
       out << "end"

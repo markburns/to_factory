@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mark Burns"]
   spec.email         = ["markthedeveloper@gmail.com"]
   spec.summary     = "Turn ActiveRecord instances into factories"
-  spec.description = "Autogenerate and append/create factory_girl definitions from the console"
+  spec.description = "Autogenerate and append/create factory_bot definitions from the console"
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -18,9 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "factory_girl", "~> 4.5"
+  spec.add_dependency "factory_bot", "~> 5"
   spec.add_dependency "ruby2ruby"
-  spec.add_dependency "activerecord", "> 4.0"
+  spec.add_dependency "activerecord", "> 5"
 
   spec.add_development_dependency "sqlite3", "~> 1.3.6"
   spec.add_development_dependency "database_cleaner", "~> 1.5.1"
