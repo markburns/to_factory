@@ -9,7 +9,7 @@ describe ToFactory::Collation do
     end
 
     it do
-      expect(-> { perform }).to raise_error ToFactory::AlreadyExists
+      expect { perform }.to raise_error ToFactory::AlreadyExists
     end
 
     context "non matching keys" do

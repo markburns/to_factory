@@ -3,7 +3,7 @@ describe ToFactory::Generation::Attribute do
 
   describe "#to_s" do
     it do
-      expect(attribute.to_s).to include "some_attributes({:a => 1})"
+      expect(attribute.to_s).to include "some_attributes { {:a => 1} }"
     end
   end
 
@@ -23,7 +23,7 @@ describe ToFactory::Generation::Attribute do
     end
 
     it "formats BigDecimal"do
-      expect(attribute.format(BigDecimal.new "123456789012345678900.0")).to eq "BigDecimal.new(\"123456789012345678900.0\")"
+      expect(attribute.format(BigDecimal "123456789012345678900.0")).to eq "BigDecimal.new(\"123456789012345678900.0\")"
     end
 
     it "handles unparseable strings" do
@@ -39,7 +39,7 @@ describe ToFactory::Generation::Attribute do
 
   describe "#inspect_value" do
     it do
-      expect(attribute.inspect_value(a: 1)).to eq "({:a => 1})"
+      expect(attribute.inspect_value(a: 1)).to eq " { {:a => 1} }"
     end
     it "formats hashes correctly" do
       hash = ActiveSupport::OrderedHash.new
@@ -47,7 +47,7 @@ describe ToFactory::Generation::Attribute do
       hash[2] = "integers"
       hash[:a] = { nested: "hash" }
 
-      expected = '({{"with" => :hash} => "keys", 2 => "integers", :a => {:nested => "hash"}})'
+      expected = ' { {{"with" => :hash} => "keys", 2 => "integers", :a => {:nested => "hash"}} }'
 
       expect(attribute.inspect_value(hash)).to eq expected
     end

@@ -21,6 +21,6 @@ describe ToFactory::KlassInference do
   end
 
   it do
-    expect(-> { inference.infer("unknown") }).to raise_error
+    expect { inference.infer("unknown") }.to raise_error ToFactory::CannotInferClass
   end
 end

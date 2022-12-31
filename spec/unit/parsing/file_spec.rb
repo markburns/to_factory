@@ -18,7 +18,7 @@ describe ToFactory::Parsing::File do
 
     it do
       expect(Kernel).to receive(:warn).with(/#{dynamic_content}/).at_least :once
-      expect(-> { instance.parse }).not_to raise_error
+      expect { instance.parse }.not_to raise_error
       result = instance.parse
       expect(result).to be_a Array
       expect(result[0]).to be_a ToFactory::NullRepresentation
