@@ -16,7 +16,7 @@ describe ToFactory::FileWriter do
       fw.write("to_factory/user" => [user_representation],
                "to_factory/project" => [project_representation])
 
-      expect(user_file).to match /FactoryGirl.define do/
+      expect(user_file).to match /FactoryBot.define do/
       expect(user_file).to include "factory a"
       expect(project_file).to include "factory b"
     end

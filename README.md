@@ -77,7 +77,7 @@ ToFactory(exclude: [User, Project])
 ToFactory User.last
 
 #writes to spec/factories/user.rb
-FactoryGirl.define
+FactoryBot.define
   factory(:user) do |u|
     email "test@example.com"
     name "Mike"

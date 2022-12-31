@@ -26,7 +26,7 @@ describe ToFactory do
 
     it "renders two factories correctly" do
       expect(user_file).to eq <<-FACTORY.strip_heredoc
-        FactoryGirl.define do
+        FactoryBot.define do
           factory(:"to_factory/user") do
             birthday("2014-07-08T15:30 UTC")
             email("test@example.com")
@@ -57,7 +57,7 @@ describe ToFactory do
 
     it "renders multiple factories correctly" do
       expect(user_file).to match_sexp <<-FACTORY
-       FactoryGirl.define do
+       FactoryBot.define do
          factory(:"to_factory/user") do
            birthday("2014-07-08T15:30 UTC")
            email("test@example.com")
