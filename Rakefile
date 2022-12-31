@@ -1,4 +1,5 @@
 require "bundler/gem_tasks"
+require 'byebug'
 
 namespace :spec do
   def setup_db
@@ -6,18 +7,19 @@ namespace :spec do
     require "active_record"
     ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: "spec/db/test.sqlite3")
     ActiveRecord::Base.logger = Logger.new(File.open("tmp/database.log", "a"))
+    ActiveRecord::Migrator.migrations_paths = File.expand_path("./spec/db/migrate")
   end
 
   desc "Migrate the database through scripts in db/migrate. Target specific version with VERSION=x"
   task :migrate_db do
     setup_db
-    ActiveRecord::Migrator.migrate("spec/db/migrate")
+    ActiveRecord::Tasks::DatabaseTasks.migrate
   end
 
   desc "Migrate down"
   task :migrate_down do
     setup_db
-    ActiveRecord::Migrator.down("spec/db/migrate")
+    ActiveRecord::Migrator.new.migrate(:down)
   end
 end
 

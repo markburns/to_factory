@@ -52,7 +52,7 @@ describe "FileSync" do
     end
 
     it "raises an error" do
-      expect(-> { sync.perform }).to raise_error ToFactory::AlreadyExists
+      expect { sync.perform }.to raise_error ToFactory::AlreadyExists
     end
 
     context "with a named factory" do
@@ -68,9 +68,7 @@ describe "FileSync" do
         expect(admin.definition).to match_sexp expected_admin_file
         expect(user.definition).to match_sexp expected_user_file
 
-        expect(lambda do
-          sync.perform
-        end).to raise_error ToFactory::AlreadyExists
+        expect { sync.perform }.to raise_error ToFactory::AlreadyExists
       end
     end
   end

@@ -1,9 +1,9 @@
-class AddBirthdayToUsers < ActiveRecord::Migration
-  def self.up
+class AddBirthdayToUsers < ActiveRecord::Migration[6.1]
+  def up
     add_column :users, :birthday, :datetime
   end
 
-  def self.down
+  def down
     remove_column :users, :birthday
   end
 end

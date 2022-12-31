@@ -1,0 +1,35 @@
+name: RSpec
+on:
+  pull_request:
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+          ruby-version: 2.7.5
+      - uses: actions/cache@v2
+        with:
+          path: .github/vendor/bundle
+          key: bundle-use-ruby-for-danger-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            bundle-use-ruby-for-danger-${{ matrix.os }}-${{ matrix.ruby }}-
+      - name: bundle install
+        run: |
+          cd .github
+          bundle install --path=vendor/bundle --jobs 4 --retry 3
+      - name: setup db
+        run: |
+          bundle exec rake spec:migrate_db
+      - name: RSpec tests
+        run: bundle exec rspec -f j -o tmp/rspec_results.json -f p
+
+      - name: RSpec Report
+        uses: SonicGarden/rspec-report-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          json-path: tmp/rspec_results.json
+        if: always()

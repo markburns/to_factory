@@ -64,13 +64,13 @@ describe ToFactory::Generation::Factory do
   end
   describe "#factory_attribute" do
     it do
-      expect(generator.factory_attribute(:name, nil))   .to eq "    name nil"
-      expect(generator.factory_attribute(:name, "Jeff")).to eq '    name "Jeff"'
-      expect(generator.factory_attribute(:id, 8))       .to eq "    id 8"
+      expect(generator.factory_attribute(:name, nil))   .to eq "    name { nil }"
+      expect(generator.factory_attribute(:name, "Jeff")).to eq '    name { "Jeff" }'
+      expect(generator.factory_attribute(:id, 8))       .to eq "    id { 8 }"
     end
     it "generates usable datetime strings" do
       output = generator.factory_attribute(:birthday, birthday)
-      expect(output).to eq '    birthday "2014-07-08T15:30 UTC"'
+      expect(output).to eq '    birthday { "2014-07-08T15:30 UTC" }'
     end
   end
 

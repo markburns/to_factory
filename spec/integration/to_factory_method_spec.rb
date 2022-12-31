@@ -36,7 +36,7 @@ describe ToFactory do
     end
 
     it "raises a not found error" do
-      expect(-> { ToFactory.definition_for :"to_factory/user" }).to raise_error ToFactory::NotFoundError
+      expect { ToFactory.definition_for :"to_factory/user" }.to raise_error ToFactory::NotFoundError
     end
   end
 
@@ -124,7 +124,7 @@ describe ToFactory do
       end
 
       it "without a name" do
-        expect(-> { ToFactory(user) })
+        expect { ToFactory(user) }
           .to raise_error ToFactory::AlreadyExists
       end
     end
