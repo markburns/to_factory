@@ -21,6 +21,9 @@ jobs:
         run: |
           cd .github
           bundle install --path=vendor/bundle --jobs 4 --retry 3
+      - name: setup db
+        run: |
+          bundle exec rake spec:migrate_db
       - name: RSpec tests
         run: bundle exec rspec -f j -o tmp/rspec_results.json -f p
 
