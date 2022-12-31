@@ -14,7 +14,7 @@ module ToFactory
       private
 
       def parsed_files
-        Dir.glob(File.join(ToFactory.factories, "**/*.rb")).map do |f|
+        Dir.glob(File.join(ToFactory.factories, '**/*.rb')).map do |f|
           parse_file(f)
         end.compact
       end

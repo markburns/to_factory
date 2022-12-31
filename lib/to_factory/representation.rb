@@ -40,8 +40,8 @@ module ToFactory
 
     def klass_name_inspect
       @klass.name.inspect
-    rescue
-      "nil"
+    rescue StandardError
+      'nil'
     end
 
     def definition

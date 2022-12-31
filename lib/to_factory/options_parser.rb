@@ -10,7 +10,7 @@ module ToFactory
                from_record(@options)
              when Array
                from_array(*@options)
-      end
+             end
 
       Representation.new(*args)
     end

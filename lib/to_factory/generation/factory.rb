@@ -18,7 +18,7 @@ module ToFactory
       end
 
       def header(&block)
-        generic_header("  factory", "", "  end", &block)
+        generic_header('  factory', '', '  end', &block)
       end
 
       def factory_attribute(attr, value)
@@ -26,7 +26,7 @@ module ToFactory
       end
 
       def attributes
-        to_skip = [:id, :created_at, :created_on, :updated_at, :updated_on]
+        to_skip = %i[id created_at created_on updated_at updated_on]
 
         @representation.attributes.delete_if { |key, _| key.nil? || to_skip.include?(key.to_sym) }
       end
@@ -44,7 +44,7 @@ module ToFactory
       end
 
       def parent_clause
-        has_parent? ? ", :parent => :#{add_quotes parent_name}" : ""
+        has_parent? ? ", :parent => :#{add_quotes parent_name}" : ''
       end
 
       def has_parent?
@@ -54,7 +54,7 @@ module ToFactory
       def add_quotes(name)
         name = name.to_s
 
-        if name["/"]
+        if name['/']
           if name[/^".*"$/]
             name
           else

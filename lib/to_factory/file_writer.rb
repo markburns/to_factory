@@ -17,7 +17,7 @@ module ToFactory
     def write_to(name)
       mkdir(name)
 
-      File.open(File.join(ToFactory.factories, "#{name}.rb"), "w") do |f|
+      File.open(File.join(ToFactory.factories, "#{name}.rb"), 'w') do |f|
         f << yield
       end
     end
@@ -26,7 +26,7 @@ module ToFactory
       out =  "FactoryBot.define do\n"
       out << indent(definitions).join("\n\n")
       out << "\n" unless out[-1] == "\n"
-      out << "end"
+      out << 'end'
       out << "\n" unless out[-1] == "\n"
     end
 
@@ -45,8 +45,9 @@ module ToFactory
     end
 
     def mkdir(name)
-      return unless name.to_s["/"]
-      dir = name.to_s.split("/")[0..-2]
+      return unless name.to_s['/']
+
+      dir = name.to_s.split('/')[0..-2]
       FileUtils.mkdir_p File.join(ToFactory.factories, dir)
     end
   end

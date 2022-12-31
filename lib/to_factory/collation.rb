@@ -16,9 +16,8 @@ module ToFactory
     end
 
     def organize
-      representations.group_by { |i| i.klass.name.underscore }.inject({}) do |o, (klass_name, r)|
+      representations.group_by { |i| i.klass.name.underscore }.each_with_object({}) do |(klass_name, r), o|
         o[klass_name] = r.sort_by { |r| [r.hierarchy_order, r.name] }
-        o
       end
     end
 
@@ -54,7 +53,7 @@ module ToFactory
     end
 
     def raise_already_exists!(keys)
-      fail ToFactory::AlreadyExists.new "an item for each of the following keys #{keys.inspect} already exists"
-     end
+      raise ToFactory::AlreadyExists, "an item for each of the following keys #{keys.inspect} already exists"
+    end
   end
 end

@@ -43,9 +43,7 @@ module ToFactory
 
       def rescuing_require(file, match)
         require file
-        klass = eval(match[1])
-        klass
-
+        eval(match[1])
       rescue Exception => e
         warn "Failed to eval #{file}"
         warn e.message

@@ -45,27 +45,27 @@ module ToFactory
       def validate_parseable!(value)
         return value if parse(value)
 
-        "ToFactory: RubyParser exception parsing this attribute"
+        'ToFactory: RubyParser exception parsing this attribute'
       end
 
       def parse(value)
         @parser ||= RubyParser.new
         @parser.parse(value)
         true
-      rescue
+      rescue StandardError
         false
       end
 
       def inspect_time(value)
-        value = value.strftime("%Y-%m-%dT%H:%M %Z").inspect
-        value.gsub! /GMT/, "UTC"
+        value = value.strftime('%Y-%m-%dT%H:%M %Z').inspect
+        value.gsub!(/GMT/, 'UTC')
         value
       end
 
       def inspect_hash(value, nested)
         formatted = value.keys.inject([]) do |a, key|
           a << key_value_pair(key, value)
-        end.join(", ")
+        end.join(', ')
 
         if nested
           "{#{formatted}}"
@@ -75,7 +75,7 @@ module ToFactory
       end
 
       def inspect_array(value, nested)
-        values = value.map { |v| format(v, nested) }.join(", ")
+        values = value.map { |v| format(v, nested) }.join(', ')
         "[#{values}]"
       end
 

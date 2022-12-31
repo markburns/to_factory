@@ -9,13 +9,14 @@ module ToFactory
     end
 
     def perform(exclusions = [])
-      @file_writer.write(all_representations exclusions)
+      @file_writer.write(all_representations(exclusions))
     end
 
     def all_representations(exclusions = [])
       Collation.organize(
         new_representations(exclusions),
-        existing_representations)
+        existing_representations
+      )
     end
 
     def new_representations(exclusions = [])
@@ -31,19 +32,16 @@ module ToFactory
     end
 
     def wrap_model(m)
-      if m.respond_to?(:call)
-        m
-      else
-        lambda do|exclusions|
-          exclusions ||= []
-          records = if m.is_a?(ActiveRecord::Base)
-                      Array m
-                    else
-                      m
-          end
+      return m if m.respond_to?(:call)
 
-          records.reject { |o, _| exclusions.include?(o.class) }
-        end
+      lambda do |exclusions = []|
+        records = if m.is_a?(ActiveRecord::Base)
+                    Array m
+                  else
+                    m
+                  end
+
+        records.reject { |o, _| exclusions.include?(o.class) }
       end
     end
   end

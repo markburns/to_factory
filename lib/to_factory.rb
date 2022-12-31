@@ -1,19 +1,19 @@
-require "fileutils"
+require 'fileutils'
 
-require "to_factory/version"
-require "to_factory/config"
-require "to_factory/generation/factory"
-require "to_factory/generation/attribute"
-require "to_factory/collation"
-require "to_factory/file_writer"
-require "to_factory/finders/model"
-require "to_factory/finders/factory"
-require "to_factory/file_sync"
-require "to_factory/parsing/file"
-require "to_factory/representation"
-require "to_factory/klass_inference"
-require "to_factory/options_parser"
-#require "factory_bot"
+require 'to_factory/version'
+require 'to_factory/config'
+require 'to_factory/generation/factory'
+require 'to_factory/generation/attribute'
+require 'to_factory/collation'
+require 'to_factory/file_writer'
+require 'to_factory/finders/model'
+require 'to_factory/finders/factory'
+require 'to_factory/file_sync'
+require 'to_factory/parsing/file'
+require 'to_factory/representation'
+require 'to_factory/klass_inference'
+require 'to_factory/options_parser'
+# require "factory_bot"
 
 module ToFactory
   class MissingActiveRecordInstanceException < Exception; end
@@ -23,12 +23,10 @@ module ToFactory
     def definition_for(item)
       if item.is_a? ActiveRecord::Base
         Representation.from(item).definition
+      elsif found = representations.find { |r| r.name.to_s == item.to_s }
+        found.definition
       else
-        if found = representations.find { |r| r.name.to_s == item.to_s }
-          found.definition
-        else
-          fail NotFoundError.new "No definition found for #{item}"
-        end
+        raise NotFoundError, "No definition found for #{item}"
       end
     end
 

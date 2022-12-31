@@ -19,7 +19,7 @@ module ToFactory
       result = @mapping[factory_name]
       return [result, count] if result.is_a? Class
 
-      fail CannotInferClass.new(factory_name) if result.nil?
+      raise CannotInferClass, factory_name if result.nil?
 
       infer(result, count)
     end

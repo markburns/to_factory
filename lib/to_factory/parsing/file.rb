@@ -1,6 +1,6 @@
-require "ruby2ruby"
-require "ruby_parser"
-require "to_factory/parsing/ruby_parsing_helpers"
+require 'ruby2ruby'
+require 'ruby_parser'
+require 'to_factory/parsing/ruby_parsing_helpers'
 
 module ToFactory
   module Parsing
@@ -28,10 +28,10 @@ module ToFactory
         def from_file(filename)
           begin
             contents = ::File.read filename
-          rescue
+          rescue StandardError
             nil
           end
-          fail EmptyFileException.new "Invalid file #{filename}" if contents.to_s.strip.length == 0
+          raise EmptyFileException, "Invalid file #{filename}" if contents.to_s.strip.length == 0
 
           new(contents)
         end
@@ -49,14 +49,14 @@ module ToFactory
         factories.map do |x|
           representation_from(x)
         end
-
       rescue Racc::ParseError, StringScanner::Error => e
-        raise ParseException.new("Original exception: #{e.message}\n #{e.backtrace.join("\n")}\nToFactory Error parsing \n#{@contents}\n o")
+        raise ParseException,
+              "Original exception: #{e.message}\n #{e.backtrace.join("\n")}\nToFactory Error parsing \n#{@contents}\n o"
       end
 
       def header?
         sexp[1][1][1] == :FactoryBot
-      rescue
+      rescue StandardError
         false
       end
 
@@ -85,7 +85,7 @@ module ToFactory
       def name_from(sexp)
         sexp[1][3][1]
       rescue NoMethodError
-        raise CouldNotInferClassException.new(sexp)
+        raise CouldNotInferClassException, sexp
       end
 
       def parent_from(x)
