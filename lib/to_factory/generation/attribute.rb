@@ -16,7 +16,7 @@ module ToFactory
       def inspect_value(value, nested = false)
         formatted = format(value, nested)
 
-        formatted = " #{formatted}" if !value.is_a?(Hash) && !nested
+        formatted = " { #{formatted} }" if !value.is_a?(Hash) && !nested
 
         formatted
       end
@@ -70,7 +70,7 @@ module ToFactory
         if nested
           "{#{formatted}}"
         else
-          "({#{formatted}})"
+          " { {#{formatted}} }"
         end
       end
 
