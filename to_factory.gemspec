@@ -20,12 +20,16 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "factory_bot"
   spec.add_dependency "ruby2ruby"
-  spec.add_dependency "activerecord", "> 4.0"
 
-  spec.add_development_dependency "sqlite3", "~> 1.3.6"
-  spec.add_development_dependency "database_cleaner", "~> 1.5.1"
+  spec.add_development_dependency "activerecord"
+  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "database_cleaner"
 
   spec.add_development_dependency "byebug"
+  spec.add_development_dependency "pry"
+
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'rspec-github'
 
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rake", ">= 12.3.3"
