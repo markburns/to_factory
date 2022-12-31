@@ -1,8 +1,8 @@
 ToFactory :wrench:
 =========
 
-[![Code Climate](http://img.shields.io/codeclimate/github/markburns/to_factory.svg)](https://codeclimate.com/github/markburns/to_factory)
-[![Test Coverage](https://codeclimate.com/github/markburns/to_factory/badges/coverage.svg)](https://codeclimate.com/github/markburns/to_factory)
+[![Maintainability](https://api.codeclimate.com/v1/badges/34f4377c5b911bcb4433/maintainability)](https://codeclimate.com/github/markburns/to_factory/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/34f4377c5b911bcb4433/test_coverage)](https://codeclimate.com/github/markburns/to_factory/test_coverage)
 [![Gem Version](http://img.shields.io/gem/v/to_factory.svg)](https://rubygems.org/gems/to_factory)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://markburns.mit-license.org)
 
