@@ -1,13 +1,10 @@
 ToFactory :wrench:
 =========
 
-[![Build Status](https://travis-ci.org/markburns/to_factory.svg)](https://travis-ci.org/markburns/to_factory)
-[![Dependency Status](http://img.shields.io/gemnasium/markburns/to_factory.svg)](https://gemnasium.com/markburns/to_factory)
 [![Code Climate](http://img.shields.io/codeclimate/github/markburns/to_factory.svg)](https://codeclimate.com/github/markburns/to_factory)
 [![Test Coverage](https://codeclimate.com/github/markburns/to_factory/badges/coverage.svg)](https://codeclimate.com/github/markburns/to_factory)
 [![Gem Version](http://img.shields.io/gem/v/to_factory.svg)](https://rubygems.org/gems/to_factory)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://markburns.mit-license.org)
-[![Badges](http://img.shields.io/:badges-6/6-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
 
 Easily add factories with valid data for an existing project.
 
